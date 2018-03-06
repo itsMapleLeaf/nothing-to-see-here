@@ -1,20 +1,10 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import { Character, getCharacterList } from "./api"
+import { CharacterListFetcher } from "./CharacterListFetcher"
 import { routePaths } from "./routePaths"
 
 export class AppNav extends React.Component {
-  state = {
-    characters: [] as Character[],
-  }
-
-  async componentDidMount() {
-    this.setState({
-      characters: await getCharacterList(),
-    })
-  }
-
   render() {
     return (
       <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -43,15 +33,20 @@ export class AppNav extends React.Component {
                 Your Characters
               </Link>
               <hr className="navbar-divider" />
-              {this.state.characters.map(character => (
-                <Link
-                  to={routePaths.viewCharacter(character.id)}
-                  key={character.id}
-                  className="navbar-item"
-                >
-                  {character.name}
-                </Link>
-              ))}
+
+              <CharacterListFetcher>
+                {characters =>
+                  characters.map(character => (
+                    <Link
+                      to={routePaths.viewCharacter(character.id)}
+                      key={character.id}
+                      className="navbar-item"
+                    >
+                      {character.name}
+                    </Link>
+                  ))
+                }
+              </CharacterListFetcher>
             </div>
           </div>
         </div>
