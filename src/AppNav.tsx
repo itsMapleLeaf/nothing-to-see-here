@@ -39,6 +39,9 @@ export class AppNav extends React.Component {
               <Link to={routePaths.home} className="navbar-item">
                 Browse All Characters
               </Link>
+              <Link to={routePaths.characterList} className="navbar-item">
+                Your Characters
+              </Link>
               <hr className="navbar-divider" />
               {this.state.characters.map(character => (
                 <Link
