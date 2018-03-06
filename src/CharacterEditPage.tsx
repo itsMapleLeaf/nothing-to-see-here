@@ -1,9 +1,8 @@
 import React from "react"
-import { Link, RouteComponentProps } from "react-router-dom"
+import { RouteComponentProps } from "react-router-dom"
 
 import { Character, getCharacter } from "./api"
 import { CharacterEditForm } from "./CharacterEditForm"
-import { routePaths } from "./routePaths"
 
 export class CharacterEditPage extends React.Component<RouteComponentProps<{ id: string }>> {
   state = {
@@ -26,10 +25,6 @@ export class CharacterEditPage extends React.Component<RouteComponentProps<{ id:
     return (
       <React.Fragment>
         <CharacterEditForm character={character} />
-
-        <Link to={routePaths.viewCharacter(character.id)} className="button is-link">
-          Back
-        </Link>
       </React.Fragment>
     )
   }
