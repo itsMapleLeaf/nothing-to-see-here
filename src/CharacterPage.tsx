@@ -12,9 +12,20 @@ export class CharacterPage extends React.Component<Props> {
     character: null as Character | null,
   }
 
-  async componentDidMount() {
-    const character = await getCharacter(this.props.match.params.id)
+  async fetchCharacter(id: string) {
+    this.setState({ character: null })
+    const character = await getCharacter(id)
     this.setState({ character })
+  }
+
+  async componentDidMount() {
+    this.fetchCharacter(this.props.match.params.id)
+  }
+
+  componentWillReceiveProps(props: Props) {
+    if (props.match.params.id !== this.props.match.params.id) {
+      this.fetchCharacter(props.match.params.id)
+    }
   }
 
   render() {
