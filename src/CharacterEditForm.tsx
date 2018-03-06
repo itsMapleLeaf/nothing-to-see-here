@@ -28,7 +28,7 @@ export class CharacterEditForm extends React.Component<{ character: Character }>
     const { character } = this.props
 
     if (this.state.saved) {
-      return <Redirect to={routePaths.viewCharacter(character.id)} />
+      return <Redirect push to={routePaths.viewCharacter(character.id)} />
     }
 
     return (
@@ -59,8 +59,10 @@ export class CharacterEditForm extends React.Component<{ character: Character }>
             />
           </div>
 
-          <div className="field">
-            <button className="button is-success">Save</button>
+          <div className="field is-grouped">
+            <div className="control">
+              <button className="button is-success">Save</button>
+            </div>
           </div>
         </form>
       </React.Fragment>
