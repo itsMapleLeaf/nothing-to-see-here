@@ -27,10 +27,10 @@ export class CharacterPage extends React.Component<Props> {
     return (
       <main>
         <h1 className="title">{character.name}</h1>
+        <section style={{ marginBottom: "1.5em" }}>
+          <Link to={routePaths.editCharacter(character.id)}>Edit</Link>
+        </section>
         <section className="box">{character.profile}</section>
-        <Link to={routePaths.editCharacter(character.id)} className="button is-link">
-          Edit
-        </Link>
       </main>
     )
   }
