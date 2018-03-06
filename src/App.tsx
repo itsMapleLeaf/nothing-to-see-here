@@ -20,7 +20,7 @@ export class App extends React.Component {
           <section className="section">
             <main className="container">
               <Switch>
-                <Route exact path={routePaths.index} render={redirect(routePaths.characterList)} />
+                <Route exact path={routePaths.home} render={redirect(routePaths.characterList)} />
                 <Route exact path={routePaths.characterList} component={CharacterListPage} />
                 <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
                 <Route exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />

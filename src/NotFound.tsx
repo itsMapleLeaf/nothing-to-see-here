@@ -7,7 +7,7 @@ export function NotFound() {
   return (
     <div>
       <p>oops! unable to find this page</p>
-      <Link to={routePaths.index}>Return to Home</Link>
+      <Link to={routePaths.home}>Return to Home</Link>
     </div>
   )
 }
