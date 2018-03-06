@@ -1,6 +1,6 @@
 import React from "react"
 
-import { CharacterListFetcher } from "./CharacterListFetcher"
+import { CharacterListFetcher } from "../../components/CharacterListFetcher"
 import { CharacterListItem } from "./CharacterListItem"
 
 export class CharacterListPage extends React.Component {

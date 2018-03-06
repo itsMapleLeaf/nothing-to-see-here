@@ -1,8 +1,8 @@
 import React from "react"
 import { Redirect } from "react-router-dom"
 
-import { Character, updateCharacter } from "./api"
-import { routePaths } from "./routePaths"
+import { Character, updateCharacter } from "../../../../api"
+import { routePaths } from "../../../../routePaths"
 
 export class CharacterEditForm extends React.Component<{ character: Character }> {
   state = {

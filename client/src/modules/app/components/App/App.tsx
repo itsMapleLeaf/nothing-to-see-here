@@ -1,13 +1,13 @@
 import React from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 
+import { routePaths } from "../../../../routePaths"
+import { CharacterEditPage } from "../../../character/routes/CharacterEditPage"
+import { CharacterListPage } from "../../../character/routes/CharacterListPage"
+import { CharacterPage } from "../../../character/routes/CharacterPage"
+import { HomePage } from "../../routes/HomePage"
+import { NotFound } from "../../routes/NotFound"
 import { AppNav } from "./AppNav"
-import { CharacterEditPage } from "./CharacterEditPage"
-import { CharacterListPage } from "./CharacterListPage"
-import { CharacterPage } from "./CharacterPage"
-import { HomePage } from "./HomePage"
-import { NotFound } from "./NotFound"
-import { routePaths } from "./routePaths"
 
 export class App extends React.Component {
   render() {

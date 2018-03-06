@@ -1,8 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import { CharacterListFetcher } from "./CharacterListFetcher"
-import { routePaths } from "./routePaths"
+import { routePaths } from "../../../../routePaths"
+import { CharacterListFetcher } from "../../../character/components/CharacterListFetcher"
 
 export class AppNav extends React.Component {
   render() {

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Character, getCharacterList } from "./api"
+import { Character, getCharacterList } from "../../../../api"
 
 interface Props {
   children: (characters: Character[]) => React.ReactNode
