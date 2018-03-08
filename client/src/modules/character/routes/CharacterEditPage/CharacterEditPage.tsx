@@ -22,10 +22,6 @@ export class CharacterEditPage extends React.Component<RouteComponentProps<{ id:
       return <div>loading...</div>
     }
 
-    return (
-      <React.Fragment>
-        <CharacterEditForm character={character} />
-      </React.Fragment>
-    )
+    return <CharacterEditForm character={character} />
   }
 }

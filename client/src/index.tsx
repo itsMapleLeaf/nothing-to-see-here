@@ -1,4 +1,5 @@
-import "bulma/css/bulma.css"
+import "@blueprintjs/core/lib/css/blueprint.css"
+import "normalize.css/normalize.css"
 
 import React from "react"
 import ReactDOM from "react-dom"

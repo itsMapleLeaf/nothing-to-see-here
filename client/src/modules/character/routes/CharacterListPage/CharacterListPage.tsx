@@ -9,7 +9,7 @@ export class CharacterListPage extends React.Component {
       <CharacterListFetcher>
         {characters => (
           <React.Fragment>
-            <h1 className="title is-2">Characters</h1>
+            <h1>Characters</h1>
             {characters.map(character => (
               <CharacterListItem key={character.id} character={character} />
             ))}

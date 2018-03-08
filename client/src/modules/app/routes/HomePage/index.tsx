@@ -4,8 +4,8 @@ export class HomePage extends React.Component {
   render() {
     return (
       <main>
-        <h1 className="title">nothing here yet</h1>
-        <h2 className="subtitle">lol</h2>
+        <h1>nothing here yet</h1>
+        <h2>lol</h2>
       </main>
     )
   }

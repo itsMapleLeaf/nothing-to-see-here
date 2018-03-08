@@ -1,3 +1,4 @@
+import { Button, Card, Intent } from "@blueprintjs/core"
 import React from "react"
 import { RouteComponentProps } from "react-router"
 import { Link } from "react-router-dom"
@@ -37,11 +38,13 @@ export class CharacterPage extends React.Component<Props> {
 
     return (
       <main>
-        <h1 className="title">{character.name}</h1>
-        <section style={{ marginBottom: "1.5em" }}>
-          <Link to={routePaths.editCharacter(character.id)}>Edit</Link>
-        </section>
-        <section className="box">{character.profile}</section>
+        <Card>
+          <h1>{character.name}</h1>
+          <p>{character.profile}</p>
+          <Link to={routePaths.editCharacter(character.id)}>
+            <Button intent={Intent.PRIMARY}>Edit</Button>
+          </Link>
+        </Card>
       </main>
     )
   }

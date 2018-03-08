@@ -11,6 +11,7 @@ module.exports = {
   output: {
     filename: "[name].bundle.js",
     path: buildFolder,
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -26,7 +27,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, "public/index.html"),
+      template: "public/index.html",
     }),
     new CopyWebpackPlugin([
       {
@@ -36,4 +37,7 @@ module.exports = {
     ]),
     new CleanWebpackPlugin(buildFolder),
   ],
+  devServer: {
+    historyApiFallback: true,
+  },
 }

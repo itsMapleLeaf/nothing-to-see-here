@@ -2,15 +2,16 @@
   "name": "profile-manager",
   "version": "0.1.0",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot",
+    "start": "webpack-dev-server --inline --hot --mode development",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development"
   },
   "dependencies": {
-    "bulma": "^0.6.2",
+    "@blueprintjs/core": "^2.0.0-rc.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2"
+    "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
     "@types/node": "^9.4.6",

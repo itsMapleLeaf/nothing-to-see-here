@@ -1,56 +1,30 @@
+import { Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from "@blueprintjs/core"
 import React from "react"
 import { Link } from "react-router-dom"
-
-import { routePaths } from "../../../../routePaths"
-import { CharacterListFetcher } from "../../../character/components/CharacterListFetcher"
+import { routePaths } from "src/routePaths"
 
 export class AppNav extends React.Component {
   render() {
     return (
-      <nav className="navbar" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-          <div className="navbar-item">
-            <h1 className="title">
-              <Link to={routePaths.home}>awesome rp website</Link>
-            </h1>
-          </div>
-        </div>
+      <Navbar>
+        <NavbarGroup align={Alignment.LEFT}>
+          <NavbarHeading>
+            <Link to={routePaths.home}>
+              <h2>awesome RP website</h2>
+            </Link>
+          </NavbarHeading>
 
-        <div className="navbar-start">
-          <Link to={routePaths.home} className="navbar-item">
-            Home
+          <NavbarDivider />
+
+          <Link to={routePaths.home}>
+            <Button className={Classes.MINIMAL} text="Home" />
           </Link>
 
-          <div className="navbar-item has-dropdown is-hoverable">
-            <Link to={routePaths.characterList} className="navbar-link">
-              Characters
-            </Link>
-            <div className="navbar-dropdown is-boxed">
-              <Link to={routePaths.home} className="navbar-item">
-                Browse All Characters
-              </Link>
-              <Link to={routePaths.characterList} className="navbar-item">
-                Your Characters
-              </Link>
-              <hr className="navbar-divider" />
-
-              <CharacterListFetcher>
-                {characters =>
-                  characters.map(character => (
-                    <Link
-                      to={routePaths.viewCharacter(character.id)}
-                      key={character.id}
-                      className="navbar-item"
-                    >
-                      {character.name}
-                    </Link>
-                  ))
-                }
-              </CharacterListFetcher>
-            </div>
-          </div>
-        </div>
-      </nav>
+          <Link to={routePaths.characterList}>
+            <Button className={Classes.MINIMAL} text="Characters" />
+          </Link>
+        </NavbarGroup>
+      </Navbar>
     )
   }
 }

@@ -1,3 +1,4 @@
+import { Card, Classes, Label, TextArea, Button, Intent } from "@blueprintjs/core"
 import React from "react"
 import { Redirect } from "react-router-dom"
 
@@ -35,36 +36,30 @@ export class CharacterEditForm extends React.Component<{ character: Character }>
       <React.Fragment>
         <h1 className="title">Editing {character.name}</h1>
 
-        <form className="box" onSubmit={this.handleSubmit}>
-          <div className="field">
-            <label className="label">Name</label>
-            <div className="control">
+        <Card>
+          <form onSubmit={this.handleSubmit}>
+            <Label text="Name">
               <input
-                className="input"
-                type="text"
-                placeholder="e.g Alex Smith"
-                defaultValue={character.name}
+                className="pt-input"
+                placeholder="My Awesome Character"
+                value={this.state.name}
                 onChange={this.changeHandler("name")}
               />
-            </div>
-          </div>
+            </Label>
 
-          <div className="field">
-            <label className="label">Profile</label>
-            <textarea
-              className="textarea"
-              placeholder="Introduce your character here! Who are they? What are they like? What have they done?"
-              defaultValue={character.profile}
-              onChange={this.changeHandler("profile")}
-            />
-          </div>
+            <Label text="Profile">
+              <TextArea
+                className={Classes.FILL}
+                placeholder="Introduce your character here! Who are they? What are they like? What have they done?"
+                value={this.state.profile}
+                onChange={this.changeHandler("profile")}
+                style={{ height: "180px" }}
+              />
+            </Label>
 
-          <div className="field is-grouped">
-            <div className="control">
-              <button className="button is-success">Save</button>
-            </div>
-          </div>
-        </form>
+            <Button type="submit" intent={Intent.PRIMARY}>Save</Button>
+          </form>
+        </Card>
       </React.Fragment>
     )
   }
