@@ -3,7 +3,8 @@ import styled from "styled-components"
 import { backgroundColor2, shadowColor } from "./colors"
 
 export const PageWrapper = styled.main`
-  margin: auto;
+  margin: 0 auto 1rem;
+  width: calc(100vw - 2rem);
   max-width: 1000px;
   background-color: ${backgroundColor2};
   box-shadow: 0px 0px 12px ${shadowColor};

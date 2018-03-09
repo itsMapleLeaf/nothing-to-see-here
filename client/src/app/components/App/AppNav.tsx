@@ -11,6 +11,8 @@ const Nav = styled.nav`
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
   margin-bottom: 1rem;
 `
@@ -23,10 +25,10 @@ const NavBrand = styled.section`
 `
 
 const NavLinks = styled.section`
-  margin-left: auto;
   padding-right: 1rem;
   align-self: stretch;
   display: flex;
+  min-height: 3rem;
 `
 
 const NavLink = styled(Link)`

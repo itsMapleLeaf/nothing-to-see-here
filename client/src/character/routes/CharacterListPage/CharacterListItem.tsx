@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 `
 
 const Avatar = styled.div`
+  flex-shrink: 0;
   width: 100px;
   height: 100px;
   background: rgba(0, 0, 0, 0.5);
