@@ -2,42 +2,9 @@ import React from "react"
 import { Redirect } from "react-router-dom"
 import { Character, updateCharacter } from "src/api"
 import { routePaths } from "src/routePaths"
-import styled from "styled-components"
 
-import { inputColor, shadowColor } from "../../../styles/colors"
+import { Button, Input, Label, TextArea } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
-
-const Label = styled.label`
-  display: block;
-  padding-bottom: 0.3rem;
-`
-
-const Input = styled.input`
-  display: block;
-  width: 100%;
-  background-color: ${inputColor};
-  border: none;
-  padding: 0.5rem 0.75rem;
-  box-shadow: 0px 0px 8px ${shadowColor} inset;
-`
-
-const TextArea = styled.textarea`
-  display: block;
-  width: 100%;
-  background-color: ${inputColor};
-  border: none;
-  padding: 0.5rem 0.75rem;
-  box-shadow: 0px 0px 8px ${shadowColor} inset;
-
-  height: ${({ height }: { height?: number }) => height || 100}px;
-  font: inherit;
-`
-
-const Button = styled.button`
-  border: none;
-  background-color: ${inputColor};
-  padding: 0.5rem 0.75rem;
-`
 
 export class CharacterEditForm extends React.Component<{ character: Character }> {
   state = {
