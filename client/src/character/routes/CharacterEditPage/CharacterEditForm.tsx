@@ -1,9 +1,8 @@
-import { Card, Classes, Label, TextArea, Button, Intent } from "@blueprintjs/core"
+import { Button, Card, Classes, Intent, Label, TextArea } from "@blueprintjs/core"
 import React from "react"
 import { Redirect } from "react-router-dom"
-
-import { Character, updateCharacter } from "../../../../api"
-import { routePaths } from "../../../../routePaths"
+import { Character, updateCharacter } from "src/api"
+import { routePaths } from "src/routePaths"
 
 export class CharacterEditForm extends React.Component<{ character: Character }> {
   state = {
@@ -57,7 +56,9 @@ export class CharacterEditForm extends React.Component<{ character: Character }>
               />
             </Label>
 
-            <Button type="submit" intent={Intent.PRIMARY}>Save</Button>
+            <Button type="submit" intent={Intent.PRIMARY}>
+              Save
+            </Button>
           </form>
         </Card>
       </React.Fragment>

@@ -2,9 +2,8 @@ import { Button, Card, Intent } from "@blueprintjs/core"
 import React from "react"
 import { RouteComponentProps } from "react-router"
 import { Link } from "react-router-dom"
-
-import { Character, getCharacter } from "../../../../api"
-import { routePaths } from "../../../../routePaths"
+import { Character, getCharacter } from "src/api"
+import { routePaths } from "src/routePaths"
 
 type Props = RouteComponentProps<{ id: string }>
 

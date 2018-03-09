@@ -1,9 +1,8 @@
 import { Card } from "@blueprintjs/core"
 import React from "react"
 import { Link } from "react-router-dom"
-
-import { Character } from "../../../../api"
-import { routePaths } from "../../../../routePaths"
+import { Character } from "src/api"
+import { routePaths } from "src/routePaths"
 
 export function CharacterListItem(props: { character: Character }) {
   return (

@@ -4,7 +4,7 @@ import "normalize.css/normalize.css"
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { App } from "./modules/app/components/App"
+import { App } from "./app/components/App"
 
 function render() {
   ReactDOM.render(<App />, document.getElementById("root"))

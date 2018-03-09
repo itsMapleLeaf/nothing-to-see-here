@@ -1,10 +1,10 @@
 import React from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 
-import { routePaths } from "../../../../routePaths"
 import { CharacterEditPage } from "../../../character/routes/CharacterEditPage"
 import { CharacterListPage } from "../../../character/routes/CharacterListPage"
 import { CharacterPage } from "../../../character/routes/CharacterPage"
+import { routePaths } from "../../../routePaths"
 import { HomePage } from "../../routes/HomePage"
 import { NotFound } from "../../routes/NotFound"
 import { AppNav } from "./AppNav"
