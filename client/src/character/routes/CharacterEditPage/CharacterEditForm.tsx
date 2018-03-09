@@ -1,4 +1,3 @@
-import { Button, Card, Classes, Intent, Label, TextArea } from "@blueprintjs/core"
 import React from "react"
 import { Redirect } from "react-router-dom"
 import { Character, updateCharacter } from "src/api"
@@ -35,32 +34,22 @@ export class CharacterEditForm extends React.Component<{ character: Character }>
       <React.Fragment>
         <h1 className="title">Editing {character.name}</h1>
 
-        <Card>
-          <form onSubmit={this.handleSubmit}>
-            <Label text="Name">
-              <input
-                className="pt-input"
-                placeholder="My Awesome Character"
-                value={this.state.name}
-                onChange={this.changeHandler("name")}
-              />
-            </Label>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="pt-input"
+            placeholder="My Awesome Character"
+            value={this.state.name}
+            onChange={this.changeHandler("name")}
+          />
 
-            <Label text="Profile">
-              <TextArea
-                className={Classes.FILL}
-                placeholder="Introduce your character here! Who are they? What are they like? What have they done?"
-                value={this.state.profile}
-                onChange={this.changeHandler("profile")}
-                style={{ height: "180px" }}
-              />
-            </Label>
+          <textarea
+            placeholder="Introduce your character here! Who are they? What are they like? What have they done?"
+            value={this.state.profile}
+            onChange={this.changeHandler("profile")}
+          />
 
-            <Button type="submit" intent={Intent.PRIMARY}>
-              Save
-            </Button>
-          </form>
-        </Card>
+          <button type="submit">Save</button>
+        </form>
       </React.Fragment>
     )
   }
