@@ -14,11 +14,15 @@ const Avatar = styled.div`
   width: 100px;
   height: 100px;
   background: rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 450px) {
+    display: none;
+  }
+
+  margin-right: 0.8rem;
 `
 
-const Info = styled.div`
-  padding: 0.8rem;
-`
+const Info = styled.div``
 
 const Name = styled.h2`
   color: ${activeColor};
