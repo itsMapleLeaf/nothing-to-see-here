@@ -1,21 +1,32 @@
 import React from "react"
+import { PageSection, PageTitle, PageWrapper } from "src/styles/layout"
+import styled from "styled-components"
 
 import { CharacterListFetcher } from "../../components/CharacterListFetcher"
 import { CharacterListItem } from "./CharacterListItem"
 
+const CharacterList = styled(PageSection)`
+  > * + * {
+    margin-top: 1rem;
+  }
+`
+
 export class CharacterListPage extends React.Component {
   render() {
     return (
-      <CharacterListFetcher>
-        {characters => (
-          <React.Fragment>
-            <h1>Characters</h1>
-            {characters.map(character => (
-              <CharacterListItem key={character.id} character={character} />
-            ))}
-          </React.Fragment>
-        )}
-      </CharacterListFetcher>
+      <PageWrapper>
+        <PageTitle>Characters</PageTitle>
+
+        <CharacterListFetcher>
+          {characters => (
+            <CharacterList>
+              {characters.map(character => (
+                <CharacterListItem key={character.id} character={character} />
+              ))}
+            </CharacterList>
+          )}
+        </CharacterListFetcher>
+      </PageWrapper>
     )
   }
 }

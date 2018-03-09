@@ -1,12 +1,13 @@
 import React from "react"
+import { PageSection, PageTitle, PageWrapper } from "src/styles/layout"
 
 export class HomePage extends React.Component {
   render() {
     return (
-      <main>
-        <h1>nothing here yet</h1>
-        <h2>lol</h2>
-      </main>
+      <PageWrapper>
+        <PageTitle>nothing here yet</PageTitle>
+        <PageSection>lol</PageSection>
+      </PageWrapper>
     )
   }
 }

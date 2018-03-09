@@ -1,8 +1,9 @@
 import React from "react"
 import { RouteComponentProps } from "react-router"
-import { Link } from "react-router-dom"
 import { Character, getCharacter } from "src/api"
 import { routePaths } from "src/routePaths"
+import { PageSection, PageTitle, PageWrapper } from "src/styles/layout"
+import { RouterLink } from "src/styles/link"
 
 type Props = RouteComponentProps<{ id: string }>
 
@@ -35,13 +36,13 @@ export class CharacterPage extends React.Component<Props> {
     }
 
     return (
-      <main>
-        <div>
-          <h1>{character.name}</h1>
-          <p>{character.profile}</p>
-          <Link to={routePaths.editCharacter(character.id)}>Edit</Link>
-        </div>
-      </main>
+      <PageWrapper>
+        <PageTitle>{character.name}</PageTitle>
+        <PageSection>
+          <RouterLink to={routePaths.editCharacter(character.id)}>Edit</RouterLink>
+        </PageSection>
+        <PageSection>{character.profile}</PageSection>
+      </PageWrapper>
     )
   }
 }
