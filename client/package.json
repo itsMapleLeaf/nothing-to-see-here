@@ -9,11 +9,10 @@
     "build:dev": "webpack --mode development"
   },
   "dependencies": {
-    "@blueprintjs/core": "^2.0.0-rc.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-transition-group": "^2.2.1"
+    "sanitize.css": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^9.4.6",
