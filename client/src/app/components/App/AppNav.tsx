@@ -30,11 +30,10 @@ const NavLinks = styled.section`
   padding-right: 1rem;
   align-self: stretch;
   display: flex;
-  min-height: 3rem;
 `
 
 const navLinkStyles = css`
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.8rem;
 
   display: flex;
   align-items: center;
@@ -72,12 +71,18 @@ export class AppNav extends React.Component {
           </Link>
         </NavBrand>
         <NavLinks>
-          <RouterNavLink to={routePaths.home}>Home</RouterNavLink>
+          <RouterNavLink to={routePaths.home}>
+            <span>
+              <i className="fas fa-home" /> Home
+            </span>
+          </RouterNavLink>
 
           <Dropdown
             head={
               <NavLink style={{ height: "100%" }}>
-                Characters <i className="fas fa-chevron-down" style={{ marginLeft: "0.5rem" }} />
+                <span>
+                  <i className="fas fa-users" /> Characters
+                </span>
               </NavLink>
             }
             content={
@@ -98,7 +103,11 @@ export class AppNav extends React.Component {
             }
           />
 
-          <RouterNavLink to={routePaths.chat}>Chat</RouterNavLink>
+          <RouterNavLink to={routePaths.chat}>
+            <span>
+              <i className="fas fa-comments" /> Chat
+            </span>
+          </RouterNavLink>
         </NavLinks>
       </Nav>
     )
