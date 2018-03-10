@@ -3,8 +3,10 @@ import styled, { css } from "styled-components"
 
 import { primary, textColor } from "./colors"
 
+type LinkProps = { color?: string }
+
 const linkStyles = css`
-  color: ${primary};
+  color: ${({ color }: LinkProps) => color || primary};
   transition: 0.2s;
 
   &:hover {

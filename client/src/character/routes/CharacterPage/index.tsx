@@ -53,7 +53,7 @@ export class CharacterPage extends React.Component<Props> {
           <RouterLink to={routePaths.editCharacter(character.id)}>
             <i className="fas fa-edit" /> Edit
           </RouterLink>{" "}
-          <RouterLink to={routePaths.editCharacter(character.id)} style={{ color: danger }}>
+          <RouterLink to={routePaths.editCharacter(character.id)} color={danger}>
             <i className="fas fa-trash" /> Delete
           </RouterLink>
         </Actions>
