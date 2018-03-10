@@ -14,11 +14,12 @@ const stores = {
 }
 
 function render() {
+  const AppComponent = require("./app/components/App").App as typeof App
   applyGlobalStyles()
 
   const root = (
     <StoreProvider {...stores}>
-      <App />
+      <AppComponent />
     </StoreProvider>
   )
 
@@ -29,5 +30,5 @@ initFirebase()
 stores.authStore.listenForAuthStateChanges()
 render()
 if (module.hot) {
-  module.hot.accept(render)
+  module.hot.accept("./app/components/App", render)
 }
