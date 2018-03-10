@@ -70,14 +70,6 @@ interface Props {
 @inject("authStore")
 @observer
 export class AppNav extends React.Component<Props> {
-  signIn = () => {
-    const email = prompt("Email?")
-    const password = prompt("Password?")
-    if (email && password) {
-      this.props.authStore!.signIn(email, password).catch(alert)
-    }
-  }
-
   signOut = () => {
     this.props.authStore!.signOut()
   }
@@ -152,11 +144,11 @@ export class AppNav extends React.Component<Props> {
   renderLoggedOutLinks() {
     return (
       <React.Fragment>
-        <NavLink onClick={this.signIn}>
+        <RouterNavLink to={routePaths.login}>
           <span>
             <i className="fas fa-sign-in-alt" /> Log in
           </span>
-        </NavLink>
+        </RouterNavLink>
       </React.Fragment>
     )
   }

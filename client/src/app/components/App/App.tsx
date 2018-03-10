@@ -8,6 +8,7 @@ import { CharacterPage } from "../../../character/routes/CharacterPage"
 import { ChatPage } from "../../../chat/routes/ChatPage"
 import { routePaths } from "../../../routePaths"
 import { HomePage } from "../../routes/HomePage"
+import { LoginPage } from "../../routes/LoginPage"
 import { NotFound } from "../../routes/NotFound"
 import { AppNav } from "./AppNav"
 
@@ -25,6 +26,7 @@ export class App extends React.Component {
           <AppNav />
           <Switch>
             <Route exact path={routePaths.home} component={HomePage} />
+            <Route exact path={routePaths.login} component={LoginPage} />
             <Route exact path={routePaths.characterList} component={CharacterListPage} />
             <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
             <Route exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
