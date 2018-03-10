@@ -7,6 +7,7 @@ import { RaisedPanel } from "../../../styles/layout"
 
 const ChatPageWrapper = styled.main`
   flex-grow: 1;
+  min-height: 640px;
 
   display: flex;
   flex-direction: column;
@@ -79,9 +80,6 @@ export class ChatPage extends React.Component {
           </a>
         </Header>
         <MessageList>
-          <Message>message: here</Message>
-          <Message>message: here</Message>
-          <Message>message: here</Message>
           <Message>message: here</Message>
           <Message>message: here</Message>
           <Message>message: here</Message>
