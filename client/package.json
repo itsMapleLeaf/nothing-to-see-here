@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@firebase/app-types": "^0.1.2",
+    "firebase": "^4.11.0",
     "fuzzysearch": "^1.0.3",
     "polished": "^1.9.2",
     "react": "^16.2.0",
