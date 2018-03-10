@@ -24,11 +24,9 @@ export class CharacterListPage extends React.Component {
   }
 
   filterCharacter = (character: Character) => {
-    const search = this.state.search.toLowerCase()
-    return (
-      fuzzysearch(search, character.name.toLowerCase()) ||
-      fuzzysearch(search, character.profile.toLowerCase())
-    )
+    const query = this.state.search.toLowerCase()
+    const fields: Array<keyof Character> = ["name", "profile"]
+    return fields.some(field => fuzzysearch(query, character[field].toLowerCase()))
   }
 
   render() {
