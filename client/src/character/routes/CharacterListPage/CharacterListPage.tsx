@@ -1,18 +1,12 @@
 import fuzzysearch from "fuzzysearch"
 import React from "react"
-import styled from "styled-components"
 
 import { Character } from "../../../api"
 import { Input } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
+import { FadedText } from "../../../styles/text"
 import { CharacterListFetcher } from "../../components/CharacterListFetcher"
 import { CharacterListItem } from "./CharacterListItem"
-
-const CharacterList = styled(PageSection)`
-  > * + * {
-    margin-top: 1rem;
-  }
-`
 
 export class CharacterListPage extends React.Component {
   state = {
@@ -38,16 +32,37 @@ export class CharacterListPage extends React.Component {
           <Input value={this.state.search} onChange={this.updateSearch} placeholder="Search..." />
         </PageSection>
 
-        <CharacterListFetcher>
-          {characters => (
-            <CharacterList>
-              {characters
-                .filter(this.filterCharacter)
-                .map(character => <CharacterListItem key={character.id} character={character} />)}
-            </CharacterList>
-          )}
-        </CharacterListFetcher>
+        <CharacterListFetcher>{this.renderCharacters}</CharacterListFetcher>
       </PageWrapper>
     )
+  }
+
+  renderCharacters = (characters: Character[]) => {
+    if (characters.length === 0) {
+      return (
+        <PageSection>
+          <FadedText>
+            <h2>Fetching characters...</h2>
+          </FadedText>
+        </PageSection>
+      )
+    }
+
+    const filteredCharacters = characters.filter(this.filterCharacter)
+    if (filteredCharacters.length === 0) {
+      return (
+        <PageSection>
+          <FadedText>
+            <h2>No results found.</h2>
+          </FadedText>
+        </PageSection>
+      )
+    }
+
+    return filteredCharacters.map(character => (
+      <PageSection key={character.id}>
+        <CharacterListItem character={character} />
+      </PageSection>
+    ))
   }
 }
