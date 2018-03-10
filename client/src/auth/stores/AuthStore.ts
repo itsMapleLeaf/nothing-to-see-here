@@ -2,11 +2,13 @@ import firebase from "firebase"
 import { computed, observable } from "mobx"
 
 export class AuthStore {
+  @observable authCheckFinished = false
   @observable user: firebase.User | null = null
 
   constructor() {
     firebase.auth().onAuthStateChanged(user => {
       this.user = user
+      this.authCheckFinished = true
     })
   }
 
