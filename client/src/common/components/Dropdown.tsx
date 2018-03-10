@@ -23,13 +23,14 @@ export class Dropdown extends React.Component<Props, State> {
     this.setState({ dropdownVisible: false })
   }
 
-  toggle = () => {
+  toggle = (event: React.MouseEvent<any>) => {
+    event.preventDefault()
     this.setState(state => ({ dropdownVisible: !state.dropdownVisible }))
   }
 
   render() {
     return (
-      <Manager onClick={this.toggle}>
+      <Manager onClick={this.toggle} onMouseLeave={this.hide}>
         <Target style={{ height: "100%" }}>{this.props.head}</Target>
         {this.state.dropdownVisible && <Popper placement="bottom-end">{this.props.content}</Popper>}
       </Manager>
