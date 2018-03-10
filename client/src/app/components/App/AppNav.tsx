@@ -1,7 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
+import { CharacterListFetcher } from "../../../character/components/CharacterListFetcher"
+import { Dropdown } from "../../../common/components/Dropdown"
 import { routePaths } from "../../../routePaths"
 import { foregroundColor, foregroundColorHighlight, shadowColor } from "../../../styles/colors"
 
@@ -31,17 +33,33 @@ const NavLinks = styled.section`
   min-height: 3rem;
 `
 
-const NavLink = styled(Link)`
-  padding: 0rem 1rem;
-  display: block;
+const navLinkStyles = css`
+  padding: 0.5rem 1rem;
 
   display: flex;
   align-items: center;
-  justify-content: center;
+
+  background-color: ${foregroundColor};
+
+  user-select: none;
 
   &:hover {
     background-color: ${foregroundColorHighlight};
   }
+`
+
+const NavLink = styled.a`
+  ${navLinkStyles};
+  cursor: pointer;
+`
+
+const RouterNavLink = styled(Link)`
+  ${navLinkStyles};
+`
+
+const DropdownContentWrapper = styled.div`
+  background: ${foregroundColor};
+  box-shadow: 0px 0px 8px ${shadowColor};
 `
 
 export class AppNav extends React.Component {
@@ -54,9 +72,33 @@ export class AppNav extends React.Component {
           </Link>
         </NavBrand>
         <NavLinks>
-          <NavLink to={routePaths.home}>Home</NavLink>
-          <NavLink to={routePaths.characterList}>Characters</NavLink>
-          <NavLink to={routePaths.chat}>Chat</NavLink>
+          <RouterNavLink to={routePaths.home}>Home</RouterNavLink>
+
+          <Dropdown
+            head={
+              <NavLink style={{ height: "100%" }}>
+                Characters <i className="fas fa-chevron-down" style={{ marginLeft: "0.5rem" }} />
+              </NavLink>
+            }
+            content={
+              <DropdownContentWrapper>
+                <hr />
+                <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
+                <hr />
+                <CharacterListFetcher>
+                  {characters =>
+                    characters.map(c => (
+                      <RouterNavLink to={routePaths.viewCharacter(c.id)} key={c.id}>
+                        {c.name}
+                      </RouterNavLink>
+                    ))
+                  }
+                </CharacterListFetcher>
+              </DropdownContentWrapper>
+            }
+          />
+
+          <RouterNavLink to={routePaths.chat}>Chat</RouterNavLink>
         </NavLinks>
       </Nav>
     )
