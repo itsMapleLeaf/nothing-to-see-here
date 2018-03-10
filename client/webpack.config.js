@@ -1,6 +1,7 @@
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const Dotenv = require("dotenv-webpack")
 const { resolve } = require("path")
 
 const sourceFolder = resolve(__dirname, "src")
@@ -33,6 +34,7 @@ module.exports = {
       },
     ]),
     new CleanWebpackPlugin(buildFolder),
+    new Dotenv(),
   ],
   devServer: {
     historyApiFallback: true,
