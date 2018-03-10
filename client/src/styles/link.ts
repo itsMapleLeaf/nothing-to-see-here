@@ -1,10 +1,10 @@
 import { Link as ReactRouterLink } from "react-router-dom"
 import styled, { css } from "styled-components"
 
-import { activeColor, textColor } from "./colors"
+import { primary, textColor } from "./colors"
 
 const linkStyles = css`
-  color: ${activeColor};
+  color: ${primary};
   transition: 0.2s;
 
   &:hover {

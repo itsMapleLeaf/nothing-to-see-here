@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { Character } from "../../../api"
 import { routePaths } from "../../../routePaths"
-import { activeColor, textColor } from "../../../styles/colors"
+import { primary, textColor } from "../../../styles/colors"
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Avatar = styled.div`
 const Info = styled.div``
 
 const Name = styled.h2`
-  color: ${activeColor};
+  color: ${primary};
   transition: 0.2s;
 
   &:hover {
