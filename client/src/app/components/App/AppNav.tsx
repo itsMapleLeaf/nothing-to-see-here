@@ -4,6 +4,7 @@ import styled, { css } from "styled-components"
 
 import { CharacterListFetcher } from "../../../character/components/CharacterListFetcher"
 import { Dropdown } from "../../../common/components/Dropdown"
+import { firebase } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import { foregroundColor, foregroundColorHighlight, shadowColor } from "../../../styles/colors"
 
@@ -62,6 +63,33 @@ const DropdownContentWrapper = styled.div`
 `
 
 export class AppNav extends React.Component {
+  state = {
+    loggedIn: false,
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ loggedIn: user != null })
+    })
+  }
+
+  signIn = () => {
+    const email = prompt("Email?")
+    const password = prompt("Password?")
+    if (email && password) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch(err => {
+          alert(err)
+        })
+    }
+  }
+
+  signOut = () => {
+    firebase.auth().signOut()
+  }
+
   render() {
     return (
       <Nav>
@@ -70,46 +98,73 @@ export class AppNav extends React.Component {
             <h1>RP website</h1>
           </Link>
         </NavBrand>
+
         <NavLinks>
-          <RouterNavLink to={routePaths.home}>
-            <span>
-              <i className="fas fa-home" /> Home
-            </span>
-          </RouterNavLink>
-
-          <Dropdown
-            head={
-              <NavLink style={{ height: "100%" }}>
-                <span>
-                  <i className="fas fa-users" /> Characters
-                </span>
-              </NavLink>
-            }
-            content={
-              <DropdownContentWrapper>
-                <hr />
-                <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
-                <hr />
-                <CharacterListFetcher>
-                  {characters =>
-                    characters.map(c => (
-                      <RouterNavLink to={routePaths.viewCharacter(c.id)} key={c.id}>
-                        {c.name}
-                      </RouterNavLink>
-                    ))
-                  }
-                </CharacterListFetcher>
-              </DropdownContentWrapper>
-            }
-          />
-
-          <RouterNavLink to={routePaths.chat}>
-            <span>
-              <i className="fas fa-comments" /> Chat
-            </span>
-          </RouterNavLink>
+          {this.state.loggedIn ? this.renderLoggedInLinks() : this.renderLoggedOutLinks()}
         </NavLinks>
       </Nav>
+    )
+  }
+
+  renderLoggedInLinks() {
+    return (
+      <React.Fragment>
+        <RouterNavLink to={routePaths.home}>
+          <span>
+            <i className="fas fa-home" /> Home
+          </span>
+        </RouterNavLink>
+
+        <Dropdown
+          head={
+            <NavLink style={{ height: "100%" }}>
+              <span>
+                <i className="fas fa-users" /> Characters
+              </span>
+            </NavLink>
+          }
+          content={
+            <DropdownContentWrapper>
+              <hr />
+              <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
+              <hr />
+              <CharacterListFetcher>
+                {characters =>
+                  characters.map(c => (
+                    <RouterNavLink to={routePaths.viewCharacter(c.id)} key={c.id}>
+                      {c.name}
+                    </RouterNavLink>
+                  ))
+                }
+              </CharacterListFetcher>
+            </DropdownContentWrapper>
+          }
+        />
+
+        <RouterNavLink to={routePaths.chat}>
+          <span>
+            <i className="fas fa-comments" /> Chat
+          </span>
+        </RouterNavLink>
+
+        <NavLink onClick={this.signOut}>
+          <span>
+            <i className="fas fa-sign-out-alt" /> Log out
+          </span>
+        </NavLink>
+      </React.Fragment>
+    )
+  }
+
+  renderLoggedOutLinks() {
+    return (
+      <React.Fragment>
+        <NavLink onClick={this.signIn}>
+          <span>
+            <i className="fas fa-sign-in-alt" /> Log in
+          </span>
+        </NavLink>
+      </React.Fragment>
     )
   }
 }
