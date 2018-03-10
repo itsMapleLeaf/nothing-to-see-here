@@ -5,7 +5,7 @@ export class AuthStore {
   @observable authCheckFinished = false
   @observable user: firebase.User | null = null
 
-  constructor() {
+  listenForAuthStateChanges() {
     firebase.auth().onAuthStateChanged(user => {
       this.user = user
       this.authCheckFinished = true

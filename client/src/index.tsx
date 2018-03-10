@@ -9,8 +9,6 @@ import { AuthStore } from "./auth/stores/AuthStore"
 import { initFirebase } from "./firebase"
 import { applyGlobalStyles } from "./styles"
 
-initFirebase()
-
 const stores = {
   authStore: new AuthStore(),
 }
@@ -27,6 +25,8 @@ function render() {
   ReactDOM.render(root, document.getElementById("root"))
 }
 
+initFirebase()
+stores.authStore.listenForAuthStateChanges()
 render()
 if (module.hot) {
   module.hot.accept(render)
