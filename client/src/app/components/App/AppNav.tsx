@@ -3,10 +3,10 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
-import { backgroundColor2, backgroundColor3, shadowColor } from "../../../styles/colors"
+import { foregroundColor, foregroundColorHighlight, shadowColor } from "../../../styles/colors"
 
 const Nav = styled.nav`
-  background-color: ${backgroundColor2};
+  background-color: ${foregroundColor};
   box-shadow: 0px 0px 8px ${shadowColor};
 
   display: flex;
@@ -14,7 +14,7 @@ const Nav = styled.nav`
   justify-content: space-between;
   flex-wrap: wrap;
 
-  margin-bottom: 1rem;
+  flex-shrink: 0;
 `
 
 const NavBrand = styled.section`
@@ -40,7 +40,7 @@ const NavLink = styled(Link)`
   justify-content: center;
 
   &:hover {
-    background-color: ${backgroundColor3};
+    background-color: ${foregroundColorHighlight};
   }
 `
 
@@ -50,12 +50,13 @@ export class AppNav extends React.Component {
       <Nav>
         <NavBrand>
           <Link to={routePaths.home}>
-            <h1>awesome RP website</h1>
+            <h1>RP website</h1>
           </Link>
         </NavBrand>
         <NavLinks>
           <NavLink to={routePaths.home}>Home</NavLink>
           <NavLink to={routePaths.characterList}>Characters</NavLink>
+          <NavLink to={routePaths.chat}>Chat</NavLink>
         </NavLinks>
       </Nav>
     )

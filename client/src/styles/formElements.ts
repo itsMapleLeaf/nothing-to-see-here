@@ -1,12 +1,12 @@
 import { darken } from "polished"
 import styled, { css } from "styled-components"
 
-import { inputColor, shadowColor } from "./colors"
+import { foregroundColorShade, shadowColor } from "./colors"
 
 const inputBaseStyles = css`
   display: block;
   width: 100%;
-  background-color: ${inputColor};
+  background-color: ${foregroundColorShade};
   border: none;
   padding: 0.5rem 0.75rem;
   box-shadow: 0px 0px 8px ${shadowColor} inset;
@@ -30,10 +30,10 @@ export const TextArea = styled.textarea`
 
 export const Button = styled.button`
   border: none;
-  background: ${darken(0.03, inputColor)};
+  background: ${darken(0.03, foregroundColorShade)};
   padding: 0.5rem 0.75rem;
 
   &:hover {
-    background: ${darken(0.05, inputColor)};
+    background: ${darken(0.05, foregroundColorShade)};
   }
 `

@@ -4,8 +4,8 @@ import { backgroundColor, textColor } from "./colors"
 
 export function applyGlobalStyles() {
   injectGlobal`
-    body {
-      font: 20px "Roboto", sans-serif;
+    :root {
+      font: 18px "Roboto", sans-serif;
       background-color: ${backgroundColor};
       color: ${textColor};
     }
