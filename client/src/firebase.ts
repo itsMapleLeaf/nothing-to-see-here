@@ -1,4 +1,5 @@
-import firebase from "firebase"
+import firebase from "firebase/app"
+import "firebase/auth"
 
 export function initFirebase() {
   firebase.initializeApp({
@@ -10,5 +11,3 @@ export function initFirebase() {
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
   })
 }
-
-export { firebase }
