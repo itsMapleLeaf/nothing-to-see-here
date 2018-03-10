@@ -17,29 +17,20 @@ const AppWrapper = styled.main`
   height: 100vh;
 `
 
-const AppBody = styled.section`
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: column;
-`
-
 export class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
         <AppWrapper>
           <AppNav />
-          <AppBody>
-            <Switch>
-              <Route exact path={routePaths.home} component={HomePage} />
-              <Route exact path={routePaths.characterList} component={CharacterListPage} />
-              <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
-              <Route exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
-              <Route exact path={routePaths.chat} component={ChatPage} />
-              <Route component={NotFound} />
-            </Switch>
-          </AppBody>
+          <Switch>
+            <Route exact path={routePaths.home} component={HomePage} />
+            <Route exact path={routePaths.characterList} component={CharacterListPage} />
+            <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
+            <Route exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
+            <Route exact path={routePaths.chat} component={ChatPage} />
+            <Route component={NotFound} />
+          </Switch>
         </AppWrapper>
       </BrowserRouter>
     )
