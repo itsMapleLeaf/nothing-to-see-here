@@ -1,6 +1,6 @@
 import { injectGlobal } from "styled-components"
 
-import { backgroundColor, textColor } from "./colors"
+import { backgroundColor, foregroundColorShade, textColor } from "./colors"
 
 export function applyGlobalStyles() {
   injectGlobal`
@@ -31,6 +31,11 @@ export function applyGlobalStyles() {
       border: none;
       padding: 0;
       margin: 1rem 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid ${foregroundColorShade};
     }
   `
 }
