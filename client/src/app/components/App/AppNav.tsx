@@ -1,10 +1,11 @@
+import { inject, observer } from "mobx-react"
 import React from "react"
 import { Link } from "react-router-dom"
 import styled, { css } from "styled-components"
 
+import { AuthStore } from "../../../auth/stores/AuthStore"
 import { CharacterListFetcher } from "../../../character/components/CharacterListFetcher"
 import { Dropdown } from "../../../common/components/Dropdown"
-import { firebase } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import { foregroundColor, foregroundColorHighlight, shadowColor } from "../../../styles/colors"
 
@@ -62,32 +63,23 @@ const DropdownContentWrapper = styled.div`
   box-shadow: 0px 0px 8px ${shadowColor};
 `
 
-export class AppNav extends React.Component {
-  state = {
-    loggedIn: false,
-  }
+interface Props {
+  authStore?: AuthStore
+}
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({ loggedIn: user != null })
-    })
-  }
-
+@inject("authStore")
+@observer
+export class AppNav extends React.Component<Props> {
   signIn = () => {
     const email = prompt("Email?")
     const password = prompt("Password?")
     if (email && password) {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch(err => {
-          alert(err)
-        })
+      this.props.authStore!.signIn(email, password).catch(alert)
     }
   }
 
   signOut = () => {
-    firebase.auth().signOut()
+    this.props.authStore!.signOut()
   }
 
   render() {
@@ -100,7 +92,9 @@ export class AppNav extends React.Component {
         </NavBrand>
 
         <NavLinks>
-          {this.state.loggedIn ? this.renderLoggedInLinks() : this.renderLoggedOutLinks()}
+          {this.props.authStore!.isSignedIn
+            ? this.renderLoggedInLinks()
+            : this.renderLoggedOutLinks()}
         </NavLinks>
       </Nav>
     )
@@ -125,7 +119,6 @@ export class AppNav extends React.Component {
           }
           content={
             <DropdownContentWrapper>
-              <hr />
               <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
               <hr />
               <CharacterListFetcher>
