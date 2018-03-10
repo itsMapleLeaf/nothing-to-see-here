@@ -10,3 +10,4 @@ export const textColor = hsl(0, 0, 1)
 export const shadowColor = darken(0.04, backgroundColor)
 
 export const activeColor = hsl(217, 0.81, 0.73)
+export const danger = hsl(0, 0.9, 0.75)

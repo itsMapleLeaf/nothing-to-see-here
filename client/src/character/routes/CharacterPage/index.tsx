@@ -1,12 +1,20 @@
 import React from "react"
 import { RouteComponentProps } from "react-router"
+import styled from "styled-components"
 
 import { Character, getCharacter } from "../../../api"
 import { routePaths } from "../../../routePaths"
+import { danger } from "../../../styles/colors"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { RouterLink } from "../../../styles/link"
 
 type Props = RouteComponentProps<{ id: string }>
+
+const Actions = styled(PageSection)`
+  > * + * {
+    margin-left: 1rem;
+  }
+`
 
 export class CharacterPage extends React.Component<Props> {
   state = {
@@ -39,10 +47,16 @@ export class CharacterPage extends React.Component<Props> {
     return (
       <PageWrapper>
         <PageTitle>{character.name}</PageTitle>
-        <PageSection>
-          <RouterLink to={routePaths.editCharacter(character.id)}>Edit</RouterLink>
-        </PageSection>
         <PageSection>{character.profile}</PageSection>
+        <hr />
+        <Actions>
+          <RouterLink to={routePaths.editCharacter(character.id)}>
+            <i className="fas fa-edit" /> Edit
+          </RouterLink>{" "}
+          <RouterLink to={routePaths.editCharacter(character.id)} style={{ color: danger }}>
+            <i className="fas fa-trash" /> Delete
+          </RouterLink>
+        </Actions>
       </PageWrapper>
     )
   }
