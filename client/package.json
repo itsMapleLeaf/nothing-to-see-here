@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --inline --hot --mode development",
     "build": "webpack --mode production",
-    "build:dev": "webpack --mode development"
+    "build:dev": "webpack --mode development",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "polished": "^1.9.2",

@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { routePaths } from "src/routePaths"
+
+import { routePaths } from "../../../routePaths"
 
 export function NotFound() {
   return (

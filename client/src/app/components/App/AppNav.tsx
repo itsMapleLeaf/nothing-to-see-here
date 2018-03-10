@@ -1,9 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { backgroundColor2, backgroundColor3, shadowColor } from "src/styles/colors"
 import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
+import { backgroundColor2, backgroundColor3, shadowColor } from "../../../styles/colors"
 
 const Nav = styled.nav`
   background-color: ${backgroundColor2};

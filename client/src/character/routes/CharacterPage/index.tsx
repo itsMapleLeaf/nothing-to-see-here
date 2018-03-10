@@ -1,9 +1,10 @@
 import React from "react"
 import { RouteComponentProps } from "react-router"
-import { Character, getCharacter } from "src/api"
-import { routePaths } from "src/routePaths"
-import { PageSection, PageTitle, PageWrapper } from "src/styles/layout"
-import { RouterLink } from "src/styles/link"
+
+import { Character, getCharacter } from "../../../api"
+import { routePaths } from "../../../routePaths"
+import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
+import { RouterLink } from "../../../styles/link"
 
 type Props = RouteComponentProps<{ id: string }>
 

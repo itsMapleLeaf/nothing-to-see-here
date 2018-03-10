@@ -1,7 +1,7 @@
 import React from "react"
-import { PageSection, PageTitle, PageWrapper } from "src/styles/layout"
 import styled from "styled-components"
 
+import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { CharacterListFetcher } from "../../components/CharacterListFetcher"
 import { CharacterListItem } from "./CharacterListItem"
 

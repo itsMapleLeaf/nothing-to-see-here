@@ -21,9 +21,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
-    alias: {
-      src: sourceFolder,
-    },
   },
   plugins: [
     new HtmlWebpackPlugin({

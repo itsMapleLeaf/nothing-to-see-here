@@ -1,8 +1,8 @@
 import React from "react"
 import { Redirect } from "react-router-dom"
-import { Character, updateCharacter } from "src/api"
-import { routePaths } from "src/routePaths"
 
+import { Character, updateCharacter } from "../../../api"
+import { routePaths } from "../../../routePaths"
 import { Button, Input, Label, TextArea } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 

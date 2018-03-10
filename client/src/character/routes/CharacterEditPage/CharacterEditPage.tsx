@@ -1,7 +1,7 @@
 import React from "react"
 import { RouteComponentProps } from "react-router-dom"
-import { Character, getCharacter } from "src/api"
 
+import { Character, getCharacter } from "../../../api"
 import { CharacterEditForm } from "./CharacterEditForm"
 
 export class CharacterEditPage extends React.Component<RouteComponentProps<{ id: string }>> {
