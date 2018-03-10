@@ -11,7 +11,8 @@
     "noUnusedLocals": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*", "typings/**/*"]
 }
