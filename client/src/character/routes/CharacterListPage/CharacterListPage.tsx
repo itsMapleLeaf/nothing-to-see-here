@@ -35,7 +35,12 @@ export class CharacterListPage extends React.Component<Props> {
         <PageTitle>Characters</PageTitle>
 
         <PageSection>
-          <Input placeholder="Search..." value={this.searchText} onChange={this.updateSearch} />
+          <Input
+            placeholder="Search..."
+            value={this.searchText}
+            onChange={this.updateSearch}
+            autoFocus
+          />
         </PageSection>
 
         {this.renderCharacters()}
