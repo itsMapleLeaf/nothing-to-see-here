@@ -11,6 +11,7 @@ interface Props {
   authStore?: AuthStore
 }
 
+// TODO: this should probably be a modal
 @inject("authStore")
 @observer
 export class LoginPage extends React.Component<Props> {
