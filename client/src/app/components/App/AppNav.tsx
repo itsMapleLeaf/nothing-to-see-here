@@ -95,12 +95,6 @@ export class AppNav extends React.Component<Props> {
   renderLoggedInLinks() {
     return (
       <React.Fragment key="logged-in-links">
-        <RouterNavLink to={routePaths.home}>
-          <span>
-            <i className="fas fa-home" /> Home
-          </span>
-        </RouterNavLink>
-
         <Dropdown
           head={
             <NavLink style={{ height: "100%" }}>
