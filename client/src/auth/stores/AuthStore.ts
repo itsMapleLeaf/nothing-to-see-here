@@ -5,8 +5,8 @@ export class AuthStore {
   @observable authCheckFinished = false
   @observable user: firebase.User | null = null
 
-  constructor() {
-    firebase.auth().onAuthStateChanged(this.handleAuthStateChanged)
+  constructor(private app: firebase.app.App) {
+    app.auth().onAuthStateChanged(this.handleAuthStateChanged)
   }
 
   @action
@@ -21,10 +21,10 @@ export class AuthStore {
   }
 
   signIn(email: string, password: string) {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
+    return this.app.auth().signInWithEmailAndPassword(email, password)
   }
 
   signOut() {
-    return firebase.auth().signOut()
+    return this.app.auth().signOut()
   }
 }

@@ -26,8 +26,8 @@ function render(stores: any) {
 function main() {
   useStrict(true)
 
-  initFirebase()
-  const stores = createStores()
+  const app = initFirebase()
+  const stores = createStores(app)
   render(stores)
 
   if (module.hot) {

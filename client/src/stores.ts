@@ -1,7 +1,8 @@
 import { AuthStore } from "./auth/stores/AuthStore"
+import firebase from "firebase/app"
 
-export function createStores() {
+export function createStores(app: firebase.app.App) {
   return {
-    authStore: new AuthStore(),
+    authStore: new AuthStore(app),
   }
 }
