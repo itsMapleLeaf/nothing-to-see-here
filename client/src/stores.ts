@@ -1,5 +1,7 @@
 import { AuthStore } from "./auth/stores/AuthStore"
 
-export const stores = {
-  authStore: new AuthStore(),
+export function createStores() {
+  return {
+    authStore: new AuthStore(),
+  }
 }

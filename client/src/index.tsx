@@ -7,10 +7,10 @@ import ReactDOM from "react-dom"
 
 import { App } from "./app/components/App"
 import { initFirebase } from "./firebase"
-import { stores } from "./stores"
 import { applyGlobalStyles } from "./styles"
+import { createStores } from "./stores"
 
-function render() {
+function render(stores: any) {
   const AppComponent = require("./app/components/App").App as typeof App
   applyGlobalStyles()
 
@@ -25,12 +25,13 @@ function render() {
 
 function main() {
   useStrict(true)
+
   initFirebase()
-  stores.authStore.listenForAuthStateChanges()
-  render()
+  const stores = createStores()
+  render(stores)
 
   if (module.hot) {
-    module.hot.accept("./app/components/App", render)
+    module.hot.accept("./app/components/App", () => render(stores))
   }
 }
 

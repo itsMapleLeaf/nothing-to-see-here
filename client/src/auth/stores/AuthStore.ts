@@ -5,6 +5,10 @@ export class AuthStore {
   @observable authCheckFinished = false
   @observable user: firebase.User | null = null
 
+  constructor() {
+    firebase.auth().onAuthStateChanged(this.handleAuthStateChanged)
+  }
+
   @action
   private handleAuthStateChanged = (user: firebase.User | null) => {
     this.user = user
@@ -14,10 +18,6 @@ export class AuthStore {
   @computed
   get isSignedIn() {
     return this.user != null
-  }
-
-  listenForAuthStateChanges() {
-    firebase.auth().onAuthStateChanged(this.handleAuthStateChanged)
   }
 
   signIn(email: string, password: string) {
