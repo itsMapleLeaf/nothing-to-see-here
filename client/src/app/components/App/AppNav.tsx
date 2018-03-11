@@ -32,6 +32,7 @@ const NavLinks = styled.section`
   padding-right: 1rem;
   align-self: stretch;
   display: flex;
+  flex-wrap: wrap;
 `
 
 const navLinkStyles = css`
@@ -46,6 +47,10 @@ const navLinkStyles = css`
 
   &:hover {
     background-color: ${foregroundColorHighlight};
+  }
+
+  span {
+    word-break: keep-all;
   }
 `
 
