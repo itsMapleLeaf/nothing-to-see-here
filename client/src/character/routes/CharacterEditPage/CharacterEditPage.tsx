@@ -21,7 +21,6 @@ class CharacterEditPageComponent extends React.Component<Props> {
   }
 
   renderPageContent() {
-    // TODO: remove this logic when auth guarded routes are implemented
     if (!this.props.signedIn) {
       return (
         <>
@@ -40,7 +39,6 @@ class CharacterEditPageComponent extends React.Component<Props> {
         <>
           <PageTitle>Character not found</PageTitle>
           <PageSection>
-            {/* TODO: make this into its own component */}
             <Link href="#" onClick={() => this.props.history.goBack()}>
               Go back
             </Link>

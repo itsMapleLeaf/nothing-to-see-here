@@ -87,7 +87,6 @@ export class AppNav extends React.Component {
     )
   }
 
-  // TODO: split these "renderX" functions into separate components
   renderLoggedInLinks() {
     return (
       <React.Fragment key="logged-in-links">
@@ -95,7 +94,6 @@ export class AppNav extends React.Component {
           head={
             <NavLink style={{ height: "100%" }}>
               {/* NOTE: this span needs to be here to preserve the space between the icon and text */}
-              {/* TODO: abstract this so it looks less awful */}
               <span>
                 <i className="fas fa-users" /> Characters
               </span>

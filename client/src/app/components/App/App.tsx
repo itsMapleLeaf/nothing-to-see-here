@@ -28,7 +28,6 @@ export class App extends React.Component {
           <AppNav />
 
           <Switch>
-            {/* TODO: use render functions for more clarity and less prop indirection? */}
             <Route exact path={routePaths.home} component={HomePage} />
             <Route exact path={routePaths.login} component={LoginPageContainer} />
             <Route exact path={routePaths.characterList} component={CharacterListPage} />

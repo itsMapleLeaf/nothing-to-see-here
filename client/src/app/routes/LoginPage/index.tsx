@@ -8,7 +8,6 @@ import { StoreConsumer } from "../../../storeContext"
 import { Button, Input, Label } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 
-// TODO: this should probably be a modal
 @observer
 export class LoginPage extends React.Component<{ authStore: AuthStore }> {
   state = {
