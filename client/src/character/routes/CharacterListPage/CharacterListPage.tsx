@@ -1,21 +1,16 @@
 import fuzzysearch from "fuzzysearch"
 import { action, observable } from "mobx"
-import { inject, observer } from "mobx-react"
+import { observer } from "mobx-react"
 import React from "react"
 
+import { StoreConsumer } from "../../../storeContext"
 import { Input } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { FadedText } from "../../../styles/text"
-import { CharacterListStore } from "../../stores/CharacterListStore"
 import { CharacterListItem } from "./CharacterListItem"
 
-interface Props {
-  characterListStore?: CharacterListStore
-}
-
-@inject("characterListStore")
 @observer
-export class CharacterListPage extends React.Component<Props> {
+export class CharacterListPage extends React.Component {
   @observable searchText = ""
 
   @action
@@ -43,14 +38,14 @@ export class CharacterListPage extends React.Component<Props> {
           />
         </PageSection>
 
-        {this.renderCharacters()}
+        <StoreConsumer>
+          {({ characterListStore }) => this.renderCharacters(characterListStore.characters)}
+        </StoreConsumer>
       </PageWrapper>
     )
   }
 
-  renderCharacters() {
-    const characters = this.props.characterListStore!.characters
-
+  renderCharacters(characters: any[]) {
     const filteredCharacters = characters.filter(this.filterCharacter)
 
     if (filteredCharacters.length === 0) {

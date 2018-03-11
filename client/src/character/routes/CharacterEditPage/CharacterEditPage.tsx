@@ -1,33 +1,28 @@
-import { computed } from "mobx"
-import { inject, observer } from "mobx-react"
+import { History } from "history"
+import { observer } from "mobx-react"
 import React from "react"
 import { RouteComponentProps } from "react-router-dom"
 
-import { AuthStore } from "../../../auth/stores/AuthStore"
+import { StoreConsumer } from "../../../storeContext"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { Link } from "../../../styles/link"
-import { CharacterListStore } from "../../stores/CharacterListStore"
 import { CharacterEditForm } from "./CharacterEditForm"
 
-type Props = RouteComponentProps<{ id: string }> & {
-  characterListStore?: CharacterListStore
-  authStore?: AuthStore
+type Props = {
+  character: any
+  signedIn: boolean
+  history: History
 }
 
-@inject("characterListStore", "authStore")
 @observer
-export class CharacterEditPage extends React.Component<Props> {
-  @computed
-  get character() {
-    return this.props.characterListStore!.getCharacter(this.props.match.params.id)
-  }
-
+class CharacterEditPageComponent extends React.Component<Props> {
   render() {
     return <PageWrapper>{this.renderPageContent()}</PageWrapper>
   }
 
   renderPageContent() {
-    if (!this.props.authStore!.isSignedIn) {
+    // TODO: remove this logic when auth guarded routes are implemented
+    if (!this.props.signedIn) {
       return (
         <>
           <PageTitle>You must be signed in to view this page.</PageTitle>
@@ -40,11 +35,12 @@ export class CharacterEditPage extends React.Component<Props> {
       )
     }
 
-    if (this.character == null) {
+    if (this.props.character == null) {
       return (
         <>
           <PageTitle>Character not found</PageTitle>
           <PageSection>
+            {/* TODO: make this into its own component */}
             <Link href="#" onClick={() => this.props.history.goBack()}>
               Go back
             </Link>
@@ -55,11 +51,23 @@ export class CharacterEditPage extends React.Component<Props> {
 
     return (
       <>
-        <PageTitle>Editing {this.character.name}</PageTitle>
+        <PageTitle>Editing {this.props.character.name}</PageTitle>
         <PageSection>
-          <CharacterEditForm character={this.character} />
+          <CharacterEditForm character={this.props.character} />
         </PageSection>
       </>
     )
   }
 }
+
+export const CharacterEditPage = (props: RouteComponentProps<{ id: string }>) => (
+  <StoreConsumer>
+    {stores => (
+      <CharacterEditPageComponent
+        character={stores.characterListStore.getCharacter(props.match.params.id)}
+        signedIn={stores.authStore.isSignedIn}
+        history={props.history}
+      />
+    )}
+  </StoreConsumer>
+)

@@ -1,20 +1,16 @@
-import { inject, observer } from "mobx-react"
+import { observer } from "mobx-react"
 import React from "react"
 import { Redirect } from "react-router"
 
 import { AuthStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
+import { StoreConsumer } from "../../../storeContext"
 import { Button, Input, Label } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 
-interface Props {
-  authStore?: AuthStore
-}
-
 // TODO: this should probably be a modal
-@inject("authStore")
 @observer
-export class LoginPage extends React.Component<Props> {
+export class LoginPage extends React.Component<{ authStore: AuthStore }> {
   state = {
     email: "",
     password: "",
@@ -23,13 +19,13 @@ export class LoginPage extends React.Component<Props> {
   handleSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault()
 
-    this.props.authStore!.signIn(this.state.email, this.state.password).catch(error => {
+    this.props.authStore.signIn(this.state.email, this.state.password).catch(error => {
       alert(error)
     })
   }
 
   render() {
-    if (this.props.authStore!.isSignedIn) {
+    if (this.props.authStore.isSignedIn) {
       return <Redirect to={routePaths.home} />
     }
 
@@ -68,3 +64,7 @@ export class LoginPage extends React.Component<Props> {
     )
   }
 }
+
+export const LoginPageContainer = () => (
+  <StoreConsumer>{stores => <LoginPage authStore={stores.authStore} />}</StoreConsumer>
+)

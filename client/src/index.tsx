@@ -1,21 +1,21 @@
 import "sanitize.css"
 
 import { useStrict } from "mobx"
-import { Provider as StoreProvider } from "mobx-react"
 import React from "react"
 import ReactDOM from "react-dom"
 
 import { App } from "./app/components/App"
 import { initFirebase } from "./firebase"
-import { applyGlobalStyles } from "./styles"
+import { StoreProvider } from "./storeContext"
 import { createStores } from "./stores"
+import { applyGlobalStyles } from "./styles"
 
 function render(stores: any) {
   const AppComponent = require("./app/components/App").App as typeof App
   applyGlobalStyles()
 
   const root = (
-    <StoreProvider {...stores}>
+    <StoreProvider value={stores}>
       <AppComponent />
     </StoreProvider>
   )

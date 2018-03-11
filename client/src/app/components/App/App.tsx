@@ -1,16 +1,15 @@
-import { inject, observer } from "mobx-react"
 import React from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import styled from "styled-components"
 
-import { AuthStore } from "../../../auth/stores/AuthStore"
 import { CharacterEditPage } from "../../../character/routes/CharacterEditPage"
 import { CharacterListPage } from "../../../character/routes/CharacterListPage"
 import { CharacterPage } from "../../../character/routes/CharacterPage"
 import { ChatPage } from "../../../chat/routes/ChatPage"
 import { routePaths } from "../../../routePaths"
+import { StoreConsumer } from "../../../storeContext"
 import { HomePage } from "../../routes/HomePage"
-import { LoginPage } from "../../routes/LoginPage"
+import { LoginPageContainer } from "../../routes/LoginPage"
 import { NotFound } from "../../routes/NotFound"
 import { LoadingCover } from "../LoadingCover"
 import { AppNav } from "./AppNav"
@@ -21,13 +20,7 @@ const AppWrapper = styled.main`
   height: 100vh;
 `
 
-interface Props {
-  authStore?: AuthStore
-}
-
-@inject("authStore")
-@observer
-export class App extends React.Component<Props> {
+export class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
@@ -35,8 +28,9 @@ export class App extends React.Component<Props> {
           <AppNav />
 
           <Switch>
+            {/* TODO: use render functions for more clarity and less prop indirection? */}
             <Route exact path={routePaths.home} component={HomePage} />
-            <Route exact path={routePaths.login} component={LoginPage} />
+            <Route exact path={routePaths.login} component={LoginPageContainer} />
             <Route exact path={routePaths.characterList} component={CharacterListPage} />
             <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
             <Route exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
@@ -44,10 +38,11 @@ export class App extends React.Component<Props> {
             <Route component={NotFound} />
           </Switch>
 
-          <LoadingCover
-            visible={!this.props.authStore!.authCheckFinished}
-            message="Logging in..."
-          />
+          <StoreConsumer>
+            {stores => (
+              <LoadingCover visible={!stores.authStore.authCheckFinished} message="Logging in..." />
+            )}
+          </StoreConsumer>
         </AppWrapper>
       </BrowserRouter>
     )

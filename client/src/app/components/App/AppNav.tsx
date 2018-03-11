@@ -1,12 +1,10 @@
-import { inject, observer } from "mobx-react"
 import React from "react"
 import { Link } from "react-router-dom"
 import styled, { css } from "styled-components"
 
-import { AuthStore } from "../../../auth/stores/AuthStore"
-import { CharacterListStore } from "../../../character/stores/CharacterListStore"
 import { Dropdown } from "../../../common/components/Dropdown"
 import { routePaths } from "../../../routePaths"
+import { StoreConsumer } from "../../../storeContext"
 import { foregroundColor, foregroundColorHighlight, shadowColor } from "../../../styles/colors"
 
 const Nav = styled.nav`
@@ -68,18 +66,7 @@ const DropdownContentWrapper = styled.div`
   box-shadow: 0px 0px 8px ${shadowColor};
 `
 
-interface Props {
-  authStore?: AuthStore
-  characterListStore?: CharacterListStore
-}
-
-@inject("authStore", "characterListStore")
-@observer
-export class AppNav extends React.Component<Props> {
-  signOut = () => {
-    this.props.authStore!.signOut()
-  }
-
+export class AppNav extends React.Component {
   render() {
     return (
       <Nav>
@@ -89,21 +76,26 @@ export class AppNav extends React.Component<Props> {
           </Link>
         </NavBrand>
 
-        <NavLinks>
-          {this.props.authStore!.isSignedIn
-            ? this.renderLoggedInLinks()
-            : this.renderLoggedOutLinks()}
-        </NavLinks>
+        <StoreConsumer>
+          {({ authStore }) => (
+            <NavLinks>
+              {authStore.isSignedIn ? this.renderLoggedInLinks() : this.renderLoggedOutLinks()}
+            </NavLinks>
+          )}
+        </StoreConsumer>
       </Nav>
     )
   }
 
+  // TODO: split these "renderX" functions into separate components
   renderLoggedInLinks() {
     return (
       <React.Fragment key="logged-in-links">
         <Dropdown
           head={
             <NavLink style={{ height: "100%" }}>
+              {/* NOTE: this span needs to be here to preserve the space between the icon and text */}
+              {/* TODO: abstract this so it looks less awful */}
               <span>
                 <i className="fas fa-users" /> Characters
               </span>
@@ -113,11 +105,7 @@ export class AppNav extends React.Component<Props> {
             <DropdownContentWrapper>
               <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
               <hr />
-              {this.props.characterListStore!.characters.map(character => (
-                <RouterNavLink to={routePaths.viewCharacter(character.id)} key={character.id}>
-                  {character.name}
-                </RouterNavLink>
-              ))}
+              {this.renderCharacterLinks()}
             </DropdownContentWrapper>
           }
         />
@@ -128,11 +116,15 @@ export class AppNav extends React.Component<Props> {
           </span>
         </RouterNavLink>
 
-        <NavLink onClick={this.signOut}>
-          <span>
-            <i className="fas fa-sign-out-alt" /> Log out
-          </span>
-        </NavLink>
+        <StoreConsumer>
+          {({ authStore }) => (
+            <NavLink onClick={() => authStore.signOut()}>
+              <span>
+                <i className="fas fa-sign-out-alt" /> Log out
+              </span>
+            </NavLink>
+          )}
+        </StoreConsumer>
       </React.Fragment>
     )
   }
@@ -146,6 +138,20 @@ export class AppNav extends React.Component<Props> {
           </span>
         </RouterNavLink>
       </React.Fragment>
+    )
+  }
+
+  renderCharacterLinks() {
+    return (
+      <StoreConsumer>
+        {({ characterListStore }) =>
+          characterListStore.characters.map(character => (
+            <RouterNavLink to={routePaths.viewCharacter(character.id)} key={character.id}>
+              {character.name}
+            </RouterNavLink>
+          ))
+        }
+      </StoreConsumer>
     )
   }
 }
