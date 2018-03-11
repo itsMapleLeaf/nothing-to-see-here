@@ -2,7 +2,6 @@ import React from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
-import { Character } from "../../../api"
 import { routePaths } from "../../../routePaths"
 import { primary, textColor } from "../../../styles/colors"
 
@@ -36,7 +35,7 @@ const Name = styled.h2`
 
 const Description = styled.div``
 
-export function CharacterListItem(props: { character: Character }) {
+export function CharacterListItem(props: { character: any }) {
   return (
     <Wrapper>
       <Avatar />
@@ -44,7 +43,7 @@ export function CharacterListItem(props: { character: Character }) {
         <Link to={routePaths.viewCharacter(props.character.id)}>
           <Name>{props.character.name}</Name>
         </Link>
-        <Description>{props.character.profile}</Description>
+        <Description>{props.character.tagline}</Description>
       </Info>
     </Wrapper>
   )

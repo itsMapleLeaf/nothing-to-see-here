@@ -1,14 +1,14 @@
+import { action, computed, observable } from "mobx"
+import { inject, observer } from "mobx-react"
 import React from "react"
 import { RouteComponentProps } from "react-router"
 import styled from "styled-components"
 
-import { Character, getCharacter } from "../../../api"
 import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { RouterLink } from "../../../styles/link"
-
-type Props = RouteComponentProps<{ id: string }>
+import { CharacterListStore } from "../../stores/CharacterListStore"
 
 const Actions = styled(PageSection)`
   > * + * {
@@ -16,38 +16,48 @@ const Actions = styled(PageSection)`
   }
 `
 
+type Props = RouteComponentProps<{ id: string }> & {
+  characterListStore?: CharacterListStore
+}
+
+@inject("characterListStore")
+@observer
 export class CharacterPage extends React.Component<Props> {
-  state = {
-    character: null as Character | null,
+  @observable characterId = ""
+
+  @action
+  setCharacterId(id: string) {
+    this.characterId = id
   }
 
-  async fetchCharacter(id: string) {
-    this.setState({ character: null })
-    const character = await getCharacter(id)
-    this.setState({ character })
+  @computed
+  get character() {
+    return this.props.characterListStore!.getCharacter(this.characterId)
   }
 
-  async componentDidMount() {
-    this.fetchCharacter(this.props.match.params.id)
+  componentDidMount() {
+    this.setCharacterId(this.props.match.params.id)
   }
 
   componentWillReceiveProps(props: Props) {
-    if (props.match.params.id !== this.props.match.params.id) {
-      this.fetchCharacter(props.match.params.id)
-    }
+    this.setCharacterId(props.match.params.id)
   }
 
   render() {
-    const { character } = this.state
+    return <PageWrapper>{this.renderPageContent()}</PageWrapper>
+  }
+
+  renderPageContent() {
+    const { character } = this
 
     if (!character) {
-      return <div>loading...</div>
+      return <PageTitle>Character not found :(</PageTitle>
     }
 
     return (
-      <PageWrapper>
+      <React.Fragment>
         <PageTitle>{character.name}</PageTitle>
-        <PageSection>{character.profile}</PageSection>
+        <PageSection>{character.tagline}</PageSection>
         <hr />
         <Actions>
           <RouterLink to={routePaths.editCharacter(character.id)}>
@@ -57,7 +67,7 @@ export class CharacterPage extends React.Component<Props> {
             <i className="fas fa-trash" /> Delete
           </RouterLink>
         </Actions>
-      </PageWrapper>
+      </React.Fragment>
     )
   }
 }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import styled, { css } from "styled-components"
 
 import { AuthStore } from "../../../auth/stores/AuthStore"
-import { CharacterListFetcher } from "../../../character/components/CharacterListFetcher"
+import { CharacterListStore } from "../../../character/stores/CharacterListStore"
 import { Dropdown } from "../../../common/components/Dropdown"
 import { routePaths } from "../../../routePaths"
 import { foregroundColor, foregroundColorHighlight, shadowColor } from "../../../styles/colors"
@@ -70,9 +70,10 @@ const DropdownContentWrapper = styled.div`
 
 interface Props {
   authStore?: AuthStore
+  characterListStore?: CharacterListStore
 }
 
-@inject("authStore")
+@inject("authStore", "characterListStore")
 @observer
 export class AppNav extends React.Component<Props> {
   signOut = () => {
@@ -112,15 +113,11 @@ export class AppNav extends React.Component<Props> {
             <DropdownContentWrapper>
               <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
               <hr />
-              <CharacterListFetcher>
-                {characters =>
-                  characters.map(c => (
-                    <RouterNavLink to={routePaths.viewCharacter(c.id)} key={c.id}>
-                      {c.name}
-                    </RouterNavLink>
-                  ))
-                }
-              </CharacterListFetcher>
+              {this.props.characterListStore!.characters.map(character => (
+                <RouterNavLink to={routePaths.viewCharacter(character.id)} key={character.id}>
+                  {character.name}
+                </RouterNavLink>
+              ))}
             </DropdownContentWrapper>
           }
         />

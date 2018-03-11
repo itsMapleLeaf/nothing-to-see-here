@@ -1,25 +1,31 @@
 import fuzzysearch from "fuzzysearch"
+import { action, observable } from "mobx"
+import { inject, observer } from "mobx-react"
 import React from "react"
 
-import { Character } from "../../../api"
 import { Input } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { FadedText } from "../../../styles/text"
-import { CharacterListFetcher } from "../../components/CharacterListFetcher"
+import { CharacterListStore } from "../../stores/CharacterListStore"
 import { CharacterListItem } from "./CharacterListItem"
 
-export class CharacterListPage extends React.Component {
-  state = {
-    search: "",
-  }
+interface Props {
+  characterListStore?: CharacterListStore
+}
 
+@inject("characterListStore")
+@observer
+export class CharacterListPage extends React.Component<Props> {
+  @observable searchText = ""
+
+  @action
   updateSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ search: event.currentTarget.value })
+    this.searchText = event.target.value
   }
 
-  filterCharacter = (character: Character) => {
-    const query = this.state.search.toLowerCase()
-    const fields: Array<keyof Character> = ["name", "profile"]
+  filterCharacter = (character: any) => {
+    const query = this.searchText.toLowerCase()
+    const fields = ["name", "tagline"]
     return fields.some(field => fuzzysearch(query, character[field].toLowerCase()))
   }
 
@@ -29,32 +35,23 @@ export class CharacterListPage extends React.Component {
         <PageTitle>Characters</PageTitle>
 
         <PageSection>
-          <Input value={this.state.search} onChange={this.updateSearch} placeholder="Search..." />
+          <Input placeholder="Search..." value={this.searchText} onChange={this.updateSearch} />
         </PageSection>
 
-        <CharacterListFetcher>{this.renderCharacters}</CharacterListFetcher>
+        {this.renderCharacters()}
       </PageWrapper>
     )
   }
 
-  renderCharacters = (characters: Character[]) => {
-    if (characters.length === 0) {
-      return (
-        <PageSection>
-          <FadedText>
-            <h2>Fetching characters...</h2>
-          </FadedText>
-        </PageSection>
-      )
-    }
+  renderCharacters() {
+    const characters = this.props.characterListStore!.characters
 
     const filteredCharacters = characters.filter(this.filterCharacter)
+
     if (filteredCharacters.length === 0) {
       return (
         <PageSection>
-          <FadedText>
-            <h2>No results found.</h2>
-          </FadedText>
+          <FadedText>No results found :(</FadedText>
         </PageSection>
       )
     }
