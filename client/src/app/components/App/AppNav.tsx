@@ -94,7 +94,7 @@ export class AppNav extends React.Component<Props> {
 
   renderLoggedInLinks() {
     return (
-      <React.Fragment>
+      <React.Fragment key="logged-in-links">
         <RouterNavLink to={routePaths.home}>
           <span>
             <i className="fas fa-home" /> Home
@@ -143,7 +143,7 @@ export class AppNav extends React.Component<Props> {
 
   renderLoggedOutLinks() {
     return (
-      <React.Fragment>
+      <React.Fragment key="logged-out-links">
         <RouterNavLink to={routePaths.login}>
           <span>
             <i className="fas fa-sign-in-alt" /> Log in
