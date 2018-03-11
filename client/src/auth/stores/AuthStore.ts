@@ -1,15 +1,23 @@
 import firebase from "firebase/app"
-import { computed, observable } from "mobx"
+import { action, computed, observable } from "mobx"
 
 export class AuthStore {
   @observable authCheckFinished = false
   @observable user: firebase.User | null = null
 
+  @action
+  private handleAuthStateChanged = (user: firebase.User | null) => {
+    this.user = user
+    this.authCheckFinished = true
+  }
+
+  @computed
+  get isSignedIn() {
+    return this.user != null
+  }
+
   listenForAuthStateChanges() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.user = user
-      this.authCheckFinished = true
-    })
+    firebase.auth().onAuthStateChanged(this.handleAuthStateChanged)
   }
 
   signIn(email: string, password: string) {
@@ -18,10 +26,5 @@ export class AuthStore {
 
   signOut() {
     return firebase.auth().signOut()
-  }
-
-  @computed
-  get isSignedIn() {
-    return this.user != null
   }
 }

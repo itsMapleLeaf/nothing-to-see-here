@@ -1,13 +1,14 @@
 import "sanitize.css"
 
+import { useStrict } from "mobx"
 import { Provider as StoreProvider } from "mobx-react"
 import React from "react"
 import ReactDOM from "react-dom"
 
 import { App } from "./app/components/App"
 import { initFirebase } from "./firebase"
-import { applyGlobalStyles } from "./styles"
 import { stores } from "./stores"
+import { applyGlobalStyles } from "./styles"
 
 function render() {
   const AppComponent = require("./app/components/App").App as typeof App
@@ -22,9 +23,15 @@ function render() {
   ReactDOM.render(root, document.getElementById("root"))
 }
 
-initFirebase()
-stores.authStore.listenForAuthStateChanges()
-render()
-if (module.hot) {
-  module.hot.accept("./app/components/App", render)
+function main() {
+  useStrict(true)
+  initFirebase()
+  stores.authStore.listenForAuthStateChanges()
+  render()
+
+  if (module.hot) {
+    module.hot.accept("./app/components/App", render)
+  }
 }
+
+main()
