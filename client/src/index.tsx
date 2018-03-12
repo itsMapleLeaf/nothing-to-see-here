@@ -7,7 +7,7 @@ import ReactDOM from "react-dom"
 import { App } from "./app/components/App"
 import { initFirebase } from "./firebase"
 import { StoreProvider } from "./storeContext"
-import { createStores } from "./stores"
+import { RootStore } from "./stores"
 import { applyGlobalStyles } from "./styles"
 
 function render(stores: any) {
@@ -27,7 +27,7 @@ function main() {
   useStrict(true)
 
   const app = initFirebase()
-  const stores = createStores(app)
+  const stores = new RootStore(app)
   render(stores)
 
   if (module.hot) {
