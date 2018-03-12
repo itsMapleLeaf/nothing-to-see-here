@@ -1,5 +1,6 @@
 - make a proper character model, which pulls info from a firebase document reference
-- consider merging `routes` folders into `components` for less confusion?
+- consider merging `routes` folders into `components` for less confusion
+- consider using formik for forms
 
 - App
   - use render functions for more clarity and less prop indirection (?)
@@ -14,3 +15,6 @@
 
 - styles
   - make some helpers for flex and other stuff
+
+- CharacterEditForm
+  - use mobx observables (?)
