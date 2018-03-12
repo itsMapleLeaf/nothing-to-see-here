@@ -1,54 +1,31 @@
 import React from "react"
 import { RouteComponentProps } from "react-router"
-import styled from "styled-components"
 
-import { routePaths } from "../../../routePaths"
-import { StoreConsumer } from "../../../storeContext"
-import { danger } from "../../../styles/colors"
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
-import { Link, RouterLink } from "../../../styles/link"
+import { createFetcher } from "../../../common/components/Fetcher"
+import { PageWrapper } from "../../../styles/layout"
+import { fetchCharacterDetailsById } from "../../actions"
+import { CharacterPageDetails } from "./CharacterPageDetails"
+import { CharacterPageError } from "./CharacterPageError"
 
-const Actions = styled(PageSection)`
-  > * + * {
-    margin-left: 1rem;
-  }
-`
+const CharacterDetailsFetcher = createFetcher<any>()
 
-type Props = RouteComponentProps<{ id: string }>
-export class CharacterPage extends React.Component<Props> {
-  render() {
-    return (
-      <PageWrapper>
-        <StoreConsumer>
-          {stores =>
-            this.renderPageContent(
-              stores.characterListStore.getCharacter(this.props.match.params.id),
-            )
+export function CharacterPage(props: RouteComponentProps<{ id: string }>) {
+  return (
+    <PageWrapper>
+      <CharacterDetailsFetcher
+        id={props.match.params.id}
+        fetch={fetchCharacterDetailsById}
+        render={state => {
+          switch (state.state) {
+            case "success":
+              return <CharacterPageDetails character={state.data} />
+            case "error":
+              return <CharacterPageError error={state.error} />
+            default:
+              return ""
           }
-        </StoreConsumer>
-      </PageWrapper>
-    )
-  }
-
-  renderPageContent(character: any) {
-    if (!character) {
-      return <PageTitle>Character not found :(</PageTitle>
-    }
-
-    return (
-      <React.Fragment>
-        <PageTitle>{character.name}</PageTitle>
-        <PageSection>{character.tagline}</PageSection>
-        <hr />
-        <Actions>
-          <RouterLink to={routePaths.editCharacter(character.id)}>
-            <i className="fas fa-edit" /> Edit
-          </RouterLink>{" "}
-          <Link onClick={() => alert("not implemented!")} color={danger}>
-            <i className="fas fa-trash" /> Delete
-          </Link>
-        </Actions>
-      </React.Fragment>
-    )
-  }
+        }}
+      />
+    </PageWrapper>
+  )
 }
