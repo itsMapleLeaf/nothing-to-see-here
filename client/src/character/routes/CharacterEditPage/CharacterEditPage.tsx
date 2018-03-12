@@ -10,7 +10,6 @@ import { CharacterEditForm } from "./CharacterEditForm"
 
 type Props = {
   character: any
-  signedIn: boolean
   history: History
 }
 
@@ -21,19 +20,6 @@ class CharacterEditPageComponent extends React.Component<Props> {
   }
 
   renderPageContent() {
-    if (!this.props.signedIn) {
-      return (
-        <>
-          <PageTitle>You must be signed in to view this page.</PageTitle>
-          <PageSection>
-            <Link href="#" onClick={() => this.props.history.goBack()}>
-              Go back
-            </Link>
-          </PageSection>
-        </>
-      )
-    }
-
     if (this.props.character == null) {
       return (
         <>
@@ -63,7 +49,6 @@ export const CharacterEditPage = (props: RouteComponentProps<{ id: string }>) =>
     {stores => (
       <CharacterEditPageComponent
         character={stores.characterListStore.getCharacter(props.match.params.id)}
-        signedIn={stores.authStore.isSignedIn}
         history={props.history}
       />
     )}

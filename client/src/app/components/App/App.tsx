@@ -11,6 +11,7 @@ import { StoreConsumer } from "../../../storeContext"
 import { HomePage } from "../../routes/HomePage"
 import { LoginPageContainer } from "../../routes/LoginPage"
 import { NotFound } from "../../routes/NotFound"
+import { AuthRoute } from "../AuthRoute"
 import { LoadingCover } from "../LoadingCover"
 import { AppNav } from "./AppNav"
 
@@ -30,10 +31,10 @@ export class App extends React.Component {
           <Switch>
             <Route exact path={routePaths.home} component={HomePage} />
             <Route exact path={routePaths.login} component={LoginPageContainer} />
-            <Route exact path={routePaths.characterList} component={CharacterListPage} />
+            <AuthRoute exact path={routePaths.characterList} component={CharacterListPage} />
             <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
-            <Route exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
-            <Route exact path={routePaths.chat} component={ChatPage} />
+            <AuthRoute exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
+            <AuthRoute exact path={routePaths.chat} component={ChatPage} />
             <Route component={NotFound} />
           </Switch>
 
