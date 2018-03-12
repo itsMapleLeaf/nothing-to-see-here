@@ -5,11 +5,11 @@ import { RouteComponentProps } from "react-router-dom"
 import { BackLink } from "../../../app/components/BackLink"
 import { StoreConsumer } from "../../../storeContext"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
+import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterEditForm } from "./CharacterEditForm"
-import { CharacterModel } from "../../models/CharacterModel";
 
 type Props = {
-  character: CharacterModel
+  character?: CharacterModel
 }
 
 @observer
