@@ -8,6 +8,7 @@ import { Input } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { FadedText } from "../../../styles/text"
 import { CharacterListItem } from "./CharacterListItem"
+import { CharacterModel } from "../../models/CharacterModel";
 
 @observer
 export class CharacterListPage extends React.Component {
@@ -18,7 +19,7 @@ export class CharacterListPage extends React.Component {
     this.searchText = event.target.value
   }
 
-  filterCharacter = (character: any) => {
+  filterCharacter = (character: CharacterModel) => {
     const query = this.searchText.toLowerCase()
     const fields = ["name", "tagline"]
     return fields.some(field => fuzzysearch(query, character[field].toLowerCase()))
@@ -45,7 +46,7 @@ export class CharacterListPage extends React.Component {
     )
   }
 
-  renderCharacters(characters: any[]) {
+  renderCharacters(characters: CharacterModel[]) {
     const filteredCharacters = characters.filter(this.filterCharacter)
 
     if (filteredCharacters.length === 0) {

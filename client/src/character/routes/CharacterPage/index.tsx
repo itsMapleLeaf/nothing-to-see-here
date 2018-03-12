@@ -6,8 +6,9 @@ import { PageWrapper } from "../../../styles/layout"
 import { fetchCharacterDetailsById } from "../../actions"
 import { CharacterPageDetails } from "./CharacterPageDetails"
 import { CharacterPageError } from "./CharacterPageError"
+import { CharacterModel } from "../../models/CharacterModel";
 
-const CharacterDetailsFetcher = createFetcher<any>()
+const CharacterDetailsFetcher = createFetcher<CharacterModel>()
 
 export function CharacterPage(props: RouteComponentProps<{ id: string }>) {
   return (

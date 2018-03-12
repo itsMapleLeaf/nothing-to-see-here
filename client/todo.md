@@ -1,4 +1,3 @@
-- make a proper character model, which pulls info from a firebase document reference
 - consider merging `routes` folders into `components` for less confusion
 - consider using formik for forms
 

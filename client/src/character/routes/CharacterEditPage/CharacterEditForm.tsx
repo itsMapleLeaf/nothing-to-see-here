@@ -3,8 +3,9 @@ import { Redirect } from "react-router-dom"
 
 import { routePaths } from "../../../routePaths"
 import { Button, Input, Label, TextArea } from "../../../styles/formElements"
+import { CharacterModel } from "../../models/CharacterModel";
 
-export class CharacterEditForm extends React.Component<{ character: any }> {
+export class CharacterEditForm extends React.Component<{ character: CharacterModel }> {
   state = {
     name: this.props.character.name,
     tagline: this.props.character.tagline,

@@ -1,5 +1,7 @@
 import * as firebase from "firebase/app"
 
+import { CharacterModel } from "./models/CharacterModel"
+
 export async function fetchCharacterDetailsById(id: string) {
   const characterDoc = await firebase
     .firestore()
@@ -11,5 +13,5 @@ export async function fetchCharacterDetailsById(id: string) {
     throw Error(`Could not find character by id "${id}"`)
   }
 
-  return { id: characterDoc.id, ...characterDoc.data() } as any
+  return new CharacterModel(characterDoc)
 }

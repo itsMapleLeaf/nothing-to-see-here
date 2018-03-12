@@ -6,9 +6,10 @@ import { BackLink } from "../../../app/components/BackLink"
 import { StoreConsumer } from "../../../storeContext"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { CharacterEditForm } from "./CharacterEditForm"
+import { CharacterModel } from "../../models/CharacterModel";
 
 type Props = {
-  character: any
+  character: CharacterModel
 }
 
 @observer

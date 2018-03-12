@@ -5,6 +5,7 @@ import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
 import { PageSection, PageTitle } from "../../../styles/layout"
 import { Link, RouterLink } from "../../../styles/link"
+import { CharacterModel } from "../../models/CharacterModel";
 
 const Actions = styled(PageSection)`
   > * + * {
@@ -12,7 +13,7 @@ const Actions = styled(PageSection)`
   }
 `
 
-export function CharacterPageDetails({ character }: { character: any }) {
+export function CharacterPageDetails({ character }: { character: CharacterModel }) {
   return (
     <React.Fragment>
       <PageTitle>{character.name}</PageTitle>

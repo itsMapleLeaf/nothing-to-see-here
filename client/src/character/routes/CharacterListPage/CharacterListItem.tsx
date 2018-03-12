@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
 import { primary, textColor } from "../../../styles/colors"
+import { CharacterModel } from "../../models/CharacterModel";
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ const Name = styled.h2`
 
 const Description = styled.div``
 
-export function CharacterListItem(props: { character: any }) {
+export function CharacterListItem(props: { character: CharacterModel }) {
   return (
     <Wrapper>
       <Avatar />

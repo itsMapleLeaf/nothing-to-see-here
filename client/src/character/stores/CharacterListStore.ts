@@ -1,8 +1,10 @@
 import { app, firestore, Unsubscribe } from "firebase/app"
 import { action, observable } from "mobx"
 
+import { CharacterModel } from "../models/CharacterModel"
+
 export class CharacterListStore {
-  @observable characters = [] as any[]
+  @observable characters = [] as CharacterModel[]
 
   constructor(app: app.App) {
     let unsubscribe: undefined | Unsubscribe
@@ -24,14 +26,14 @@ export class CharacterListStore {
           const userData = userSnapshot.data()
           const characterRefs = userData.characters as Array<firestore.DocumentReference>
           const characterSnaps = await Promise.all(characterRefs.map(char => char.get()))
-          const characters = characterSnaps.map(snap => ({ id: snap.id, ...snap.data() }))
+          const characters = characterSnaps.map(snap => new CharacterModel(snap))
           this.setCharacters(characters)
         })
     })
   }
 
   @action
-  setCharacters = (characters: any[]) => {
+  setCharacters = (characters: CharacterModel[]) => {
     this.characters = characters
   }
 
