@@ -3,7 +3,6 @@
 
 - App
   - use render functions for more clarity and less prop indirection (?)
-  - implement guarded routes, remove manual auth logic wherever necessary
 
 - AppNav
   - split the various `renderX` functions into their own components
