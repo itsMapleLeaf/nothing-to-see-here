@@ -1,4 +1,5 @@
-- make a "Go back" link component
+- CharacterPage
+  - mistakenly pulls character data from the `CharacterListStore` instead of directly from the `characters` collection on firestore. fix that
 
 - App
   - use render functions for more clarity and less prop indirection (?)
@@ -10,6 +11,7 @@
 
 - LoginPage
   - turn this into a modal instead of its own page, for convenience
+  - make the login fields required
 
 - styles
   - make some helpers for flex and other stuff
