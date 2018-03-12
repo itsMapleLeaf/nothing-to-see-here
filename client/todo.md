@@ -1,5 +1,5 @@
-- CharacterPage
-  - mistakenly pulls character data from the `CharacterListStore` instead of directly from the `characters` collection on firestore. fix that
+- make a proper character model, which pulls info from a firebase document reference
+- consider merging `routes` folders into `components` for less confusion?
 
 - App
   - use render functions for more clarity and less prop indirection (?)
