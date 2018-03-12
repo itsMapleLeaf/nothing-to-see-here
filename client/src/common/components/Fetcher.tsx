@@ -2,14 +2,14 @@ import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import React from "react"
 
-type FetcherProps<T> = {
+export type FetcherProps<T> = {
   id: string
   longWaitTimeout?: number
   fetch: (id: string) => Promise<T>
   render: (fetchState: FetchState<T>) => React.ReactNode
 }
 
-type FetchState<T> =
+export type FetchState<T> =
   | { state: "idle" }
   | { state: "fetching" }
   | { state: "fetching-long" }
