@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom"
 
 import { routePaths } from "../../../routePaths"
 import { Button, Input, Label, TextArea } from "../../../styles/formElements"
-import { CharacterModel } from "../../models/CharacterModel";
+import { CharacterModel } from "../../models/CharacterModel"
 
 export class CharacterEditForm extends React.Component<{ character: CharacterModel }> {
   state = {
@@ -12,11 +12,11 @@ export class CharacterEditForm extends React.Component<{ character: CharacterMod
     saved: false,
   }
 
-  changeHandler = (field: string) => (event: React.ChangeEvent<any>) => {
+  changeHandler = (field: string) => (event: React.ChangeEvent<{ value: string }>) => {
     this.setState({ [field]: event.currentTarget.value })
   }
 
-  handleSubmit = async (event: React.FormEvent<any>) => {
+  handleSubmit = async (event: React.FormEvent<{}>) => {
     event.preventDefault()
     this.setState({ saved: true })
   }

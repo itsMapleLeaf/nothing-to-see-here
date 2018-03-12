@@ -23,7 +23,7 @@ export class Dropdown extends React.Component<Props, State> {
     this.setState({ dropdownVisible: false })
   }
 
-  toggle = (event: React.MouseEvent<any>) => {
+  toggle = (event: React.MouseEvent<{}>) => {
     event.preventDefault()
     this.setState(state => ({ dropdownVisible: !state.dropdownVisible }))
   }

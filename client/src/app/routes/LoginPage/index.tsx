@@ -15,7 +15,7 @@ export class LoginPage extends React.Component<{ authStore: AuthStore }> {
     password: "",
   }
 
-  handleSubmit = (event: React.FormEvent<any>) => {
+  handleSubmit = (event: React.FormEvent<{}>) => {
     event.preventDefault()
 
     this.props.authStore.signIn(this.state.email, this.state.password).catch(error => {
