@@ -1,16 +1,14 @@
-import { History } from "history"
 import { observer } from "mobx-react"
 import React from "react"
 import { RouteComponentProps } from "react-router-dom"
 
+import { BackLink } from "../../../app/components/BackLink"
 import { StoreConsumer } from "../../../storeContext"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
-import { Link } from "../../../styles/link"
 import { CharacterEditForm } from "./CharacterEditForm"
 
 type Props = {
   character: any
-  history: History
 }
 
 @observer
@@ -25,9 +23,7 @@ class CharacterEditPageComponent extends React.Component<Props> {
         <>
           <PageTitle>Character not found</PageTitle>
           <PageSection>
-            <Link href="#" onClick={() => this.props.history.goBack()}>
-              Go back
-            </Link>
+            <BackLink />
           </PageSection>
         </>
       )
@@ -49,7 +45,6 @@ export const CharacterEditPage = (props: RouteComponentProps<{ id: string }>) =>
     {stores => (
       <CharacterEditPageComponent
         character={stores.characterListStore.getCharacter(props.match.params.id)}
-        history={props.history}
       />
     )}
   </StoreConsumer>
