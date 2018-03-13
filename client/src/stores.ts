@@ -4,8 +4,8 @@ import { AuthStore } from "./auth/stores/AuthStore"
 import { CharacterListStore } from "./character/stores/CharacterListStore"
 
 export class RootStore {
-  authStore = new AuthStore(this.firebase)
-  characterListStore = new CharacterListStore(this.firebase)
+  authStore = new AuthStore(this.firebaseApp)
+  characterListStore = new CharacterListStore(this.firebaseApp)
 
-  constructor(public firebase: firebase.app.App) {}
+  constructor(public firebaseApp: firebase.app.App) {}
 }

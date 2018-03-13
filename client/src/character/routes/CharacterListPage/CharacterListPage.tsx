@@ -7,8 +7,8 @@ import { StoreConsumer } from "../../../storeContext"
 import { Input } from "../../../styles/formElements"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
 import { FadedText } from "../../../styles/text"
+import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterListItem } from "./CharacterListItem"
-import { CharacterModel } from "../../models/CharacterModel";
 
 @observer
 export class CharacterListPage extends React.Component {

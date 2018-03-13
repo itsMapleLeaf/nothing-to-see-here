@@ -17,7 +17,7 @@ export class AuthStore {
 
   @computed
   get isSignedIn() {
-    return this.user != null
+    return this.user !== null
   }
 
   signIn(email: string, password: string) {

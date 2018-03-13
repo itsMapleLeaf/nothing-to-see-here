@@ -6,10 +6,10 @@ import { CharacterModel } from "../models/CharacterModel"
 export class CharacterListStore {
   @observable characters = [] as CharacterModel[]
 
-  constructor(app: app.App) {
+  constructor(firebaseApp: app.App) {
     let unsubscribe: undefined | Unsubscribe
 
-    app.auth().onAuthStateChanged(user => {
+    firebaseApp.auth().onAuthStateChanged(user => {
       if (unsubscribe) {
         unsubscribe()
       }
@@ -19,12 +19,12 @@ export class CharacterListStore {
         return
       }
 
-      unsubscribe = app
+      unsubscribe = firebaseApp
         .firestore()
         .doc("users/" + user.uid)
         .onSnapshot(async userSnapshot => {
           const userData = userSnapshot.data()
-          const characterRefs = userData.characters as Array<firestore.DocumentReference>
+          const characterRefs = userData.characters as firestore.DocumentReference[]
           const characterSnaps = await Promise.all(characterRefs.map(char => char.get()))
           const characters = characterSnaps.map(snap => new CharacterModel(snap))
           this.setCharacters(characters)

@@ -43,11 +43,13 @@ export class Fetcher<T> extends React.Component<FetcherProps<T>> {
   }
 
   componentDidMount() {
+    // tslint:disable-next-line
     this.doFetch(this.props.id)
   }
 
   componentWillReceiveProps(nextProps: FetcherProps<T>) {
     if (this.props.id !== nextProps.id) {
+      // tslint:disable-next-line
       this.doFetch(nextProps.id)
     }
   }

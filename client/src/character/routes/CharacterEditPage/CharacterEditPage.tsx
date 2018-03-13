@@ -19,7 +19,7 @@ class CharacterEditPageComponent extends React.Component<Props> {
   }
 
   renderPageContent() {
-    if (this.props.character == null) {
+    if (!this.props.character) {
       return (
         <>
           <PageTitle>Character not found</PageTitle>
