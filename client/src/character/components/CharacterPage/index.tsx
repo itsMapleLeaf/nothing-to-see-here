@@ -14,8 +14,8 @@ export function CharacterPage(props: { id: string }) {
   return (
     <PageWrapperPanel>
       <CharacterDetailsFetcher
-        id={props.id}
-        fetch={fetchCharacterDetailsById}
+        key={props.id}
+        fetch={() => fetchCharacterDetailsById(props.id)}
         render={state => (
           <React.Fragment>
             {renderFetchResult(state)}

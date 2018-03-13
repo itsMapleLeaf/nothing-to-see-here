@@ -3,9 +3,8 @@ import { observer } from "mobx-react"
 import * as React from "react"
 
 export type FetcherProps<T> = {
-  id: string
   longWaitTimeout?: number
-  fetch: (id: string) => Promise<T>
+  fetch: () => Promise<T>
   render: (fetchState: FetchState<T>) => React.ReactNode
 }
 
@@ -25,7 +24,7 @@ export class Fetcher<T> extends React.Component<FetcherProps<T>> {
     this.fetchState = fetchState
   }
 
-  async doFetch(id: string) {
+  async doFetch() {
     this.setFetchState({ state: "fetching" })
 
     setTimeout(() => {
@@ -35,7 +34,7 @@ export class Fetcher<T> extends React.Component<FetcherProps<T>> {
     }, this.props.longWaitTimeout || 2500)
 
     try {
-      const data = await this.props.fetch(id)
+      const data = await this.props.fetch()
       this.setFetchState({ state: "success", data })
     } catch (error) {
       this.setFetchState({ state: "error", error })
@@ -44,16 +43,8 @@ export class Fetcher<T> extends React.Component<FetcherProps<T>> {
 
   componentDidMount() {
     // tslint:disable-next-line
-    this.doFetch(this.props.id)
+    this.doFetch()
   }
-
-  componentWillReceiveProps(nextProps: FetcherProps<T>) {
-    if (this.props.id !== nextProps.id) {
-      // tslint:disable-next-line
-      this.doFetch(nextProps.id)
-    }
-  }
-
   render() {
     return this.props.render(this.fetchState)
   }
