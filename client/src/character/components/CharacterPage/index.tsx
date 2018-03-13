@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { LoadingCover } from "../../../app/components/LoadingCover"
 import { createFetcher, FetchState } from "../../../common/components/Fetcher"
-import { PageWrapper } from "../../../styles/layout"
+import { PageWrapper } from "../../../styles/elements/layout"
 import { fetchCharacterDetailsById } from "../../actions"
 import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterPageDetails } from "./CharacterPageDetails"
@@ -19,10 +19,9 @@ export function CharacterPage(props: { id: string }) {
         render={state => (
           <React.Fragment>
             {renderFetchResult(state)}
-            <LoadingCover
-              message="Fetching character details..."
-              visible={state.state === "fetching-long"}
-            />
+            {state.state === "fetching-long" && (
+              <LoadingCover message="Fetching character details..." />
+            )}
           </React.Fragment>
         )}
       />

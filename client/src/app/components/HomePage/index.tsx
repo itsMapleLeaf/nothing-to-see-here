@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
+import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
 
 export class HomePage extends React.Component {
   render() {

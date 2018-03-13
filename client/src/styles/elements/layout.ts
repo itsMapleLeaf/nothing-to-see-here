@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
 
-import { foregroundColor, shadowColor } from "./colors"
+import { foregroundColor, shadowColor } from "../colors"
 
 export const raisedPanelStyles = css`
   background-color: ${foregroundColor};

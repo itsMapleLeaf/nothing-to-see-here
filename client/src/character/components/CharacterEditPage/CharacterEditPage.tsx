@@ -3,7 +3,7 @@ import * as React from "react"
 
 import { BackLink } from "../../../app/components/BackLink"
 import { StoreConsumer } from "../../../storeContext"
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
+import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
 import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterEditForm } from "./CharacterEditForm"
 

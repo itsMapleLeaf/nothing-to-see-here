@@ -4,9 +4,9 @@ import { observer } from "mobx-react"
 import * as React from "react"
 
 import { StoreConsumer } from "../../../storeContext"
-import { Input } from "../../../styles/formElements"
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
-import { FadedText } from "../../../styles/text"
+import { Input } from "../../../styles/elements/formElements"
+import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
+import { FadedText } from "../../../styles/elements/text"
 import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterListItem } from "./CharacterListItem"
 

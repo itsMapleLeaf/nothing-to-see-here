@@ -1,7 +1,7 @@
 import { darken } from "polished"
 import styled, { css } from "styled-components"
 
-import { foregroundColorShade, shadowColor } from "./colors"
+import { foregroundColorShade, shadowColor } from "../colors"
 
 const inputBaseStyles = css`
   display: block;
@@ -28,12 +28,26 @@ export const TextArea = styled.textarea`
   font: inherit;
 `
 
+const flatButtonStyle = css`
+  background: transparent;
+  opacity: 0.7;
+
+  &:hover {
+    background: transparent;
+    opacity: 1;
+  }
+`
+
 export const Button = styled.button`
   border: none;
-  background: ${darken(0.03, foregroundColorShade)};
   padding: 0.5rem 0.75rem;
+  cursor: pointer;
+
+  background: ${darken(0.03, foregroundColorShade)};
 
   &:hover {
     background: ${darken(0.05, foregroundColorShade)};
   }
+
+  ${(props: { flat?: boolean }) => props.flat ? flatButtonStyle : ''};
 `

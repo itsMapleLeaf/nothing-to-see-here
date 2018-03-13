@@ -1,30 +1,14 @@
 import { observer } from "mobx-react"
 import * as React from "react"
-import styled from "styled-components"
 
 import { StoreConsumer } from "../../../storeContext"
-import { Button, Input, Label } from "../../../styles/formElements"
-import { PageSection, PageTitle, RaisedPanel } from "../../../styles/layout"
-
-const Shade = styled.div`
-  background-color: rgba(0, 0, 0, 0.3);
-
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  transition: 0.3s;
-`
+import { Button, Input, Label } from "../../../styles/elements/formElements"
+import { PageSection, PageTitle, RaisedPanel } from "../../../styles/elements/layout"
+import { Shade } from "../../../styles/elements/shade"
 
 type Props = {
   onSubmit: (email: string, password: string) => void
+  onClose: () => void
 }
 
 @observer
@@ -70,7 +54,8 @@ class LoginForm extends React.Component<Props> {
               </fieldset>
 
               <fieldset>
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Submit</Button>{' '}
+                <Button flat onClick={() => this.props.onClose()} >Go back</Button>
               </fieldset>
             </form>
           </PageSection>
@@ -93,6 +78,9 @@ export const LoginModal = () => (
             .catch(error => {
               alert(error)
             })
+        }}
+        onClose={() => {
+          stores.appViewStore.hideLogin()
         }}
       />
     )}

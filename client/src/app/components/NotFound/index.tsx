@@ -1,8 +1,8 @@
 import * as React from "react"
 
 import { routePaths } from "../../../routePaths"
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"
-import { RouterLink } from "../../../styles/link"
+import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
+import { RouterLink } from "../../../styles/elements/link"
 
 export function NotFound() {
   return (

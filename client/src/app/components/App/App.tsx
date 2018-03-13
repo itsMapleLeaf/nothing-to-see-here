@@ -49,9 +49,9 @@ export class App extends React.Component {
           </Switch>
 
           <StoreConsumer>
-            {({ authStore }) => (
-              <LoadingCover visible={!authStore.authCheckFinished} message="Logging in..." />
-            )}
+            {({ authStore }) =>
+              authStore.authCheckFinished || <LoadingCover message="Logging in..." />
+            }
           </StoreConsumer>
 
           <StoreConsumer>

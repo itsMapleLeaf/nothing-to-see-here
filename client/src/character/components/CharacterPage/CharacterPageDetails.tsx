@@ -3,8 +3,8 @@ import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
-import { PageSection, PageTitle } from "../../../styles/layout"
-import { Link, RouterLink } from "../../../styles/link"
+import { PageSection, PageTitle } from "../../../styles/elements/layout"
+import { Link, RouterLink } from "../../../styles/elements/link"
 import { CharacterModel } from "../../models/CharacterModel"
 
 const Actions = styled(PageSection)`

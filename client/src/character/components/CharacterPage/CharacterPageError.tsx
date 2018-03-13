@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { PageSection, PageTitle } from "../../../styles/layout"
+import { PageSection, PageTitle } from "../../../styles/elements/layout"
 
 export function CharacterPageError(props: { error: any }) {
   return (
