@@ -2,7 +2,7 @@ import * as React from "react"
 import { Redirect } from "react-router-dom"
 
 import { routePaths } from "../../../routePaths"
-import { Button, Input, Label, TextArea } from "../../../styles/elements/formElements"
+import { Button, Input, Label, TextArea } from "../../../styles/elements"
 import { CharacterModel } from "../../models/CharacterModel"
 
 export class CharacterEditForm extends React.Component<{ character: CharacterModel }> {

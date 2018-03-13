@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
-import { PageSection, PageTitle } from "../../../styles/elements/layout"
+import { PageSection, PageTitle } from "../../../styles/elements/page"
 import { Link, RouterLink } from "../../../styles/elements/link"
 import { CharacterModel } from "../../models/CharacterModel"
 

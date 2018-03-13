@@ -4,9 +4,13 @@ import { observer } from "mobx-react"
 import * as React from "react"
 
 import { StoreConsumer } from "../../../storeContext"
-import { Input } from "../../../styles/elements/formElements"
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
-import { FadedText } from "../../../styles/elements/text"
+import {
+  FadedText,
+  Input,
+  PageSection,
+  PageTitle,
+  PageWrapperPanel,
+} from "../../../styles/elements"
 import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterListItem } from "./CharacterListItem"
 
@@ -27,7 +31,7 @@ export class CharacterListPage extends React.Component {
 
   render() {
     return (
-      <PageWrapper>
+      <PageWrapperPanel>
         <PageTitle>Characters</PageTitle>
 
         <PageSection>
@@ -42,7 +46,7 @@ export class CharacterListPage extends React.Component {
         <StoreConsumer>
           {({ characterListStore }) => this.renderCharacters(characterListStore.characters)}
         </StoreConsumer>
-      </PageWrapper>
+      </PageWrapperPanel>
     )
   }
 

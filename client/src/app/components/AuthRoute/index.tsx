@@ -2,7 +2,7 @@ import * as React from "react"
 import { Route, RouteProps } from "react-router-dom"
 
 import { StoreConsumer } from "../../../storeContext"
-import { PageSection, PageWrapper } from "../../../styles/elements/layout"
+import { PageSection, PageWrapperPanel } from "../../../styles/elements/page"
 import { Link } from "../../../styles/elements/link"
 
 export const AuthRoute = (props: RouteProps) => (
@@ -11,11 +11,11 @@ export const AuthRoute = (props: RouteProps) => (
       stores.authStore.isSignedIn ? (
         <Route {...props} />
       ) : (
-        <PageWrapper>
+        <PageWrapperPanel>
           <PageSection>
             You must <Link onClick={stores.appViewStore.showLogin}>log in</Link> to view this page.
           </PageSection>
-        </PageWrapper>
+        </PageWrapperPanel>
       )
     }
   </StoreConsumer>

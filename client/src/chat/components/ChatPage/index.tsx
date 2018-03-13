@@ -2,8 +2,7 @@ import * as React from "react"
 import styled from "styled-components"
 
 import { foregroundColor, shadowColor } from "../../../styles/colors"
-import { Button, TextArea } from "../../../styles/elements/formElements"
-import { RaisedPanel } from "../../../styles/elements/layout"
+import { Button, RaisedPanel, TextArea } from "../../../styles/elements"
 
 const ChatPageWrapper = styled.main`
   flex-grow: 1;

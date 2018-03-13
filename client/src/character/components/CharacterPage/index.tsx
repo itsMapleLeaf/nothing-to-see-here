@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { LoadingCover } from "../../../app/components/LoadingCover"
 import { createFetcher, FetchState } from "../../../common/components/Fetcher"
-import { PageWrapper } from "../../../styles/elements/layout"
+import { PageWrapperPanel } from "../../../styles/elements/page"
 import { fetchCharacterDetailsById } from "../../actions"
 import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterPageDetails } from "./CharacterPageDetails"
@@ -12,7 +12,7 @@ const CharacterDetailsFetcher = createFetcher<CharacterModel>()
 
 export function CharacterPage(props: { id: string }) {
   return (
-    <PageWrapper>
+    <PageWrapperPanel>
       <CharacterDetailsFetcher
         id={props.id}
         fetch={fetchCharacterDetailsById}
@@ -25,7 +25,7 @@ export function CharacterPage(props: { id: string }) {
           </React.Fragment>
         )}
       />
-    </PageWrapper>
+    </PageWrapperPanel>
   )
 
   function renderFetchResult(state: FetchState<CharacterModel>) {

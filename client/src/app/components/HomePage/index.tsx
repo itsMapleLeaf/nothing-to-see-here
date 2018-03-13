@@ -1,14 +1,14 @@
 import * as React from "react"
 
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
+import { PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements/page"
 
 export class HomePage extends React.Component {
   render() {
     return (
-      <PageWrapper>
+      <PageWrapperPanel>
         <PageTitle>nothing here yet</PageTitle>
         <PageSection>lol</PageSection>
-      </PageWrapper>
+      </PageWrapperPanel>
     )
   }
 }

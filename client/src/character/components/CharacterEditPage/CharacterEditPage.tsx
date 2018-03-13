@@ -3,7 +3,7 @@ import * as React from "react"
 
 import { BackLink } from "../../../app/components/BackLink"
 import { StoreConsumer } from "../../../storeContext"
-import { PageSection, PageTitle, PageWrapper } from "../../../styles/elements/layout"
+import { PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements/page"
 import { CharacterModel } from "../../models/CharacterModel"
 import { CharacterEditForm } from "./CharacterEditForm"
 
@@ -14,7 +14,7 @@ type Props = {
 @observer
 class CharacterEditPageComponent extends React.Component<Props> {
   render() {
-    return <PageWrapper>{this.renderPageContent()}</PageWrapper>
+    return <PageWrapperPanel>{this.renderPageContent()}</PageWrapperPanel>
   }
 
   renderPageContent() {

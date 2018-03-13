@@ -2,8 +2,7 @@ import { observer } from "mobx-react"
 import * as React from "react"
 
 import { StoreConsumer } from "../../../storeContext"
-import { Button, Input, Label } from "../../../styles/elements/formElements"
-import { PageSection, PageTitle, RaisedPanel } from "../../../styles/elements/layout"
+import { Button, Input, Label, PageSection, PageTitle, RaisedPanel } from "../../../styles/elements"
 import { Shade } from "../../../styles/elements/shade"
 
 type Props = {
@@ -54,8 +53,10 @@ class LoginForm extends React.Component<Props> {
               </fieldset>
 
               <fieldset>
-                <Button type="submit">Submit</Button>{' '}
-                <Button flat onClick={() => this.props.onClose()} >Go back</Button>
+                <Button type="submit">Submit</Button>{" "}
+                <Button flat onClick={() => this.props.onClose()}>
+                  Go back
+                </Button>
               </fieldset>
             </form>
           </PageSection>
