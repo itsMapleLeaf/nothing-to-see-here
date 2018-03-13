@@ -12,7 +12,7 @@ import { AppNav } from "../AppNav"
 import { AuthRoute } from "../AuthRoute"
 import { HomePage } from "../HomePage"
 import { LoadingCover } from "../LoadingCover"
-import { LoginPageContainer } from "../LoginPage"
+import { LoginModal } from "../LoginModal"
 import { NotFound } from "../NotFound"
 
 const AppWrapper = styled.main`
@@ -30,7 +30,6 @@ export class App extends React.Component {
 
           <Switch>
             <Route exact path={routePaths.home} render={() => <HomePage />} />
-            <Route exact path={routePaths.login} render={() => <LoginPageContainer />} />
 
             <AuthRoute exact path={routePaths.characterList} render={() => <CharacterListPage />} />
             <Route
@@ -50,9 +49,15 @@ export class App extends React.Component {
           </Switch>
 
           <StoreConsumer>
-            {stores => (
-              <LoadingCover visible={!stores.authStore.authCheckFinished} message="Logging in..." />
+            {({ authStore }) => (
+              <LoadingCover visible={!authStore.authCheckFinished} message="Logging in..." />
             )}
+          </StoreConsumer>
+
+          <StoreConsumer>
+            {({ appViewStore, authStore }) =>
+              appViewStore.loginVisible && !authStore.isSignedIn && <LoginModal />
+            }
           </StoreConsumer>
         </AppWrapper>
       </BrowserRouter>
