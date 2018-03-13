@@ -3,8 +3,8 @@ import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
+import { StyledLink, StyledRouterLink } from "../../../styles/elements/link"
 import { PageSection, PageTitle } from "../../../styles/elements/page"
-import { Link, RouterLink } from "../../../styles/elements/link"
 import { CharacterModel } from "../../models/CharacterModel"
 
 const Actions = styled(PageSection)`
@@ -20,12 +20,12 @@ export function CharacterPageDetails({ character }: { character: CharacterModel 
       <PageSection>{character.tagline}</PageSection>
       <hr />
       <Actions>
-        <RouterLink to={routePaths.editCharacter(character.id)}>
+        <StyledRouterLink to={routePaths.editCharacter(character.id)}>
           <i className="fas fa-edit" /> Edit
-        </RouterLink>{" "}
-        <Link onClick={() => alert("not implemented!")} color={danger}>
+        </StyledRouterLink>{" "}
+        <StyledLink onClick={() => alert("not implemented!")} color={danger}>
           <i className="fas fa-trash" /> Delete
-        </Link>
+        </StyledLink>
       </Actions>
     </React.Fragment>
   )

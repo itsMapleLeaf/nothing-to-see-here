@@ -1,4 +1,4 @@
-import { Link as ReactRouterLink } from "react-router-dom"
+import { Link as RouterLink } from "react-router-dom"
 import styled, { css } from "styled-components"
 
 import { primary, textColor } from "../colors"
@@ -15,10 +15,10 @@ const linkStyles = css`
   }
 `
 
-export const Link = styled.a`
+export const StyledLink = styled.a`
   ${linkStyles};
 `
 
-export const RouterLink = styled(ReactRouterLink)`
+export const StyledRouterLink = styled(RouterLink)`
   ${linkStyles};
 `

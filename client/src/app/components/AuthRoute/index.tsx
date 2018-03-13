@@ -2,7 +2,7 @@ import * as React from "react"
 import { Route, RouteProps } from "react-router-dom"
 
 import { StoreConsumer } from "../../../storeContext"
-import { Link, PageSection, PageWrapperPanel } from "../../../styles/elements"
+import { PageSection, PageWrapperPanel, StyledLink } from "../../../styles/elements"
 
 export const AuthRoute = (props: RouteProps) => (
   <StoreConsumer>
@@ -12,7 +12,8 @@ export const AuthRoute = (props: RouteProps) => (
       ) : (
         <PageWrapperPanel>
           <PageSection>
-            You must <Link onClick={stores.appViewStore.showLogin}>log in</Link> to view this page.
+            You must <StyledLink onClick={stores.appViewStore.showLogin}>log in</StyledLink> to view
+            this page.
           </PageSection>
         </PageWrapperPanel>
       )
