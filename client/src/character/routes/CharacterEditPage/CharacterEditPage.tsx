@@ -1,6 +1,5 @@
 import { observer } from "mobx-react"
 import * as React from "react"
-import { RouteComponentProps } from "react-router-dom"
 
 import { BackLink } from "../../../app/components/BackLink"
 import { StoreConsumer } from "../../../storeContext"
@@ -41,12 +40,10 @@ class CharacterEditPageComponent extends React.Component<Props> {
   }
 }
 
-export const CharacterEditPage = (props: RouteComponentProps<{ id: string }>) => (
+export const CharacterEditPage = (props: { id: string }) => (
   <StoreConsumer>
     {stores => (
-      <CharacterEditPageComponent
-        character={stores.characterListStore.getCharacter(props.match.params.id)}
-      />
+      <CharacterEditPageComponent character={stores.characterListStore.getCharacter(props.id)} />
     )}
   </StoreConsumer>
 )

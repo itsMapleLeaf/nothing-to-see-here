@@ -1,5 +1,4 @@
 import * as React from "react"
-import { RouteComponentProps } from "react-router"
 
 import { LoadingCover } from "../../../app/components/LoadingCover"
 import { createFetcher, FetchState } from "../../../common/components/Fetcher"
@@ -11,11 +10,11 @@ import { CharacterPageError } from "./CharacterPageError"
 
 const CharacterDetailsFetcher = createFetcher<CharacterModel>()
 
-export function CharacterPage(props: RouteComponentProps<{ id: string }>) {
+export function CharacterPage(props: { id: string }) {
   return (
     <PageWrapper>
       <CharacterDetailsFetcher
-        id={props.match.params.id}
+        id={props.id}
         fetch={fetchCharacterDetailsById}
         render={state => (
           <React.Fragment>

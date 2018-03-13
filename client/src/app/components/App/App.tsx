@@ -33,8 +33,8 @@ export class App extends React.Component {
             <Route exact path={routePaths.home} render={() => <HomePage />} />
             <Route exact path={routePaths.login} render={() => <LoginPageContainer />} />
             <AuthRoute exact path={routePaths.characterList} render={() => <CharacterListPage />} />
-            <Route exact path={routePaths.viewCharacter(":id")} render={props => <CharacterPage {...props} />} />
-            <AuthRoute exact path={routePaths.editCharacter(":id")} render={props => <CharacterEditPage {...props} />} />
+            <Route exact path={routePaths.viewCharacter(":id")} render={({ match }) => <CharacterPage id={match.params.id} />} />
+            <AuthRoute exact path={routePaths.editCharacter(":id")} render={({ match }) => <CharacterEditPage id={match.params.id} />} />
             <AuthRoute exact path={routePaths.chat} render={() => <ChatPage />} />
             <Route render={() => <NotFound />} />
           </Switch>
