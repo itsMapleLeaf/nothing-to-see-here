@@ -17,4 +17,8 @@
 - CharacterEditForm
   - use mobx observables (?)
 
+- CharacterPage
+  - consider renaming to `CharacterViewPage` or similar
+  - consider restructuring it and whether the `Fetcher` abstraction is even needed
+
 - ~~consider using formik for forms~~
