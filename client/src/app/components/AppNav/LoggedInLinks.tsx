@@ -3,43 +3,29 @@ import * as React from "react"
 import { Dropdown } from "../../../common/components/Dropdown"
 import { routePaths } from "../../../routePaths"
 import { StoreConsumer } from "../../../storeContext"
-import { DropdownContentWrapper, NavLink, RouterNavLink } from "./elements"
+import { DropdownContentWrapper } from "./elements"
 import { NavCharacterLinks } from "./NavCharacterLinks"
+import { NavLink } from "./NavLink"
 
 export function LoggedInLinks() {
   return (
     <React.Fragment key="logged-in-links">
       <Dropdown
-        head={
-          <NavLink style={{ height: "100%" }}>
-            {/* NOTE: this span needs to be here to preserve the space between the icon and text */}
-            <span>
-              <i className="fas fa-users" /> Characters
-            </span>
-          </NavLink>
-        }
+        head={<NavLink text="Characters" icon="users" />}
         content={
           <DropdownContentWrapper>
-            <RouterNavLink to={routePaths.characterList}>Your Characters</RouterNavLink>
+            <NavLink to={routePaths.characterList} text="Your Characters" />
             <hr />
             <NavCharacterLinks />
           </DropdownContentWrapper>
         }
       />
 
-      <RouterNavLink to={routePaths.chat}>
-        <span>
-          <i className="fas fa-comments" /> Chat
-        </span>
-      </RouterNavLink>
+      <NavLink to={routePaths.chat} text="Chat" icon="comments" />
 
       <StoreConsumer>
         {({ authStore }) => (
-          <NavLink onClick={() => authStore.signOut()}>
-            <span>
-              <i className="fas fa-sign-out-alt" /> Log out
-            </span>
-          </NavLink>
+          <NavLink onClick={() => authStore.signOut()} text="Log out" icon="sign-out-alt" />
         )}
       </StoreConsumer>
     </React.Fragment>
