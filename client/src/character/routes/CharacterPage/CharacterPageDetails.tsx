@@ -5,7 +5,7 @@ import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
 import { PageSection, PageTitle } from "../../../styles/layout"
 import { Link, RouterLink } from "../../../styles/link"
-import { CharacterModel } from "../../models/CharacterModel";
+import { CharacterModel } from "../../models/CharacterModel"
 
 const Actions = styled(PageSection)`
   > * + * {
