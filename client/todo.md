@@ -1,5 +1,4 @@
 - consider merging `routes` folders into `components` for less confusion
-- consider using formik for forms
 
 - App
   - use render functions for more clarity and less prop indirection (?)
@@ -17,3 +16,5 @@
 
 - CharacterEditForm
   - use mobx observables (?)
+
+- ~~consider using formik for forms~~
