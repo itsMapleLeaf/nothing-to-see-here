@@ -28,14 +28,15 @@ export class App extends React.Component {
         <AppWrapper>
           <AppNav />
 
+          {/* prettier-ignore */}
           <Switch>
-            <Route exact path={routePaths.home} component={HomePage} />
-            <Route exact path={routePaths.login} component={LoginPageContainer} />
-            <AuthRoute exact path={routePaths.characterList} component={CharacterListPage} />
-            <Route exact path={routePaths.viewCharacter(":id")} component={CharacterPage} />
-            <AuthRoute exact path={routePaths.editCharacter(":id")} component={CharacterEditPage} />
-            <AuthRoute exact path={routePaths.chat} component={ChatPage} />
-            <Route component={NotFound} />
+            <Route exact path={routePaths.home} render={() => <HomePage />} />
+            <Route exact path={routePaths.login} render={() => <LoginPageContainer />} />
+            <AuthRoute exact path={routePaths.characterList} render={() => <CharacterListPage />} />
+            <Route exact path={routePaths.viewCharacter(":id")} render={props => <CharacterPage {...props} />} />
+            <AuthRoute exact path={routePaths.editCharacter(":id")} render={props => <CharacterEditPage {...props} />} />
+            <AuthRoute exact path={routePaths.chat} render={() => <ChatPage />} />
+            <Route render={() => <NotFound />} />
           </Switch>
 
           <StoreConsumer>
