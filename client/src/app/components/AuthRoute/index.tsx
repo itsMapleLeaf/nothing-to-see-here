@@ -2,8 +2,7 @@ import * as React from "react"
 import { Route, RouteProps } from "react-router-dom"
 
 import { StoreConsumer } from "../../../storeContext"
-import { PageSection, PageWrapperPanel } from "../../../styles/elements/page"
-import { Link } from "../../../styles/elements/link"
+import { Link, PageSection, PageWrapperPanel } from "../../../styles/elements"
 
 export const AuthRoute = (props: RouteProps) => (
   <StoreConsumer>
