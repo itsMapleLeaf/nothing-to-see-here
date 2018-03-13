@@ -10,7 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true
   },

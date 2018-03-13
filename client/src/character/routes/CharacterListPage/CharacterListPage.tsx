@@ -1,7 +1,7 @@
 import fuzzysearch from "fuzzysearch"
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
-import React from "react"
+import * as React from "react"
 
 import { StoreConsumer } from "../../../storeContext"
 import { Input } from "../../../styles/formElements"

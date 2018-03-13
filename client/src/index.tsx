@@ -1,8 +1,8 @@
 import "sanitize.css"
 
 import { configure } from "mobx"
-import React from "react"
-import ReactDOM from "react-dom"
+import * as React from "react"
+import * as ReactDOM from "react-dom"
 
 import { App } from "./app/components/App"
 import { initFirebase } from "./firebase"

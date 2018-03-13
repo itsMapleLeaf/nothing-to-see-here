@@ -1,6 +1,6 @@
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
-import React from "react"
+import * as React from "react"
 
 export type FetcherProps<T> = {
   id: string

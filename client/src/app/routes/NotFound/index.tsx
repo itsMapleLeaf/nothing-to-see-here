@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 
 import { routePaths } from "../../../routePaths"
 import { PageSection, PageTitle, PageWrapper } from "../../../styles/layout"

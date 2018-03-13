@@ -1,6 +1,6 @@
 import createReactContext, { ConsumerProps } from "create-react-context"
 import { Observer } from "mobx-react"
-import React from "react"
+import * as React from "react"
 
 import { RootStore } from "./stores"
 
