@@ -1,6 +1,6 @@
 import "sanitize.css"
 
-import { useStrict } from "mobx"
+import { configure } from "mobx"
 import React from "react"
 import ReactDOM from "react-dom"
 
@@ -24,7 +24,7 @@ function render(rootStore: RootStore) {
 }
 
 function main() {
-  useStrict(true)
+  configure({ enforceActions: true })
 
   const app = initFirebase()
   const rootStore = new RootStore(app)
