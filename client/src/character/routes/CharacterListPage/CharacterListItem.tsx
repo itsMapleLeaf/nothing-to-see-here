@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { routePaths } from "../../../routePaths"
 import { primary, textColor } from "../../../styles/colors"
-import { CharacterModel } from "../../models/CharacterModel";
+import { CharacterModel } from "../../models/CharacterModel"
 
 const Wrapper = styled.div`
   display: flex;
