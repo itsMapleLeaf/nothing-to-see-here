@@ -50,6 +50,7 @@ class LoginForm extends React.Component<Props> {
               <fieldset>
                 <Label>Email</Label>
                 <Input
+                  required
                   type="email"
                   placeholder="awesome@email.com"
                   value={this.state.email}
@@ -60,6 +61,7 @@ class LoginForm extends React.Component<Props> {
               <fieldset>
                 <Label>Password</Label>
                 <Input
+                  required
                   type="password"
                   placeholder="••••••••"
                   value={this.state.password}
