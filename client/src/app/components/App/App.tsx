@@ -8,12 +8,12 @@ import { CharacterPage } from "../../../character/components/CharacterPage"
 import { ChatPage } from "../../../chat/components/ChatPage"
 import { routePaths } from "../../../routePaths"
 import { StoreConsumer } from "../../../storeContext"
+import { AppNav } from "../AppNav"
+import { AuthRoute } from "../AuthRoute"
 import { HomePage } from "../HomePage"
+import { LoadingCover } from "../LoadingCover"
 import { LoginPageContainer } from "../LoginPage"
 import { NotFound } from "../NotFound"
-import { AuthRoute } from "../AuthRoute"
-import { LoadingCover } from "../LoadingCover"
-import { AppNav } from "./AppNav"
 
 const AppWrapper = styled.main`
   display: flex;
