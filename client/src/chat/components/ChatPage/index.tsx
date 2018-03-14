@@ -1,6 +1,7 @@
 import * as React from "react"
 import styled from "styled-components"
 
+import { Icon } from "../../../app/components/Icon"
 import { foregroundColor, shadowColor } from "../../../styles/colors"
 import { Button, RaisedPanel, TextArea } from "../../../styles/elements"
 
@@ -71,11 +72,11 @@ export class ChatPage extends React.Component {
       <ChatPageWrapper>
         <Header>
           <a href="#">
-            <i className="fas fa-bars" />
+            <Icon name="bars" />
           </a>
           <h3>room name</h3>
           <a href="#">
-            <i className="fas fa-users" />
+            <Icon name="users" />
           </a>
         </Header>
         <MessageList>

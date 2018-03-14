@@ -2,6 +2,7 @@ import * as React from "react"
 import styled from "styled-components"
 
 import { Shade } from "../../../styles/elements/shade"
+import { Icon } from "../Icon"
 
 type Props = {
   message: string
@@ -15,7 +16,7 @@ const Message = styled.h2`
 export function LoadingCover(props: Props) {
   return (
     <Shade>
-      <i className="fas fa-circle-notch fa-4x fa-spin" />
+      <Icon name="circle-notch" size="4x" spin />
       <Message>{props.message}</Message>
     </Shade>
   )

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import { foregroundColor, foregroundColorHighlight, primary } from "../../../styles/colors"
+import { Icon } from "../Icon"
 
 type Props = {
   text: string
@@ -16,7 +17,7 @@ export function NavLink(props: Props) {
     <NavLinkWrapper to={props.to || "#"} onClick={props.onClick}>
       {/* NOTE: span is needed to preserve the space between the icon and text */}
       <span>
-        <i className={props.icon ? `fas fa-${props.icon}` : ""} /> {props.text}
+        {props.icon && <Icon name={props.icon} />} {props.text}
       </span>
     </NavLinkWrapper>
   )

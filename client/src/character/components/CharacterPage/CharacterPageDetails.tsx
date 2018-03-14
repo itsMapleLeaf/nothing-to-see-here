@@ -1,6 +1,7 @@
 import * as React from "react"
 import styled from "styled-components"
 
+import { Icon } from "../../../app/components/Icon"
 import { routePaths } from "../../../routePaths"
 import { danger } from "../../../styles/colors"
 import { StyledLink, StyledRouterLink } from "../../../styles/elements/link"
@@ -21,10 +22,10 @@ export function CharacterPageDetails({ character }: { character: CharacterModel 
       <hr />
       <Actions>
         <StyledRouterLink to={routePaths.editCharacter(character.id)}>
-          <i className="fas fa-edit" /> Edit
+          <Icon name="edit" /> Edit
         </StyledRouterLink>{" "}
         <StyledLink onClick={() => alert("not implemented!")} color={danger}>
-          <i className="fas fa-trash" /> Delete
+          <Icon name="trash" /> Delete
         </StyledLink>
       </Actions>
     </React.Fragment>
