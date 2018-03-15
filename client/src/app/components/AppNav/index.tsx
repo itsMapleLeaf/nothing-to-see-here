@@ -8,32 +8,32 @@ import { routePaths } from "../../../routePaths"
 import { linkStyles, raisedPanelStyles } from "../../../styles/elements"
 
 export const AppNav = observer(() => (
-  <AppNavPanel>
-    <AppNavTitle>RP website</AppNavTitle>
-    <AppNavLinkList>
-      <AppNavLink to={routePaths.home}>home</AppNavLink>
+  <Panel>
+    <Title>RP website</Title>
+    <NavLinkList>
+      <NavLink to={routePaths.home}>home</NavLink>
 
       {authStore.user !== null ? (
         <React.Fragment>
-          <AppNavLink to={routePaths.characterList}>your characters</AppNavLink>
-          <AppNavLink to={routePaths.browseCharacters}>browse all characters</AppNavLink>
-          <AppNavLink to={routePaths.newCharacter}>new character</AppNavLink>
-          <AppNavLink to="#" onClick={() => authStore.signOut()}>
+          <NavLink to={routePaths.characterList}>your characters</NavLink>
+          <NavLink to={routePaths.browseCharacters}>browse all characters</NavLink>
+          <NavLink to={routePaths.newCharacter}>new character</NavLink>
+          <NavLink to="#" onClick={() => authStore.signOut()}>
             log out
-          </AppNavLink>
+          </NavLink>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <AppNavLink to="#" onClick={() => authStore.signIn()}>
+          <NavLink to="#" onClick={() => authStore.signIn()}>
             log in
-          </AppNavLink>
+          </NavLink>
         </React.Fragment>
       )}
-    </AppNavLinkList>
-  </AppNavPanel>
+    </NavLinkList>
+  </Panel>
 ))
 
-const AppNavPanel = styled.nav`
+const Panel = styled.nav`
   ${raisedPanelStyles};
 
   display: flex;
@@ -41,11 +41,11 @@ const AppNavPanel = styled.nav`
   flex-wrap: wrap;
 `
 
-const AppNavTitle = styled.h1`
+const Title = styled.h1`
   padding: 0.5rem 1rem;
 `
 
-const AppNavLinkList = styled.div`
+const NavLinkList = styled.div`
   padding: 0;
   margin: 0;
 
@@ -54,7 +54,7 @@ const AppNavLinkList = styled.div`
   flex-wrap: wrap;
 `
 
-const AppNavLink = styled(Link)`
+const NavLink = styled(Link)`
   ${linkStyles};
 
   padding: 0.5rem 1rem;
