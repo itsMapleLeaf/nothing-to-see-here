@@ -1,9 +1,9 @@
-import * as firebase from "firebase/app"
 import { History } from "history"
 import * as React from "react"
 import { Route } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
+import { firebaseApp } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import {
   Button,
@@ -24,7 +24,7 @@ export const NewCharacterPage = () => {
     const { user } = authStore
     if (!user) return
 
-    await firebase
+    await firebaseApp
       .firestore()
       .collection("characters")
       .doc()

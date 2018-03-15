@@ -1,8 +1,8 @@
-import * as firebase from "firebase/app"
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
 
+import { firebaseApp } from "../../../firebase"
 import { PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
 import { CharacterModel } from "../../models/CharacterModel"
 
@@ -16,7 +16,7 @@ export class ViewCharacterPage extends React.Component<{ id: string }> {
   }
 
   async componentDidMount() {
-    const characterDoc = await firebase
+    const characterDoc = await firebaseApp
       .firestore()
       .collection("characters")
       .doc(this.props.id)

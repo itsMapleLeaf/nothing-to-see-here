@@ -1,9 +1,9 @@
-import * as firebase from "firebase/app"
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
 
 import { authStore } from "../../../auth/stores/AuthStore"
+import { firebaseApp } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import {
   PageSection,
@@ -26,7 +26,7 @@ export class CharacterListPage extends React.Component {
     const { user } = authStore
     if (!user) return
 
-    const result = await firebase
+    const result = await firebaseApp
       .firestore()
       .collection("characters")
       .where("owner", "==", user.uid)
