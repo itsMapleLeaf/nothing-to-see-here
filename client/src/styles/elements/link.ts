@@ -5,7 +5,7 @@ import { primary, textColor } from "../colors"
 
 type LinkProps = { color?: string }
 
-const linkStyles = css`
+export const linkStyles = css`
   color: ${({ color }: LinkProps) => color || primary};
   transition: 0.2s;
   cursor: pointer;

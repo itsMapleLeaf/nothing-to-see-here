@@ -1,78 +1,36 @@
+import { observer } from "mobx-react"
 import * as React from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
-import styled from "styled-components"
+import { BrowserRouter, Route, RouteComponentProps, Switch } from "react-router-dom"
 
-import { CharacterEditPage } from "../../../character/components/CharacterEditPage"
+import { authStore } from "../../../auth/stores/AuthStore"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
-import { CharacterPage } from "../../../character/components/CharacterPage"
-import { CreateCharacterPage } from "../../../character/components/CreateCharacterPage"
-import { ChatPage } from "../../../chat/components/ChatPage"
+import { NewCharacterPage } from "../../../character/components/NewCharacterPage"
+import { ViewCharacterPage } from "../../../character/components/ViewCharacterPage"
 import { routePaths } from "../../../routePaths"
-import { StoreConsumer } from "../../../storeContext"
 import { AppNav } from "../AppNav"
 import { AuthRoute } from "../AuthRoute"
 import { HomePage } from "../HomePage"
 import { LoadingCover } from "../LoadingCover"
-import { LoginModal } from "../LoginModal"
-import { NotFound } from "../NotFound"
+import { NotFoundPage } from "../NotFoundPage"
 
-const AppWrapper = styled.main`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`
+export const App = observer(() => (
+  <BrowserRouter>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <AppNav />
 
-export class App extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <AppWrapper>
-          <AppNav />
+      <Switch>
+        <Route exact path={routePaths.home} component={HomePage} />
+        <AuthRoute exact path={routePaths.characterList} component={CharacterListPage} />
+        <AuthRoute exact path={routePaths.newCharacter} component={NewCharacterPage} />
+        <Route exact path={routePaths.viewCharacter(":id")} render={renderViewCharacterPage} />
+        <Route component={NotFoundPage} />
+      </Switch>
 
-          <Switch>
-            <Route exact path={routePaths.home} render={() => <HomePage />} />
+      {authStore.authenticating && <LoadingCover message="Logging in..." />}
+    </div>
+  </BrowserRouter>
+))
 
-            <AuthRoute exact path={routePaths.characterList} render={() => <CharacterListPage />} />
-            <Route
-              exact
-              path={routePaths.viewCharacter(":id")}
-              render={({ match }) => <CharacterPage id={match.params.id} />}
-            />
-            <AuthRoute
-              exact
-              path={routePaths.editCharacter(":id")}
-              render={({ match }) => <CharacterEditPage id={match.params.id} />}
-            />
-            <AuthRoute
-              exact
-              path={routePaths.createCharacter}
-              render={() => (
-                <CreateCharacterPage
-                  fields={{ name: "test name", tagline: "test tagline" }}
-                  onChange={console.log}
-                  onSubmit={console.log}
-                />
-              )}
-            />
-
-            <AuthRoute exact path={routePaths.chat} render={() => <ChatPage />} />
-
-            <Route render={() => <NotFound />} />
-          </Switch>
-
-          <StoreConsumer>
-            {({ authStore }) =>
-              authStore.authCheckFinished || <LoadingCover message="Logging in..." />
-            }
-          </StoreConsumer>
-
-          <StoreConsumer>
-            {({ appViewStore, authStore }) =>
-              appViewStore.loginVisible && !authStore.isSignedIn && <LoginModal />
-            }
-          </StoreConsumer>
-        </AppWrapper>
-      </BrowserRouter>
-    )
-  }
-}
+const renderViewCharacterPage = ({ match }: RouteComponentProps<{ id: string }>) => (
+  <ViewCharacterPage key={match.params.id} id={match.params.id} />
+)

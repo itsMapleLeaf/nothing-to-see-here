@@ -1,22 +1,22 @@
+import { observer } from "mobx-react"
 import * as React from "react"
 import { Route, RouteProps } from "react-router-dom"
 
-import { StoreConsumer } from "../../../storeContext"
-import { PageSection, PageWrapperPanel, StyledLink } from "../../../styles/elements"
+import { authStore } from "../../../auth/stores/AuthStore"
+import { PageSection, PageWrapperPanel } from "../../../styles/elements"
 
-export const AuthRoute = (props: RouteProps) => (
-  <StoreConsumer>
-    {stores =>
-      stores.authStore.isSignedIn ? (
-        <Route {...props} />
-      ) : (
-        <PageWrapperPanel>
-          <PageSection>
-            You must <StyledLink onClick={stores.appViewStore.showLogin}>log in</StyledLink> to view
-            this page.
-          </PageSection>
-        </PageWrapperPanel>
-      )
-    }
-  </StoreConsumer>
+export const AuthRoute = observer((props: RouteProps) => {
+  if (authStore.authenticating) {
+    return null
+  }
+  if (authStore.user === null) {
+    return <AuthPermissionErrorPage />
+  }
+  return <Route {...props} />
+})
+
+const AuthPermissionErrorPage = () => (
+  <PageWrapperPanel>
+    <PageSection>You must be logged in to view this page.</PageSection>
+  </PageWrapperPanel>
 )
