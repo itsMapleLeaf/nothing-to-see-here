@@ -2,8 +2,8 @@ import { observer } from "mobx-react"
 import * as React from "react"
 import { Route, RouteProps } from "react-router-dom"
 
-import { authStore } from "../../../auth/stores/AuthStore"
 import { PageSection, PageWrapperPanel } from "../../../styles/elements"
+import { authStore } from "../../stores/AuthStore"
 
 export const AuthRoute = observer((props: RouteProps) => {
   if (authStore.authenticating) {
