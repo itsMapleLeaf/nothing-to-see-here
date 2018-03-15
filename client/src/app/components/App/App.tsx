@@ -5,6 +5,7 @@ import styled from "styled-components"
 import { CharacterEditPage } from "../../../character/components/CharacterEditPage"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
 import { CharacterPage } from "../../../character/components/CharacterPage"
+import { CreateCharacterPage } from "../../../character/components/CreateCharacterPage"
 import { ChatPage } from "../../../chat/components/ChatPage"
 import { routePaths } from "../../../routePaths"
 import { StoreConsumer } from "../../../storeContext"
@@ -41,6 +42,17 @@ export class App extends React.Component {
               exact
               path={routePaths.editCharacter(":id")}
               render={({ match }) => <CharacterEditPage id={match.params.id} />}
+            />
+            <AuthRoute
+              exact
+              path={routePaths.createCharacter}
+              render={() => (
+                <CreateCharacterPage
+                  fields={{ name: "test name", tagline: "test tagline" }}
+                  onChange={console.log}
+                  onSubmit={console.log}
+                />
+              )}
             />
 
             <AuthRoute exact path={routePaths.chat} render={() => <ChatPage />} />
