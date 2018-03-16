@@ -43,13 +43,16 @@ export class CharacterPage extends React.Component<{ id: string }> {
     }
 
     const result = window.prompt(
-      "Type your character's name if you really really wanna delete them:",
+      "Type your character's name if you really really wanna delete them.",
     )
-    if (result === this.character.name) {
-      await deleteCharacter(this.character.id)
-      this.triggerRedirect()
-    } else {
-      window.alert("Name was incorrect.")
+
+    if (result !== null) {
+      if (result === this.character.name) {
+        await deleteCharacter(this.character.id)
+        this.triggerRedirect()
+      } else {
+        window.alert("Name was incorrect.")
+      }
     }
   }
 
