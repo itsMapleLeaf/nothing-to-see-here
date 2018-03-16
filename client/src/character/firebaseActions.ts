@@ -39,3 +39,7 @@ export function createCharacter(owner: User, values: { name: string; tagline: st
 export function updateCharacter(id: string, values: Partial<CharacterModel>) {
   return charactersCollection.doc(id).update(values)
 }
+
+export function deleteCharacter(id: string) {
+  return charactersCollection.doc(id).delete()
+}
