@@ -1,10 +1,22 @@
 import { User } from "firebase/app"
 
+import { randomInt } from "../common/helpers/random"
 import { firebaseApp } from "../firebase"
 import { CharacterModel } from "./models/CharacterModel"
 
 const store = firebaseApp.firestore()
 const charactersCollection = store.collection("characters")
+
+// lowercases the given name and appends a random 4-digit number
+// useful for creating a pleasing-looking ID name
+function createRandomId(name: string) {
+  const nameId = name
+    .toLowerCase()
+    .replace(/[^a-z]/gi, "-")
+    .replace(/-+/g, "-")
+
+  return `${nameId}-${randomInt(1000, 10000)}`
+}
 
 export async function getCharacterById(id: string) {
   const doc = await charactersCollection.doc(id).get()
@@ -17,7 +29,7 @@ export async function getCharactersOwnedByUser(userId: string) {
 }
 
 export function createCharacter(owner: User, values: { name: string; tagline: string }) {
-  return charactersCollection.doc().set({
+  return charactersCollection.doc(createRandomId(name)).set({
     name: values.name,
     tagline: values.tagline,
     owner: owner.uid,
