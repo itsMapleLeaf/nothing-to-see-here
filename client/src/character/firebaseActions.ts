@@ -28,6 +28,11 @@ export async function getCharactersOwnedByUser(userId: string) {
   return result.docs.map(doc => new CharacterModel(doc))
 }
 
+export async function getAllCharacters(limit: number) {
+  const result = await charactersCollection.limit(limit).get()
+  return result.docs.map(doc => new CharacterModel(doc))
+}
+
 export function createCharacter(owner: User, values: { name: string; tagline: string }) {
   return charactersCollection.doc(createRandomId(name)).set({
     name: values.name,

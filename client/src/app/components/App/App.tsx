@@ -4,6 +4,7 @@ import { BrowserRouter, Route, RouteComponentProps, Switch } from "react-router-
 
 import { AuthRoute } from "../../../auth/components/AuthRoute"
 import { authStore } from "../../../auth/stores/AuthStore"
+import { CharacterBrowsePage } from "../../../character/components/CharacterBrowsePage"
 import { CharacterCreatePage } from "../../../character/components/CharacterCreatePage"
 import { CharacterEditPage } from "../../../character/components/CharacterEditPage"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
@@ -25,6 +26,7 @@ export const App = observer(() => (
         <AuthRoute exact path={routePaths.newCharacter} component={CharacterCreatePage} />
         <AuthRoute exact path={routePaths.editCharacter(":id")} render={renderCharacterEditPage} />
         <Route exact path={routePaths.viewCharacter(":id")} render={renderViewCharacterPage} />
+        <Route exact path={routePaths.browseCharacters} component={CharacterBrowsePage} />
         <Route component={NotFoundPage} />
       </Switch>
 
