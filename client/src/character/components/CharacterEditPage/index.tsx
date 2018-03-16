@@ -1,4 +1,4 @@
-import { Formik, FormikProps } from "formik"
+import { Formik } from "formik"
 import { History } from "history"
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
@@ -7,23 +7,10 @@ import { Route } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
-import {
-  Button,
-  Input,
-  Label,
-  PageSection,
-  PageTitle,
-  PageWrapperPanel,
-} from "../../../ui/elements"
+import { PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
 import { getCharacterById, updateCharacter } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
-
-interface FormValues {
-  name: string
-  description: string
-}
-
-class CharacterEditForm extends Formik<{}, FormValues> {}
+import { CharacterForm, CharacterFormValues } from "../CharacterForm"
 
 interface Props {
   id: string
@@ -49,7 +36,7 @@ export class CharacterEditPage extends React.Component<Props> {
 
     const character = this.character
 
-    const initialValues: FormValues = {
+    const initialValues: CharacterFormValues = {
       name: character.name,
       description: character.tagline,
     }
@@ -60,9 +47,15 @@ export class CharacterEditPage extends React.Component<Props> {
         <PageSection>
           <Route
             render={({ history }) => (
-              <CharacterEditForm
+              <Formik
                 initialValues={initialValues}
-                render={renderForm}
+                render={props => (
+                  <CharacterForm
+                    values={props.values}
+                    onSubmit={props.handleSubmit}
+                    onChange={props.handleChange}
+                  />
+                )}
                 onSubmit={createSubmitHandler(history, character)}
               />
             )}
@@ -73,36 +66,8 @@ export class CharacterEditPage extends React.Component<Props> {
   }
 }
 
-const renderForm = (props: FormikProps<FormValues>) => (
-  <form onSubmit={props.handleSubmit}>
-    <fieldset>
-      <Label>Name</Label>
-      <Input
-        name="name"
-        placeholder="awesome-san"
-        value={props.values.name}
-        onChange={props.handleChange}
-      />
-    </fieldset>
-
-    <fieldset>
-      <Label>Description</Label>
-      <Input
-        name="description"
-        placeholder="an awesome character that does awesome things"
-        value={props.values.description}
-        onChange={props.handleChange}
-      />
-    </fieldset>
-
-    <fieldset>
-      <Button>Submit</Button>
-    </fieldset>
-  </form>
-)
-
 const createSubmitHandler = (history: History, character: CharacterModel) => async (
-  values: FormValues,
+  values: CharacterFormValues,
 ) => {
   const { user } = authStore
   if (!user) return
