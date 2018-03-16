@@ -43,20 +43,20 @@ export class CharacterBrowsePage extends React.Component {
       <PageWrapperPanel>
         <PageTitle>all characters</PageTitle>
 
-        {this.characters.length === 0 && (
+        {this.characters.length === 0 ? (
           <PageSection>
             <FadedText>No results found.</FadedText>
           </PageSection>
+        ) : (
+          this.characters.map(entry => (
+            <PageSection key={entry.id}>
+              <Link className={anchorPrimary} to={routePaths.viewCharacter(entry.id)}>
+                <h2>{entry.name}</h2>
+              </Link>
+              <p>{entry.tagline}</p>
+            </PageSection>
+          ))
         )}
-
-        {this.characters.map(entry => (
-          <PageSection key={entry.id}>
-            <Link className={anchorPrimary} to={routePaths.viewCharacter(entry.id)}>
-              <h2>{entry.name}</h2>
-            </Link>
-            <p>{entry.tagline}</p>
-          </PageSection>
-        ))}
       </PageWrapperPanel>
     )
   }
