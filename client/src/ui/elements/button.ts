@@ -15,7 +15,7 @@ export const baseButtonStyle = css`
   transition: 0.2s;
 `
 
-const filledStyle = (intentColor = foregroundColorShade) => css`
+export const filledStyle = (intentColor = foregroundColorShade) => css`
   color: ${textColor};
   background: ${intentColor};
 
@@ -24,7 +24,7 @@ const filledStyle = (intentColor = foregroundColorShade) => css`
   }
 `
 
-const flatStyle = (intentColor = grayscale(darken(0.3, textColor))) => css`
+export const flatStyle = (intentColor = grayscale(darken(0.3, textColor))) => css`
   background: transparent;
   color: ${intentColor};
 
