@@ -1,9 +1,10 @@
-import { action, observable } from "mobx"
+import { action, computed, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
 import { Link, Redirect } from "react-router-dom"
 
 import { Icon } from "../../../app/components/Icon"
+import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
 import { Button, PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
 import { deleteCharacter, getCharacterById } from "../../firebaseActions"
@@ -24,8 +25,22 @@ export class CharacterPage extends React.Component<{ id: string }> {
     this.shouldRedirect = true
   }
 
+  @computed
+  get isOwned() {
+    return (
+      this.character !== null &&
+      authStore.user !== null &&
+      this.character.owner === authStore.user.uid
+    )
+  }
+
   handleDeleteAction = async () => {
     if (!this.character) return
+
+    if (!this.isOwned) {
+      alert("You do not own this character.")
+      return
+    }
 
     const result = window.prompt(
       "Type your character's name if you really really wanna delete them:",
@@ -55,17 +70,21 @@ export class CharacterPage extends React.Component<{ id: string }> {
       <PageWrapperPanel>
         <PageTitle>{this.character.name}</PageTitle>
         <PageSection>{this.character.tagline}</PageSection>
-        <hr />
-        <PageSection>
-          <Link to={routePaths.editCharacter(this.character.id)}>
-            <Button flat>
-              <Icon name="edit" /> Edit
-            </Button>
-          </Link>
-          <Button flat onClick={this.handleDeleteAction}>
-            <Icon name="trash" /> Delete
-          </Button>
-        </PageSection>
+        {this.isOwned && (
+          <React.Fragment>
+            <hr />
+            <PageSection>
+              <Link to={routePaths.editCharacter(this.character.id)}>
+                <Button flat>
+                  <Icon name="edit" /> Edit
+                </Button>
+              </Link>
+              <Button flat onClick={this.handleDeleteAction}>
+                <Icon name="trash" /> Delete
+              </Button>
+            </PageSection>
+          </React.Fragment>
+        )}
       </PageWrapperPanel>
     )
   }
