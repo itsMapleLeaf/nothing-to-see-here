@@ -2,8 +2,9 @@ import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
 
+import { Icon } from "../../../app/components/Icon"
 import { firebaseApp } from "../../../firebase"
-import { PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
+import { Button, PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
 import { CharacterModel } from "../../models/CharacterModel"
 
 @observer
@@ -34,6 +35,15 @@ export class ViewCharacterPage extends React.Component<{ id: string }> {
       <PageWrapperPanel>
         <PageTitle>{this.character.name}</PageTitle>
         <PageSection>{this.character.tagline}</PageSection>
+        <hr />
+        <PageSection>
+          <Button flat onClick={() => alert("not implemented")}>
+            <Icon name="edit" /> Edit
+          </Button>
+          <Button flat onClick={() => alert("not implemented")}>
+            <Icon name="trash" /> Delete
+          </Button>
+        </PageSection>
       </PageWrapperPanel>
     )
   }
