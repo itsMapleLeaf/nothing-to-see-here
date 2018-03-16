@@ -6,6 +6,7 @@ import { Link, Redirect } from "react-router-dom"
 import { Icon } from "../../../app/components/Icon"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
+import { dangerText, primaryText } from "../../../styles/colors"
 import { Button, PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
 import { deleteCharacter, getCharacterById } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
@@ -78,11 +79,11 @@ export class CharacterPage extends React.Component<{ id: string }> {
             <hr />
             <PageSection>
               <Link to={routePaths.editCharacter(this.character.id)}>
-                <Button flat>
+                <Button flat intentColor={primaryText}>
                   <Icon name="edit" /> Edit
                 </Button>
-              </Link>
-              <Button flat onClick={this.handleDeleteAction}>
+              </Link>{" "}
+              <Button flat intentColor={dangerText} onClick={this.handleDeleteAction}>
                 <Icon name="trash" /> Delete
               </Button>
             </PageSection>

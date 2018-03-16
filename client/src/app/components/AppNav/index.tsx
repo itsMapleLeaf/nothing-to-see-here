@@ -5,8 +5,7 @@ import { Link } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
-import { primary } from "../../../styles/colors"
-import { linkStyles, raisedPanelStyles } from "../../../styles/elements"
+import { anchorPrimary, raisedPanelStyles } from "../../../styles/elements"
 
 export const AppNav = observer(() => (
   <Panel>
@@ -56,9 +55,7 @@ const NavLinkList = styled.div`
 `
 
 const NavLink = styled(Link)`
-  ${linkStyles};
-  color: ${primary};
-
+  ${anchorPrimary};
   padding: 0.5rem 1rem;
   display: block;
 `

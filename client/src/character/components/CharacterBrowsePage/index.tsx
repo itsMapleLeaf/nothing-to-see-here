@@ -1,15 +1,16 @@
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
+import { Link } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
 import {
+  anchorPrimary,
   FadedText,
   PageSection,
   PageTitle,
   PageWrapperPanel,
-  StyledRouterLink,
 } from "../../../styles/elements"
 import { getAllCharacters } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
@@ -50,9 +51,9 @@ export class CharacterBrowsePage extends React.Component {
 
         {this.characters.map(entry => (
           <PageSection key={entry.id}>
-            <StyledRouterLink to={routePaths.viewCharacter(entry.id)}>
+            <Link className={anchorPrimary} to={routePaths.viewCharacter(entry.id)}>
               <h2>{entry.name}</h2>
-            </StyledRouterLink>
+            </Link>
             <p>{entry.tagline}</p>
           </PageSection>
         ))}
