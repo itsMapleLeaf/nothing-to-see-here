@@ -34,7 +34,7 @@ export async function getAllCharacters(limit: number) {
 }
 
 export function createCharacter(owner: User, values: { name: string; tagline: string }) {
-  return charactersCollection.doc(createRandomId(name)).set({
+  return charactersCollection.doc(createRandomId(values.name)).set({
     name: values.name,
     tagline: values.tagline,
     owner: owner.uid,
