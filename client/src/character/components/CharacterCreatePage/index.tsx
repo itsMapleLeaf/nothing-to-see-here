@@ -20,7 +20,7 @@ interface FormValues {
   description: string
 }
 
-class NewCharacterForm extends Formik<{}, FormValues> {}
+class CharacterCreateForm extends Formik<{}, FormValues> {}
 
 export const CharacterCreatePage = () => {
   return (
@@ -29,7 +29,7 @@ export const CharacterCreatePage = () => {
       <PageSection>
         <Route
           render={({ history }) => (
-            <NewCharacterForm
+            <CharacterCreateForm
               initialValues={{ name: "", description: "" }}
               render={renderForm}
               onSubmit={createSubmitHandler(history)}
