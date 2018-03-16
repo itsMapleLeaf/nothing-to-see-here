@@ -5,6 +5,7 @@ import * as React from "react"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
 import {
+  FadedText,
   PageSection,
   PageTitle,
   PageWrapperPanel,
@@ -40,6 +41,14 @@ export class CharacterListPage extends React.Component {
     return (
       <PageWrapperPanel>
         <PageTitle>your characters</PageTitle>
+
+        {this.characters.length === 0 && (
+          <PageSection>
+            <FadedText>No characters found.</FadedText>{" "}
+            <StyledRouterLink to={routePaths.newCharacter}>Create one?</StyledRouterLink>
+          </PageSection>
+        )}
+
         {this.characters.map(entry => (
           <PageSection key={entry.id}>
             <StyledRouterLink to={routePaths.viewCharacter(entry.id)}>
