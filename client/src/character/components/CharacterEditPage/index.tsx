@@ -1,12 +1,11 @@
 import { Formik } from "formik"
-import { History } from "history"
 import { observer } from "mobx-react"
 import * as React from "react"
-import { Route } from "react-router-dom"
 
 import { ErrorPage } from "../../../app/components/ErrorPage"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { createFetcher } from "../../../common/components/Fetcher"
+import { history } from "../../../history"
 import { routePaths } from "../../../routePaths"
 import { PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
 import { getCharacterById, updateCharacter } from "../../firebaseActions"
@@ -55,29 +54,23 @@ function SuccessResult({ character }: { character: CharacterModel }) {
     <PageWrapperPanel>
       <PageTitle>editing {character.name}</PageTitle>
       <PageSection>
-        <Route
-          render={({ history }) => (
-            <Formik
-              initialValues={initialValues}
-              render={props => (
-                <CharacterForm
-                  values={props.values}
-                  onSubmit={props.handleSubmit}
-                  onChange={props.handleChange}
-                />
-              )}
-              onSubmit={createSubmitHandler(history, character)}
+        <Formik
+          initialValues={initialValues}
+          render={props => (
+            <CharacterForm
+              values={props.values}
+              onSubmit={props.handleSubmit}
+              onChange={props.handleChange}
             />
           )}
+          onSubmit={values => handleSubmit(values, character)}
         />
       </PageSection>
     </PageWrapperPanel>
   )
 }
 
-const createSubmitHandler = (history: History, character: CharacterModel) => async (
-  values: CharacterFormValues,
-) => {
+const handleSubmit = async (values: CharacterFormValues, character: CharacterModel) => {
   const { user } = authStore
   if (!user) return
 

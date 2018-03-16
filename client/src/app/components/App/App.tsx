@@ -1,6 +1,6 @@
 import { observer } from "mobx-react"
 import * as React from "react"
-import { BrowserRouter, Route, RouteComponentProps, Switch } from "react-router-dom"
+import { Route, RouteComponentProps, Router, Switch } from "react-router-dom"
 
 import { AuthRoute } from "../../../auth/components/AuthRoute"
 import { authStore } from "../../../auth/stores/AuthStore"
@@ -9,6 +9,7 @@ import { CharacterCreatePage } from "../../../character/components/CharacterCrea
 import { CharacterEditPage } from "../../../character/components/CharacterEditPage"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
 import { CharacterPage } from "../../../character/components/CharacterPage"
+import { history } from "../../../history"
 import { routePaths } from "../../../routePaths"
 import { AppNav } from "../AppNav"
 import { HomePage } from "../HomePage"
@@ -16,7 +17,7 @@ import { LoadingCover } from "../LoadingCover"
 import { NotFoundPage } from "../NotFoundPage"
 
 export const App = observer(() => (
-  <BrowserRouter>
+  <Router history={history}>
     <div style={{ display: "flex", flexDirection: "column" }}>
       <AppNav />
 
@@ -32,7 +33,7 @@ export const App = observer(() => (
 
       {authStore.authenticating && <LoadingCover message="Logging in..." />}
     </div>
-  </BrowserRouter>
+  </Router>
 ))
 
 const renderCharacterEditPage = ({ match }: RouteComponentProps<{ id: string }>) => (
