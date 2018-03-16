@@ -1,7 +1,7 @@
 import * as React from "react"
 import styled from "react-emotion"
 
-import { Shade } from "../../../styles/elements/shade"
+import { Shade } from "../../../ui/elements/shade"
 import { Icon } from "../Icon"
 
 type Props = {

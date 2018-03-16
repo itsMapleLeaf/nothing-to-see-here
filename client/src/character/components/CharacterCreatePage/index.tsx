@@ -12,7 +12,7 @@ import {
   PageSection,
   PageTitle,
   PageWrapperPanel,
-} from "../../../styles/elements"
+} from "../../../ui/elements"
 import { createCharacter } from "../../firebaseActions"
 
 interface FormValues {

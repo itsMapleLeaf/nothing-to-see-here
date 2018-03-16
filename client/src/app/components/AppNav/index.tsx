@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
-import { anchorPrimary, raisedPanelStyles } from "../../../styles/elements"
+import { anchorPrimary, raisedPanelStyles } from "../../../ui/elements"
 
 export const AppNav = observer(() => (
   <Panel>

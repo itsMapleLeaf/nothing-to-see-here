@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
+import { PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
 
 export const NotFoundPage = () => (
   <PageWrapperPanel>

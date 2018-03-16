@@ -11,7 +11,7 @@ import {
   PageSection,
   PageTitle,
   PageWrapperPanel,
-} from "../../../styles/elements"
+} from "../../../ui/elements"
 import { getCharactersOwnedByUser } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
 
