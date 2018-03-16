@@ -4,7 +4,6 @@ import * as React from "react"
 import { Route } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
-import { firebaseApp } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import {
   Button,
@@ -14,6 +13,7 @@ import {
   PageTitle,
   PageWrapperPanel,
 } from "../../../styles/elements"
+import { createCharacter } from "../../firebaseActions"
 
 interface FormValues {
   name: string
@@ -73,15 +73,10 @@ const createSubmitHandler = (history: History) => async (values: FormValues) => 
   const { user } = authStore
   if (!user) return
 
-  await firebaseApp
-    .firestore()
-    .collection("characters")
-    .doc()
-    .set({
-      name: values.name,
-      tagline: values.description,
-      owner: user.uid,
-    })
+  await createCharacter(user, {
+    name: values.name,
+    tagline: values.description,
+  })
 
   history.push(routePaths.characterList)
 }

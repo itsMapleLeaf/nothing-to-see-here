@@ -6,7 +6,6 @@ import * as React from "react"
 import { Route } from "react-router-dom"
 
 import { authStore } from "../../../auth/stores/AuthStore"
-import { firebaseApp } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import {
   Button,
@@ -16,6 +15,7 @@ import {
   PageTitle,
   PageWrapperPanel,
 } from "../../../styles/elements"
+import { getCharacterById, updateCharacter } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
 
 interface FormValues {
@@ -39,12 +39,7 @@ export class CharacterEditPage extends React.Component<Props> {
   }
 
   async componentDidMount() {
-    const doc = await firebaseApp
-      .firestore()
-      .collection("characters")
-      .doc(this.props.id)
-      .get()
-    this.setCharacter(new CharacterModel(doc))
+    this.setCharacter(await getCharacterById(this.props.id))
   }
 
   render() {
@@ -112,14 +107,10 @@ const createSubmitHandler = (history: History, character: CharacterModel) => asy
   const { user } = authStore
   if (!user) return
 
-  await firebaseApp
-    .firestore()
-    .collection("characters")
-    .doc(character.id)
-    .update({
-      name: values.name,
-      tagline: values.description,
-    })
+  await updateCharacter(character.id, {
+    name: values.name,
+    tagline: values.description,
+  })
 
   history.push(routePaths.characterList)
 }

@@ -3,7 +3,6 @@ import { observer } from "mobx-react"
 import * as React from "react"
 
 import { authStore } from "../../../auth/stores/AuthStore"
-import { firebaseApp } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import {
   PageSection,
@@ -11,6 +10,7 @@ import {
   PageWrapperPanel,
   StyledRouterLink,
 } from "../../../styles/elements"
+import { getCharactersOwnedByUser } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
 
 @observer
@@ -18,21 +18,14 @@ export class CharacterListPage extends React.Component {
   @observable.ref characters: CharacterModel[] | null = null
 
   @action
-  handleFetchResult = (characters: CharacterModel[]) => {
+  setCharacters = (characters: CharacterModel[]) => {
     this.characters = characters.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   fetchCharacters = async () => {
     const { user } = authStore
     if (!user) return
-
-    const result = await firebaseApp
-      .firestore()
-      .collection("characters")
-      .where("owner", "==", user.uid)
-      .get()
-
-    this.handleFetchResult(result.docs.map(doc => new CharacterModel(doc)))
+    this.setCharacters(await getCharactersOwnedByUser(user.uid))
   }
 
   componentDidMount() {

@@ -4,9 +4,9 @@ import * as React from "react"
 import { Link } from "react-router-dom"
 
 import { Icon } from "../../../app/components/Icon"
-import { firebaseApp } from "../../../firebase"
 import { routePaths } from "../../../routePaths"
 import { Button, PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
+import { getCharacterById } from "../../firebaseActions"
 import { CharacterModel } from "../../models/CharacterModel"
 
 @observer
@@ -19,13 +19,7 @@ export class CharacterPage extends React.Component<{ id: string }> {
   }
 
   async componentDidMount() {
-    const characterDoc = await firebaseApp
-      .firestore()
-      .collection("characters")
-      .doc(this.props.id)
-      .get()
-
-    this.setCharacter(new CharacterModel(characterDoc))
+    this.setCharacter(await getCharacterById(this.props.id))
   }
 
   render() {
