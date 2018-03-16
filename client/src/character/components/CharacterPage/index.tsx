@@ -8,7 +8,7 @@ import { Button, PageSection, PageTitle, PageWrapperPanel } from "../../../style
 import { CharacterModel } from "../../models/CharacterModel"
 
 @observer
-export class ViewCharacterPage extends React.Component<{ id: string }> {
+export class CharacterPage extends React.Component<{ id: string }> {
   @observable character: CharacterModel | null = null
 
   @action

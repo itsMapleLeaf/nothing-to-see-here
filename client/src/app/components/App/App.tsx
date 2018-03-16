@@ -4,9 +4,9 @@ import { BrowserRouter, Route, RouteComponentProps, Switch } from "react-router-
 
 import { AuthRoute } from "../../../auth/components/AuthRoute"
 import { authStore } from "../../../auth/stores/AuthStore"
+import { CharacterCreatePage } from "../../../character/components/CharacterCreatePage"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
-import { NewCharacterPage } from "../../../character/components/NewCharacterPage"
-import { ViewCharacterPage } from "../../../character/components/ViewCharacterPage"
+import { CharacterPage } from "../../../character/components/CharacterPage"
 import { routePaths } from "../../../routePaths"
 import { AppNav } from "../AppNav"
 import { HomePage } from "../HomePage"
@@ -21,7 +21,7 @@ export const App = observer(() => (
       <Switch>
         <Route exact path={routePaths.home} component={HomePage} />
         <AuthRoute exact path={routePaths.characterList} component={CharacterListPage} />
-        <AuthRoute exact path={routePaths.newCharacter} component={NewCharacterPage} />
+        <AuthRoute exact path={routePaths.newCharacter} component={CharacterCreatePage} />
         <Route exact path={routePaths.viewCharacter(":id")} render={renderViewCharacterPage} />
         <Route component={NotFoundPage} />
       </Switch>
@@ -32,5 +32,5 @@ export const App = observer(() => (
 ))
 
 const renderViewCharacterPage = ({ match }: RouteComponentProps<{ id: string }>) => (
-  <ViewCharacterPage key={match.params.id} id={match.params.id} />
+  <CharacterPage key={match.params.id} id={match.params.id} />
 )

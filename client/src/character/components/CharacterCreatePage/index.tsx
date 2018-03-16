@@ -22,7 +22,7 @@ interface FormValues {
 
 class NewCharacterForm extends Formik<{}, FormValues> {}
 
-export const NewCharacterPage = () => {
+export const CharacterCreatePage = () => {
   return (
     <PageWrapperPanel>
       <PageTitle>create new character</PageTitle>
