@@ -1,9 +1,11 @@
 import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
+import { Link } from "react-router-dom"
 
 import { Icon } from "../../../app/components/Icon"
 import { firebaseApp } from "../../../firebase"
+import { routePaths } from "../../../routePaths"
 import { Button, PageSection, PageTitle, PageWrapperPanel } from "../../../styles/elements"
 import { CharacterModel } from "../../models/CharacterModel"
 
@@ -37,9 +39,11 @@ export class CharacterPage extends React.Component<{ id: string }> {
         <PageSection>{this.character.tagline}</PageSection>
         <hr />
         <PageSection>
-          <Button flat onClick={() => alert("not implemented")}>
-            <Icon name="edit" /> Edit
-          </Button>
+          <Link to={routePaths.editCharacter(this.character.id)}>
+            <Button flat>
+              <Icon name="edit" /> Edit
+            </Button>
+          </Link>
           <Button flat onClick={() => alert("not implemented")}>
             <Icon name="trash" /> Delete
           </Button>

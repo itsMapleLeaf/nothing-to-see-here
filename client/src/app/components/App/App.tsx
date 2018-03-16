@@ -5,6 +5,7 @@ import { BrowserRouter, Route, RouteComponentProps, Switch } from "react-router-
 import { AuthRoute } from "../../../auth/components/AuthRoute"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { CharacterCreatePage } from "../../../character/components/CharacterCreatePage"
+import { CharacterEditPage } from "../../../character/components/CharacterEditPage"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
 import { CharacterPage } from "../../../character/components/CharacterPage"
 import { routePaths } from "../../../routePaths"
@@ -22,6 +23,7 @@ export const App = observer(() => (
         <Route exact path={routePaths.home} component={HomePage} />
         <AuthRoute exact path={routePaths.characterList} component={CharacterListPage} />
         <AuthRoute exact path={routePaths.newCharacter} component={CharacterCreatePage} />
+        <AuthRoute exact path={routePaths.editCharacter(":id")} render={renderCharacterEditPage} />
         <Route exact path={routePaths.viewCharacter(":id")} render={renderViewCharacterPage} />
         <Route component={NotFoundPage} />
       </Switch>
@@ -30,6 +32,10 @@ export const App = observer(() => (
     </div>
   </BrowserRouter>
 ))
+
+const renderCharacterEditPage = ({ match }: RouteComponentProps<{ id: string }>) => (
+  <CharacterEditPage id={match.params.id} key={match.params.id} />
+)
 
 const renderViewCharacterPage = ({ match }: RouteComponentProps<{ id: string }>) => (
   <CharacterPage key={match.params.id} id={match.params.id} />
