@@ -5,7 +5,7 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 
 import { App } from "./app/components/App"
-import { applyGlobalStyles } from "./styles"
+import { applyGlobalStyles } from "./styles/globalStyles"
 
 function render() {
   ReactDOM.render(<App />, document.getElementById("root"))
