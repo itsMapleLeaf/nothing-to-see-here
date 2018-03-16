@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-emotion",
+      {
+        "sourceMap": true,
+        "autoLabel": true,
+        "labelFormat": "[filename]-[local]"
+      }
+    ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [["babel-plugin-emotion", { "hoist": true }]]
+    }
+  }
+}

@@ -7,6 +7,8 @@ const { resolve } = require("path")
 const sourceFolder = resolve(__dirname, "src")
 const buildFolder = resolve(__dirname, "build")
 
+console.log("NODE_ENV:", process.env.NODE_ENV)
+
 module.exports = {
   entry: sourceFolder,
   output: {
@@ -16,7 +18,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, use: ["ts-loader"] },
+      { test: /\.tsx?$/, use: ["babel-loader", "ts-loader"] },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
   },
