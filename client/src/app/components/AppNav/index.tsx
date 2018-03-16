@@ -1,10 +1,11 @@
 import { observer } from "mobx-react"
 import * as React from "react"
+import styled from "react-emotion"
 import { Link } from "react-router-dom"
-import styled from "styled-components"
 
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
+import { primary } from "../../../styles/colors"
 import { linkStyles, raisedPanelStyles } from "../../../styles/elements"
 
 export const AppNav = observer(() => (
@@ -56,6 +57,7 @@ const NavLinkList = styled.div`
 
 const NavLink = styled(Link)`
   ${linkStyles};
+  color: ${primary};
 
   padding: 0.5rem 1rem;
   display: block;

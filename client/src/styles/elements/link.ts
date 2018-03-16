@@ -1,12 +1,11 @@
+import styled, { css } from "react-emotion"
 import { Link as RouterLink } from "react-router-dom"
-import styled, { css } from "styled-components"
 
 import { primary, textColor } from "../colors"
 
 type LinkProps = { color?: string }
 
 export const linkStyles = css`
-  color: ${({ color }: LinkProps) => color || primary};
   transition: 0.2s;
   cursor: pointer;
 
@@ -17,8 +16,10 @@ export const linkStyles = css`
 
 export const StyledLink = styled.a`
   ${linkStyles};
+  color: ${({ color }: LinkProps) => color || primary};
 `
 
 export const StyledRouterLink = styled(RouterLink)`
   ${linkStyles};
+  color: ${({ color }: LinkProps) => color || primary};
 `

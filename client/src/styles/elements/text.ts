@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "react-emotion"
 
 export const FadedText = styled.span`
   opacity: 0.5;

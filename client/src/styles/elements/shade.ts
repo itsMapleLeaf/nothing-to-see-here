@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "react-emotion"
 
 export const Shade = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
