@@ -2,7 +2,7 @@ import { Formik } from "formik"
 import * as React from "react"
 
 import { authStore } from "../../../auth/stores/AuthStore"
-import { history } from "../../../history"
+import { appHistory } from "../../../history"
 import { routePaths } from "../../../routePaths"
 import { PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
 import { createCharacter } from "../../firebaseActions"
@@ -38,5 +38,5 @@ const handleSubmit = async (values: CharacterFormValues) => {
     tagline: values.description,
   })
 
-  history.push(routePaths.characterList)
+  appHistory.push(routePaths.characterList)
 }

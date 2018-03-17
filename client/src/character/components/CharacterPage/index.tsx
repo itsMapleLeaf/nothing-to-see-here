@@ -6,7 +6,7 @@ import { ErrorPage } from "../../../app/components/ErrorPage"
 import { Icon } from "../../../app/components/Icon"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { createFetcher } from "../../../common/components/Fetcher"
-import { history } from "../../../history"
+import { appHistory } from "../../../history"
 import { routePaths } from "../../../routePaths"
 import { dangerText, primaryText } from "../../../ui/colors"
 import { Button, flatStyle, PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
@@ -86,7 +86,7 @@ async function handleDelete(character: CharacterModel) {
   }
 
   await deleteCharacter(character.id)
-  history.push(routePaths.characterList)
+  appHistory.push(routePaths.characterList)
 }
 
 /*

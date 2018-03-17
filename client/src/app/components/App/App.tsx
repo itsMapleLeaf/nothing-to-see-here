@@ -9,7 +9,7 @@ import { CharacterCreatePage } from "../../../character/components/CharacterCrea
 import { CharacterEditPage } from "../../../character/components/CharacterEditPage"
 import { CharacterListPage } from "../../../character/components/CharacterListPage"
 import { CharacterPage } from "../../../character/components/CharacterPage"
-import { history } from "../../../history"
+import { appHistory } from "../../../history"
 import { routePaths } from "../../../routePaths"
 import { AppNav } from "../AppNav"
 import { HomePage } from "../HomePage"
@@ -17,7 +17,7 @@ import { LoadingCover } from "../LoadingCover"
 import { NotFoundPage } from "../NotFoundPage"
 
 export const App = observer(() => (
-  <Router history={history}>
+  <Router history={appHistory}>
     <div style={{ display: "flex", flexDirection: "column" }}>
       <AppNav />
 

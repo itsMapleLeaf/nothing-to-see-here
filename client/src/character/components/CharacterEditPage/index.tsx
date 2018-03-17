@@ -5,7 +5,7 @@ import * as React from "react"
 import { ErrorPage } from "../../../app/components/ErrorPage"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { createFetcher } from "../../../common/components/Fetcher"
-import { history } from "../../../history"
+import { appHistory } from "../../../history"
 import { routePaths } from "../../../routePaths"
 import { PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
 import { getCharacterById, updateCharacter } from "../../firebaseActions"
@@ -79,5 +79,5 @@ const handleSubmit = async (values: CharacterFormValues, character: CharacterMod
     tagline: values.description,
   })
 
-  history.push(routePaths.characterList)
+  appHistory.push(routePaths.characterList)
 }
