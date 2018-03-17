@@ -56,6 +56,7 @@ export class RegisterModal extends React.Component<Props> {
           onChange={handleChange}
         />
       </fieldset>
+
       <fieldset>
         <Label>Email</Label>
         <Input
@@ -67,6 +68,7 @@ export class RegisterModal extends React.Component<Props> {
           onChange={handleChange}
         />
       </fieldset>
+
       <fieldset>
         <Label>Password</Label>
         <Input
@@ -78,10 +80,13 @@ export class RegisterModal extends React.Component<Props> {
           onChange={handleChange}
         />
       </fieldset>
-      <Button type="submit">Register</Button>{" "}
-      <Button flat onClick={this.props.modalState.hide}>
-        Cancel
-      </Button>
+
+      <fieldset>
+        <Button type="submit">Register</Button>{" "}
+        <Button flat onClick={this.props.modalState.hide}>
+          Cancel
+        </Button>
+      </fieldset>
     </form>
   )
 

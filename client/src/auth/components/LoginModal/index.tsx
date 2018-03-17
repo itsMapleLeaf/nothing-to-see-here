@@ -50,6 +50,7 @@ export class LoginModal extends React.Component<Props> {
           onChange={handleChange}
         />
       </fieldset>
+
       <fieldset>
         <Label>Password</Label>
         <Input
@@ -61,10 +62,13 @@ export class LoginModal extends React.Component<Props> {
           onChange={handleChange}
         />
       </fieldset>
-      <Button type="submit">Log in</Button>{" "}
-      <Button flat onClick={this.props.modalState.hide}>
-        Cancel
-      </Button>
+
+      <fieldset>
+        <Button type="submit">Log in</Button>{" "}
+        <Button flat onClick={this.props.modalState.hide}>
+          Cancel
+        </Button>
+      </fieldset>
     </form>
   )
 
