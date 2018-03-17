@@ -3,6 +3,8 @@ import { action, observable } from "mobx"
 
 import { firebaseApp } from "../../firebase"
 
+type AuthResult = { success: true } | { success: false; error: string }
+
 export class AuthStore {
   @observable authenticating = true
   @observable.ref user: User | null = null
@@ -18,15 +20,20 @@ export class AuthStore {
   }
 
   @action
-  signIn = (email: string, password: string) => {
-    if (this.user) {
-      window.alert("Error: already signed in")
-      return
-    }
+  setAuthenticating = (authenticating: boolean) => {
+    this.authenticating = authenticating
+  }
 
-    if (email && password) {
-      this.authenticating = true
-      firebaseApp.auth().signInWithEmailAndPassword(email, password)
+  @action
+  signIn = async (email: string, password: string): Promise<AuthResult> => {
+    this.setAuthenticating(true)
+
+    try {
+      await firebaseApp.auth().signInWithEmailAndPassword(email, password)
+      return { success: true }
+    } catch (error) {
+      this.setAuthenticating(false)
+      return { success: false, error: error.message || String(error) }
     }
   }
 

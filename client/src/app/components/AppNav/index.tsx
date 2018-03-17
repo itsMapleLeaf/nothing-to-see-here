@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { routePaths } from "../../../routePaths"
 import { anchorPrimary, raisedPanelStyles } from "../../../ui/elements"
+import { modalStore } from "../../stores/ModalStore"
 
 export const AppNav = observer(() => (
   <Panel>
@@ -24,12 +25,7 @@ export const AppNav = observer(() => (
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <NavLink
-            to="#"
-            onClick={() => {
-              /* TODO: show login modal */
-            }}
-          >
+          <NavLink to="#" onClick={modalStore.login.show}>
             log in
           </NavLink>
         </React.Fragment>

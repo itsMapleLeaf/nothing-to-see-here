@@ -1,6 +1,9 @@
-import { Formik } from "formik"
+import { Formik, FormikProps } from "formik"
+import { action, observable } from "mobx"
+import { observer } from "mobx-react"
 import * as React from "react"
 
+import { ModalState } from "../../../app/stores/ModalStore"
 import {
   Button,
   Input,
@@ -12,56 +15,80 @@ import {
 } from "../../../ui/elements"
 import { authStore } from "../../stores/AuthStore"
 
-export function LoginModal() {
-  return (
-    <Shade>
-      <RaisedPanel>
-        <PageTitle>Log in</PageTitle>
-        <PageSection>
-          <Formik
-            initialValues={{ email: "", password: "" }}
-            onSubmit={values => {
-              authStore.signIn(values.email, values.password)
-              // TODO: hide modal
-            }}
-            render={({ values, handleChange, handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <fieldset>
-                  <Label>Email</Label>
-                  <Input
-                    name="email"
-                    type="email"
-                    placeholder="awesome@email.com"
-                    required
-                    value={values.email}
-                    onChange={handleChange}
-                  />
-                </fieldset>
-                <fieldset>
-                  <Label>Password</Label>
-                  <Input
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    required
-                    value={values.password}
-                    onChange={handleChange}
-                  />
-                </fieldset>
-                <Button type="submit">Log in</Button>{" "}
-                <Button
-                  flat
-                  onClick={() => {
-                    /* TODO: hide modal */
-                  }}
-                >
-                  Cancel
-                </Button>
-              </form>
-            )}
-          />
-        </PageSection>
-      </RaisedPanel>
-    </Shade>
+type LoginFormValues = { email: string; password: string }
+
+type Props = { modalState: ModalState }
+
+@observer
+export class LoginModal extends React.Component<Props> {
+  @observable statusText = ""
+
+  @action
+  handleError = (error: string) => {
+    this.statusText = error
+  }
+
+  handleSubmit = async (values: LoginFormValues) => {
+    const result = await authStore.signIn(values.email, values.password)
+    if (result.success) {
+      this.props.modalState.hide()
+    } else {
+      this.handleError(result.error)
+    }
+  }
+
+  renderForm = ({ values, handleChange, handleSubmit }: FormikProps<LoginFormValues>) => (
+    <form onSubmit={handleSubmit}>
+      <fieldset>
+        <Label>Email</Label>
+        <Input
+          name="email"
+          type="email"
+          placeholder="awesome@email.com"
+          required
+          value={values.email}
+          onChange={handleChange}
+        />
+      </fieldset>
+      <fieldset>
+        <Label>Password</Label>
+        <Input
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          required
+          value={values.password}
+          onChange={handleChange}
+        />
+      </fieldset>
+      <Button type="submit">Log in</Button>{" "}
+      <Button flat onClick={this.props.modalState.hide}>
+        Cancel
+      </Button>
+    </form>
   )
+
+  handleShadeClick = (event: React.MouseEvent<{}>) => {
+    if (event.target === event.currentTarget) {
+      this.props.modalState.hide()
+    }
+  }
+
+  render() {
+    return (
+      <Shade onClick={this.handleShadeClick}>
+        <RaisedPanel>
+          <PageTitle>Log in</PageTitle>
+          <PageSection>
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              onSubmit={this.handleSubmit}
+              render={this.renderForm}
+            />
+          </PageSection>
+          <PageSection style={{ width: "14rem" }}>{this.statusText}</PageSection>
+        </RaisedPanel>
+      </Shade>
+    )
+  }
 }
