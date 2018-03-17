@@ -42,9 +42,9 @@ export class Fetcher<T> extends React.Component<FetcherProps<T>> {
   }
 
   componentDidMount() {
-    // tslint:disable-next-line
     this.doFetch()
   }
+
   render() {
     return this.props.render(this.fetchState)
   }

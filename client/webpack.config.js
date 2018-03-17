@@ -7,7 +7,7 @@ const { resolve } = require("path")
 const sourceFolder = resolve(__dirname, "src")
 const buildFolder = resolve(__dirname, "build")
 
-console.log("NODE_ENV:", process.env.NODE_ENV)
+console.log("NODE_ENV:", process.env.NODE_ENV) // eslint-disable-line no-console
 
 module.exports = {
   entry: sourceFolder,

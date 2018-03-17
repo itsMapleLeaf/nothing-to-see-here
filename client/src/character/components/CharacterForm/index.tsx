@@ -4,8 +4,8 @@ import { Button, Input, Label } from "../../../ui/elements"
 
 export interface CharacterFormProps {
   values: CharacterFormValues
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSubmit: (ev: React.FormEvent<HTMLFormElement>) => void
+  onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface CharacterFormValues {
