@@ -24,8 +24,8 @@ export class ModalState {
 }
 
 export class ModalStore {
-  @observable login = new ModalState()
-  @observable register = new ModalState()
+  login = new ModalState()
+  register = new ModalState()
 
   render() {
     return (
