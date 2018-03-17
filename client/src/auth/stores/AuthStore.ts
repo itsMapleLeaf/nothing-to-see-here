@@ -18,14 +18,12 @@ export class AuthStore {
   }
 
   @action
-  signIn = () => {
+  signIn = (email: string, password: string) => {
     if (this.user) {
-      alert("Error: already signed in")
+      window.alert("Error: already signed in")
       return
     }
 
-    const email = prompt("Email?")
-    const password = prompt("Password?")
     if (email && password) {
       this.authenticating = true
       firebaseApp.auth().signInWithEmailAndPassword(email, password)

@@ -24,7 +24,12 @@ export const AppNav = observer(() => (
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <NavLink to="#" onClick={() => authStore.signIn()}>
+          <NavLink
+            to="#"
+            onClick={() => {
+              /* TODO: show login modal */
+            }}
+          >
             log in
           </NavLink>
         </React.Fragment>

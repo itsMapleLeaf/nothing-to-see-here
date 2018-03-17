@@ -3,6 +3,7 @@ import * as React from "react"
 import { Route, RouteComponentProps, Router, Switch } from "react-router-dom"
 
 import { AuthRoute } from "../../../auth/components/AuthRoute"
+import { LoginModal } from "../../../auth/components/LoginModal"
 import { authStore } from "../../../auth/stores/AuthStore"
 import { CharacterBrowsePage } from "../../../character/components/CharacterBrowsePage"
 import { CharacterCreatePage } from "../../../character/components/CharacterCreatePage"
@@ -30,6 +31,8 @@ export const App = observer(() => (
         <Route exact path={routePaths.browseCharacters} component={CharacterBrowsePage} />
         <Route component={NotFoundPage} />
       </Switch>
+
+      <LoginModal />
 
       {authStore.authenticating && <LoadingCover message="Logging in..." />}
     </div>
