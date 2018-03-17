@@ -72,7 +72,7 @@ function Actions({ character }: { character: CharacterModel }) {
 
 async function handleDelete(character: CharacterModel) {
   // make them type the name to prevent accidental deletion
-  const result = window.prompt("Type your character's name if you really really wanna delete them.") // eslint-disable-line
+  const result = window.prompt("Type your character's name if you really really wanna delete them.")
 
   // cancelled, do nothing
   if (result === null) {
@@ -81,7 +81,7 @@ async function handleDelete(character: CharacterModel) {
 
   // incorrect name
   if (result !== character.name) {
-    window.alert("Name was incorrect.") // eslint-disable-line
+    window.alert("Name was incorrect.")
     return
   }
 

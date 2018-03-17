@@ -50,18 +50,6 @@ function SuccessResult({ character }: { character: CharacterModel }) {
     description: character.tagline,
   }
 
-  const handleSubmit = async (values: CharacterFormValues) => {
-    const { user } = authStore
-    if (!user) return
-
-    await updateCharacter(character.id, {
-      name: values.name,
-      tagline: values.description,
-    })
-
-    history.push(routePaths.characterList)
-  }
-
   return (
     <PageWrapperPanel>
       <PageTitle>editing {character.name}</PageTitle>
@@ -75,9 +63,21 @@ function SuccessResult({ character }: { character: CharacterModel }) {
               onChange={props.handleChange}
             />
           )}
-          onSubmit={handleSubmit}
+          onSubmit={values => handleSubmit(values, character)}
         />
       </PageSection>
     </PageWrapperPanel>
   )
+}
+
+const handleSubmit = async (values: CharacterFormValues, character: CharacterModel) => {
+  const { user } = authStore
+  if (!user) return
+
+  await updateCharacter(character.id, {
+    name: values.name,
+    tagline: values.description,
+  })
+
+  history.push(routePaths.characterList)
 }

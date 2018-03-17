@@ -13,19 +13,19 @@ export const AppNav = observer(() => (
     <NavLinkList>
       <NavLink to={routePaths.home}>home</NavLink>
 
-      {authStore.user === null ? (
-        <React.Fragment>
-          <NavLink to="#" onClick={() => authStore.signIn()}>
-            log in
-          </NavLink>
-        </React.Fragment>
-      ) : (
+      {authStore.user !== null ? (
         <React.Fragment>
           <NavLink to={routePaths.characterList}>your characters</NavLink>
           <NavLink to={routePaths.browseCharacters}>browse all characters</NavLink>
           <NavLink to={routePaths.newCharacter}>new character</NavLink>
           <NavLink to="#" onClick={() => authStore.signOut()}>
             log out
+          </NavLink>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <NavLink to="#" onClick={() => authStore.signIn()}>
+            log in
           </NavLink>
         </React.Fragment>
       )}

@@ -3,7 +3,6 @@ import { injectGlobal } from "react-emotion"
 import { backgroundColor, foregroundColorShade, textColor } from "./colors"
 
 export function applyGlobalStyles() {
-  // eslint-disable-next-line no-unused-expressions
   injectGlobal`
     :root {
       font: 18px "Roboto", sans-serif;
