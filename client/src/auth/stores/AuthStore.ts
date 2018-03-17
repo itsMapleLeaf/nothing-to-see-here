@@ -3,14 +3,18 @@ import { action, observable } from "mobx"
 
 import { firebaseApp } from "../../firebase"
 
-type AuthResult = { success: true } | { success: false; error: string }
+type Result = { success: true } | { success: false; error: string }
+
+type RegisterOptions = { displayName: string; email: string; password: string }
+
+const auth = firebaseApp.auth()
 
 export class AuthStore {
   @observable authenticating = true
   @observable.ref user: User | null = null
 
   constructor() {
-    firebaseApp.auth().onAuthStateChanged(this.handleAuthStateChanged)
+    auth.onAuthStateChanged(this.handleAuthStateChanged)
   }
 
   @action
@@ -25,11 +29,11 @@ export class AuthStore {
   }
 
   @action
-  signIn = async (email: string, password: string): Promise<AuthResult> => {
+  signIn = async (email: string, password: string): Promise<Result> => {
     this.setAuthenticating(true)
 
     try {
-      await firebaseApp.auth().signInWithEmailAndPassword(email, password)
+      await auth.signInWithEmailAndPassword(email, password)
       return { success: true }
     } catch (error) {
       this.setAuthenticating(false)
@@ -40,7 +44,21 @@ export class AuthStore {
   @action
   signOut = () => {
     this.authenticating = true
-    firebaseApp.auth().signOut()
+    auth.signOut()
+  }
+
+  @action
+  register = async (options: RegisterOptions): Promise<Result> => {
+    try {
+      await auth.createUserWithEmailAndPassword(options.email, options.password)
+      await firebaseApp
+        .auth()
+        .currentUser!.updateProfile({ displayName: options.displayName, photoURL: null })
+
+      return { success: true }
+    } catch (error) {
+      return { success: false, error: error.message || String(error) }
+    }
   }
 }
 

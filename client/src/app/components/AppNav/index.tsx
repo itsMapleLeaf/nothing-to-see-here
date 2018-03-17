@@ -28,6 +28,9 @@ export const AppNav = observer(() => (
           <NavLink to="#" onClick={modalStore.login.show}>
             log in
           </NavLink>
+          <NavLink to="#" onClick={modalStore.register.show}>
+            register
+          </NavLink>
         </React.Fragment>
       )}
     </NavLinkList>
