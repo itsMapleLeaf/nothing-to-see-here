@@ -36,7 +36,9 @@ module.exports = {
       },
     ]),
     new CleanWebpackPlugin(buildFolder),
-    new Dotenv(),
+    new Dotenv({
+      path: resolve(__dirname, "../.env"),
+    }),
   ],
   devServer: {
     historyApiFallback: true,
