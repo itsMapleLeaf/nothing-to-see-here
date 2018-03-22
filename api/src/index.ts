@@ -1,7 +1,7 @@
 import express from "express"
 
-import { validateAccountData } from "./accountData"
-import { createAccount } from "./db"
+import { validateAccountData } from "./auth/accountData"
+import { createAccount } from "./auth/dbActions"
 import { port } from "./env"
 import { extractErrorMessage } from "./helpers"
 
