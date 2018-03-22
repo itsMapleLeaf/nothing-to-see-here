@@ -2,8 +2,8 @@ import express from "express"
 
 import { validateAccountData } from "./accountData"
 import { createAccount } from "./db"
-import { extractErrorMessage } from "./helpers"
 import { port } from "./env"
+import { extractErrorMessage } from "./helpers"
 
 const app = express()
 
