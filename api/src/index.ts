@@ -12,7 +12,7 @@ app.use(express.json())
 app.post("/register", async (req, res) => {
   try {
     const accountData = validateAccountData(req.body)
-    await createAccount(req.body)
+    await createAccount(accountData)
     res.send({ success: true }) // send back a token?
   } catch (error) {
     res.send({ error: extractErrorMessage(error) })
