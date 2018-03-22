@@ -1,17 +1,19 @@
 import dotenv from "dotenv"
 import { resolve } from "path"
 
-dotenv.config({
+import { throwError } from "./helpers"
+
+const configResult = dotenv.config({
   path: resolve(__dirname, "../../.env"),
 })
 
-function throwError(msg: string): never {
-  throw Error(msg)
+if (configResult.error) throw configResult.error
+
+function safeGetValue(name: string) {
+  return process.env[name] || throwError(`Environment variable "${name}" is not defined`)
 }
 
-export const databaseUser =
-  process.env.DB_USER || throwError('"DB_USER" Environment variable missing')
-export const databasePass =
-  process.env.DB_PASS || throwError('"DB_PASS" Environment variable missing')
-export const databaseUrl = process.env.DB_URL || throwError('"DB_URL" Environment variable missing')
+export const databaseUser = safeGetValue("DB_USER")
+export const databasePass = safeGetValue("DB_PASS")
+export const databaseUrl = safeGetValue("DB_URL")
 export const port = Number(process.env.PORT) || 3000
