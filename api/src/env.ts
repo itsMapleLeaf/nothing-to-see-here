@@ -1,23 +1,17 @@
 import dotenv from "dotenv"
 import { resolve } from "path"
 
-const result = dotenv.config({
+dotenv.config({
   path: resolve(__dirname, "../../.env"),
 })
 
-export function getEnvValue(key: string, defaultValue?: string) {
-  if (result.error) {
-    throw Error(`Error loading config: ${result.error}`)
-  }
-
-  const value = result.parsed && result.parsed[key]
-  if (!value) {
-    if (defaultValue) {
-      return defaultValue
-    }
-
-    throw Error(`Invalid env key: ${key} (no default provided)`)
-  }
-
-  return value
+function throwError(msg: string): never {
+  throw Error(msg)
 }
+
+export const databaseUser =
+  process.env.DB_USER || throwError('"DB_USER" Environment variable missing')
+export const databasePass =
+  process.env.DB_PASS || throwError('"DB_PASS" Environment variable missing')
+export const databaseUrl = process.env.DB_URL || throwError('"DB_URL" Environment variable missing')
+export const port = Number(process.env.PORT) || 3000

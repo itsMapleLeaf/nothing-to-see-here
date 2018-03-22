@@ -2,10 +2,8 @@ import express from "express"
 
 import { validateAccountData } from "./accountData"
 import { createAccount } from "./db"
-import { getEnvValue } from "./env"
 import { extractErrorMessage } from "./helpers"
-
-const port = Number(getEnvValue("PORT", "3000"))
+import { port } from "./env"
 
 const app = express()
 

@@ -3,13 +3,9 @@ import securePassword from "secure-password"
 import { promisify } from "util"
 
 import { AccountData } from "./accountData"
-import { getEnvValue } from "./env"
+import { databaseUrl, databaseUser, databasePass } from "./env"
 
-const url = getEnvValue("DB_URL")
-const user = getEnvValue("DB_USER")
-const pass = getEnvValue("DB_PASS")
-
-const driver = neo4j.driver(url, neo4j.auth.basic(user, pass))
+const driver = neo4j.driver(databaseUrl, neo4j.auth.basic(databaseUser, databasePass))
 
 driver.onCompleted = async () => {
   console.info("successfully connected to database")
