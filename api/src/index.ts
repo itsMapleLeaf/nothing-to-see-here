@@ -1,7 +1,7 @@
 import express from "express"
 
 import { validateAccountData } from "./auth/accountData"
-import { createAccount } from "./auth/dbActions"
+import { authenticate, createAccount } from "./auth/dbActions"
 import { port } from "./env"
 import { extractErrorMessage } from "./helpers"
 
@@ -22,4 +22,6 @@ app.post("/register", async (req, res) => {
 
 app.listen(port, async () => {
   console.info(`server listening on http://localhost:${port}`)
+
+  authenticate("kingdaro", "lol").then(console.log, console.error)
 })

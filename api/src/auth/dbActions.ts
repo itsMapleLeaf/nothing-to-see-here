@@ -1,17 +1,18 @@
 import securePassword from "secure-password"
 import { promisify } from "util"
 
-import { AccountData } from "./accountData"
 import { session } from "../db"
+import { AccountData } from "./accountData"
 
 const passwordPolicy = securePassword()
 
-const hashPassword = promisify<Buffer, Buffer>(passwordPolicy.hash.bind(passwordPolicy))
+const createHash = promisify<Buffer, Buffer>(passwordPolicy.hash.bind(passwordPolicy))
+const verifyHash = promisify<Buffer, Buffer, any>(passwordPolicy.verify.bind(passwordPolicy))
 
 export async function createAccount(accountData: AccountData) {
   await verifyUserExistence(accountData)
 
-  const hashedPassword = await hashPassword(Buffer.from(accountData.password))
+  const hashedPassword = await createHash(Buffer.from(accountData.password))
 
   await session.run(`create (:User $accountData)`, {
     accountData: {
@@ -39,4 +40,50 @@ export async function verifyUserExistence(details: Pick<AccountData, "username" 
       throw Error(`Email "${details.email}" is already registered`)
     }
   }
+}
+
+export async function authenticate(usernameOrEmail: string, enteredPassword: string) {
+  const query = `
+    match (u:User)
+    where u.username = {usernameOrEmail} or u.email = {usernameOrEmail}
+    return u.username, u.password
+  `
+
+  const dbResult = await session.run(query, { usernameOrEmail })
+  const record = dbResult.records[0]
+
+  if (!record) {
+    throw Error(`Invalid email or password`)
+  }
+
+  const currentPassword = record.get("u.password")
+
+  const verifyResult = await verifyHash(Buffer.from(enteredPassword), Buffer.from(currentPassword))
+
+  switch (verifyResult) {
+    case securePassword.INVALID_UNRECOGNIZED_HASH:
+      console.error("Unrecognized hash")
+      throw Error(`Internal error while logging in`)
+
+    case securePassword.INVALID:
+      throw Error(`Invalid email or password`)
+
+    case securePassword.VALID:
+    // return true // return token?
+
+    case securePassword.VALID_NEEDS_REHASH:
+      await rehashPassword(record.get("u.username"), enteredPassword)
+      return true // return token?
+  }
+}
+
+async function rehashPassword(username: string, password: string) {
+  const improvedHash = (await createHash(Buffer.from(password))).toString()
+
+  const rehashQuery = `
+    match (u:User { username: {username} })
+    set u.password = {improvedHash}
+  `
+
+  await session.run(rehashQuery, { username, improvedHash })
 }
