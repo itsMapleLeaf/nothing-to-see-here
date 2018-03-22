@@ -1,22 +1,27 @@
-import dotenv from "dotenv"
 import express from "express"
-import neo4j from "neo4j-driver"
-import { resolve } from "path"
-import { getEnvValue } from "./env"
-import { userExists } from "./db"
 
-// create express app
+import { validateAccountData } from "./accountData"
+import { createAccount } from "./db"
+import { getEnvValue } from "./env"
+import { extractErrorMessage } from "./helpers"
+
 const port = Number(getEnvValue("PORT", "3000"))
 
 const app = express()
 
-app.get("/", (req, res) => {
-  res.send("hi")
+app.use(express.json())
+
+app.post("/register", async (req, res) => {
+  try {
+    const accountData = validateAccountData(req.body)
+    await createAccount(req.body)
+    res.send({ success: true }) // send back a token?
+  } catch (error) {
+    res.send({ error: extractErrorMessage(error) })
+    console.error("register error:", error)
+  }
 })
 
 app.listen(port, async () => {
-  console.log(`server listening on http://localhost:${port}`)
-
-  console.log("nobody exists:", await userExists("nobody"))
-  console.log("somebody exists:", await userExists("somebody"))
+  console.info(`server listening on http://localhost:${port}`)
 })
