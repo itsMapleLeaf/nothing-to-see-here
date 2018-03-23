@@ -1,7 +1,7 @@
 import express from "express"
 
 import { validateAccountData } from "./auth/accountData"
-import { authenticate, createAccount } from "./auth/dbActions"
+import { createAccount, logIn } from "./auth/dbActions"
 import { validateLoginData } from "./auth/loginData"
 import { port } from "./env"
 import { extractErrorMessage } from "./helpers"
@@ -24,7 +24,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const loginData = validateLoginData(req.body)
-    await authenticate(loginData.usernameOrEmail, loginData.password)
+    await logIn(loginData.usernameOrEmail, loginData.password)
     res.send({ success: true }) // send token?
   } catch (error) {
     res.send({ error: extractErrorMessage(error) })

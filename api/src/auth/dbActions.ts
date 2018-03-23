@@ -42,7 +42,7 @@ export async function verifyUserExistence(details: Pick<AccountData, "username" 
   }
 }
 
-export async function authenticate(usernameOrEmail: string, enteredPassword: string) {
+export async function logIn(usernameOrEmail: string, enteredPassword: string) {
   const query = `
     match (u:User)
     where u.username = {usernameOrEmail} or u.email = {usernameOrEmail}
