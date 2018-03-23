@@ -1,7 +1,7 @@
 import express from "express"
 
 import { validateAccountData } from "./auth/accountData"
-import { createAccount, logIn } from "./auth/dbActions"
+import { createAccount, logIn, logOut } from "./auth/dbActions"
 import { validateLoginData } from "./auth/loginData"
 import { port } from "./env"
 import { extractErrorMessage } from "./helpers"
@@ -35,5 +35,6 @@ app.post("/login", async (req, res) => {
 app.listen(port, async () => {
   console.info(`server listening on http://localhost:${port}`)
 
-  logIn("kingdaro@gmail.com", "lol").then(console.log, console.error)
+  await logIn("kingdaro@gmail.com", "lol").then(console.log, console.error)
+  await logOut("kingdaro").then(console.log, console.error)
 })

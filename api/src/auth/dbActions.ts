@@ -85,6 +85,10 @@ export async function logIn(usernameOrEmail: string, enteredPassword: string): P
   }
 }
 
+export async function logOut(username: string) {
+  await session.run(`match (u:User { username: {username} }) set u.token = null`, { username })
+}
+
 async function createToken(username: string) {
   const token = (await randomBytesPromise(32)).toString("hex")
   const tokenHash = await createHash(Buffer.from(token))
