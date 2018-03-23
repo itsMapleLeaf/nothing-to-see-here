@@ -68,19 +68,19 @@ export async function logIn(usernameOrEmail: string, enteredPassword: string): P
   const verifyResult = await verifyHash(Buffer.from(enteredPassword), Buffer.from(currentPassword))
 
   switch (verifyResult) {
-    case securePassword.INVALID_UNRECOGNIZED_HASH:
-      console.error("Unrecognized hash")
-      throw Error(`Internal error while logging in`)
-
-    case securePassword.INVALID:
-      throw Error(`Invalid email or password`)
-
     case securePassword.VALID:
       return await createToken(username)
 
     case securePassword.VALID_NEEDS_REHASH:
       await rehashPassword(username, enteredPassword)
       return await createToken(username)
+
+    case securePassword.INVALID:
+      throw Error(`Invalid email or password`)
+
+    case securePassword.INVALID_UNRECOGNIZED_HASH:
+      console.error("Unrecognized hash")
+      throw Error(`Internal error while logging in`)
 
     default:
       throw Error(`Internal error: unknown verification result`)
