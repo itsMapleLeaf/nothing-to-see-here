@@ -69,7 +69,7 @@ export async function authenticate(usernameOrEmail: string, enteredPassword: str
       throw Error(`Invalid email or password`)
 
     case securePassword.VALID:
-    // return true // return token?
+      return true // return token?
 
     case securePassword.VALID_NEEDS_REHASH:
       await rehashPassword(record.get("u.username"), enteredPassword)
