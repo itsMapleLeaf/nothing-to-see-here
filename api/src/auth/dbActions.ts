@@ -5,6 +5,8 @@ import { promisify } from "util"
 import { session } from "../db"
 import { AccountData } from "./accountData"
 
+const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24
+
 const passwordPolicy = securePassword()
 
 const createHash = promisify<Buffer, Buffer>(passwordPolicy.hash.bind(passwordPolicy))
@@ -89,6 +91,53 @@ export async function logOut(username: string) {
   await session.run(`match (u:User { username: {username} }) set u.token = null`, { username })
 }
 
+export async function verifyToken(username: string, enteredToken: string): Promise<true> {
+  const getUserQuery = `
+    match (u:User { username: {username} })
+    return u.token, u.tokenDate
+  `
+
+  const result = await session.run(getUserQuery, { username })
+  const record = result.records[0]
+
+  if (!record) {
+    throw Error(`User not found: "${username}"`)
+  }
+
+  const currentToken = String(record.get("u.token"))
+  const tokenDate = Number(record.get("u.tokenDate"))
+
+  const verifyResult = await verifyHash(Buffer.from(enteredToken), Buffer.from(currentToken))
+
+  switch (verifyResult) {
+    case securePassword.VALID:
+      break
+
+    case securePassword.VALID_NEEDS_REHASH:
+      await rehashToken(username, enteredToken)
+      break
+
+    case securePassword.INVALID:
+      throw Error(`Invalid token`)
+
+    case securePassword.INVALID_UNRECOGNIZED_HASH:
+      console.error("Unrecognized hash")
+      throw Error(`Internal error`)
+
+    default:
+      console.error(`unknown verification result`)
+      throw Error(`Internal error`)
+  }
+
+  const currentDate = Date.now()
+
+  if (currentDate - tokenDate > TOKEN_EXPIRATION_TIME) {
+    throw Error(`Token has expired`)
+  }
+
+  return true
+}
+
 async function createToken(username: string) {
   const token = (await randomBytesPromise(32)).toString("hex")
   const tokenHash = await createHash(Buffer.from(token))
@@ -96,9 +145,14 @@ async function createToken(username: string) {
   const tokenHashQuery = `
     match (u:User { username: {username} })
     set u.token = {token}
+    set u.tokenDate = {tokenDate}
   `
 
-  await session.run(tokenHashQuery, { username, token: tokenHash.toString() })
+  await session.run(tokenHashQuery, {
+    username,
+    token: tokenHash.toString(),
+    tokenDate: Date.now(),
+  })
 
   return token
 }
@@ -109,6 +163,17 @@ async function rehashPassword(username: string, password: string) {
   const rehashQuery = `
     match (u:User { username: {username} })
     set u.password = {improvedHash}
+  `
+
+  await session.run(rehashQuery, { username, improvedHash })
+}
+
+async function rehashToken(username: string, token: string) {
+  const improvedHash = (await createHash(Buffer.from(token))).toString()
+
+  const rehashQuery = `
+    match (u:User { username: {username} })
+    set u.token = {improvedHash}
   `
 
   await session.run(rehashQuery, { username, improvedHash })
