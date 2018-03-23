@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto"
 import securePassword from "secure-password"
 import { promisify } from "util"
 
@@ -8,6 +9,7 @@ const passwordPolicy = securePassword()
 
 const createHash = promisify<Buffer, Buffer>(passwordPolicy.hash.bind(passwordPolicy))
 const verifyHash = promisify<Buffer, Buffer, any>(passwordPolicy.verify.bind(passwordPolicy))
+const randomBytesPromise = promisify(randomBytes)
 
 export async function createAccount(accountData: AccountData) {
   await verifyUserExistence(accountData)
@@ -20,6 +22,8 @@ export async function createAccount(accountData: AccountData) {
       password: hashedPassword.toString(),
     },
   })
+
+  return await createToken(accountData.username)
 }
 
 export async function verifyUserExistence(details: Pick<AccountData, "username" | "email">) {
@@ -42,7 +46,7 @@ export async function verifyUserExistence(details: Pick<AccountData, "username" 
   }
 }
 
-export async function logIn(usernameOrEmail: string, enteredPassword: string) {
+export async function logIn(usernameOrEmail: string, enteredPassword: string): Promise<string> {
   const query = `
     match (u:User)
     where u.username = {usernameOrEmail} or u.email = {usernameOrEmail}
@@ -56,7 +60,8 @@ export async function logIn(usernameOrEmail: string, enteredPassword: string) {
     throw Error(`Invalid email or password`)
   }
 
-  const currentPassword = record.get("u.password")
+  const currentPassword = String(record.get("u.password"))
+  const username = String(record.get("u.username"))
 
   const verifyResult = await verifyHash(Buffer.from(enteredPassword), Buffer.from(currentPassword))
 
@@ -69,12 +74,29 @@ export async function logIn(usernameOrEmail: string, enteredPassword: string) {
       throw Error(`Invalid email or password`)
 
     case securePassword.VALID:
-      return true // return token?
+      return await createToken(username)
 
     case securePassword.VALID_NEEDS_REHASH:
-      await rehashPassword(record.get("u.username"), enteredPassword)
-      return true // return token?
+      await rehashPassword(username, enteredPassword)
+      return await createToken(username)
+
+    default:
+      throw Error(`Internal error: unknown verification result`)
   }
+}
+
+async function createToken(username: string) {
+  const token = (await randomBytesPromise(32)).toString("hex")
+  const tokenHash = await createHash(Buffer.from(token))
+
+  const tokenHashQuery = `
+    match (u:User { username: {username} })
+    set u.token = {token}
+  `
+
+  await session.run(tokenHashQuery, { username, token: tokenHash.toString() })
+
+  return token
 }
 
 async function rehashPassword(username: string, password: string) {

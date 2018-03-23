@@ -13,8 +13,8 @@ app.use(express.json())
 app.post("/register", async (req, res) => {
   try {
     const accountData = validateAccountData(req.body)
-    await createAccount(accountData)
-    res.send({ success: true }) // send back a token?
+    const token = await createAccount(accountData)
+    res.send({ token })
   } catch (error) {
     res.send({ error: extractErrorMessage(error) })
     console.error("register error:", error)
@@ -24,8 +24,8 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const loginData = validateLoginData(req.body)
-    await logIn(loginData.usernameOrEmail, loginData.password)
-    res.send({ success: true }) // send token?
+    const token = await logIn(loginData.usernameOrEmail, loginData.password)
+    res.send({ token })
   } catch (error) {
     res.send({ error: extractErrorMessage(error) })
     console.error("login error:", error)
@@ -34,4 +34,6 @@ app.post("/login", async (req, res) => {
 
 app.listen(port, async () => {
   console.info(`server listening on http://localhost:${port}`)
+
+  logIn("kingdaro@gmail.com", "lol").then(console.log, console.error)
 })
