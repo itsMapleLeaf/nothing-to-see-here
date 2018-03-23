@@ -105,7 +105,7 @@ export async function verifyToken(username: string, enteredToken: string): Promi
   }
 
   const currentToken = String(record.get("u.token"))
-  const tokenDate = Number(record.get("u.tokenDate"))
+  const tokenDate = Number(record.get("u.tokenDate")) || 0
 
   const verifyResult = await verifyHash(Buffer.from(enteredToken), Buffer.from(currentToken))
 
