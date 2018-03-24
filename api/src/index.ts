@@ -1,8 +1,8 @@
 import express from "express"
 
-import { validateAccountData } from "./auth/accountData"
-import { createAccount, logIn } from "./auth/dbActions"
-import { validateLoginData } from "./auth/loginData"
+import { validateNewAccountData } from "./auth/new-account-data"
+import { createAccount, logIn } from "./auth/db-actions"
+import { validateLoginData } from "./auth/login-data"
 import { port } from "./env"
 import { extractErrorMessage } from "./helpers"
 
@@ -12,7 +12,7 @@ app.use(express.json())
 
 app.post("/register", async (req, res) => {
   try {
-    const accountData = validateAccountData(req.body)
+    const accountData = validateNewAccountData(req.body)
     const token = await createAccount(accountData)
     res.send({ token })
   } catch (error) {

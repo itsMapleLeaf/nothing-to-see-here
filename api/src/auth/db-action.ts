@@ -3,7 +3,7 @@ import securePassword from "secure-password"
 import { promisify } from "util"
 
 import { session } from "../db"
-import { AccountData } from "./accountData"
+import { NewAccountData } from "./new-account-data"
 
 const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24
 
@@ -13,7 +13,7 @@ const createHash = promisify<Buffer, Buffer>(passwordPolicy.hash.bind(passwordPo
 const verifyHash = promisify<Buffer, Buffer, any>(passwordPolicy.verify.bind(passwordPolicy))
 const randomBytesPromise = promisify(randomBytes)
 
-export async function createAccount(accountData: AccountData) {
+export async function createAccount(accountData: NewAccountData) {
   await verifyUserExistence(accountData)
 
   const hashedPassword = await createHash(Buffer.from(accountData.password))
@@ -28,7 +28,7 @@ export async function createAccount(accountData: AccountData) {
   return await createToken(accountData.username)
 }
 
-export async function verifyUserExistence(details: Pick<AccountData, "username" | "email">) {
+export async function verifyUserExistence(details: Pick<NewAccountData, "username" | "email">) {
   const query = `
     match (u:User)
     where u.username = {username} or u.email = {email}

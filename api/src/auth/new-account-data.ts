@@ -1,11 +1,11 @@
-export interface AccountData {
+export interface NewAccountData {
   username: string
   displayName: string
   email: string
   password: string
 }
 
-export function validateAccountData(data: any): AccountData {
+export function validateNewAccountData(data: any): NewAccountData {
   if (typeof data.username !== "string") throw Error("username is not a string")
   if (typeof data.displayName !== "string") throw Error("displayName is not a string")
   if (typeof data.email !== "string") throw Error("email is not a string")
