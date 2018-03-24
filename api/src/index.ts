@@ -1,8 +1,9 @@
 import express from "express"
+import { validate } from "joi"
 
-import { validateNewAccountData } from "./auth/new-account-data"
 import { createAccount, logIn } from "./auth/db-actions"
-import { validateLoginData } from "./auth/login-data"
+import { LoginData, loginDataSchema } from "./auth/login-data"
+import { NewAccountData, newAccountDataSchema } from "./auth/new-account-data"
 import { port } from "./env"
 import { extractErrorMessage } from "./helpers"
 
@@ -12,23 +13,32 @@ app.use(express.json())
 
 app.post("/register", async (req, res) => {
   try {
-    const accountData = validateNewAccountData(req.body)
-    const token = await createAccount(accountData)
+    const validationResult = validate<NewAccountData>(req.body, newAccountDataSchema)
+    if (validationResult.error) {
+      return res.status(400).send({ error: validationResult.error })
+    }
+
+    const token = await createAccount(validationResult.value)
     res.send({ token })
   } catch (error) {
-    res.send({ error: extractErrorMessage(error) })
-    console.error("register error:", error)
+    res.status(500).send({ error: "Internal error" })
+    console.error("register error:", extractErrorMessage(error))
   }
 })
 
 app.post("/login", async (req, res) => {
   try {
-    const loginData = validateLoginData(req.body)
-    const token = await logIn(loginData.usernameOrEmail, loginData.password)
+    const validationResult = validate<LoginData>(req.body, loginDataSchema)
+    if (validationResult.error) {
+      return res.status(400).send({ error: validationResult.error })
+    }
+
+    const { usernameOrEmail, password } = validationResult.value
+    const token = await logIn(usernameOrEmail, password)
     res.send({ token })
   } catch (error) {
-    res.send({ error: extractErrorMessage(error) })
-    console.error("login error:", error)
+    res.status(500).send({ error: "Internal error" })
+    console.error("login error:", extractErrorMessage(error))
   }
 })
 
