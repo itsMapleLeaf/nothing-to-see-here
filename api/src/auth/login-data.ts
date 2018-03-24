@@ -6,6 +6,10 @@ export interface LoginData {
 }
 
 export const loginDataSchema: Record<keyof LoginData, Schema> = {
-  usernameOrEmail: string().required(),
-  password: string().required(),
+  usernameOrEmail: string()
+    .min(3)
+    .required(),
+  password: string()
+    .min(3)
+    .required(),
 }

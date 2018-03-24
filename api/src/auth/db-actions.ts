@@ -14,7 +14,10 @@ const verifyHash = promisify<Buffer, Buffer, any>(passwordPolicy.verify.bind(pas
 const randomBytesPromise = promisify(randomBytes)
 
 export async function createAccount(accountData: NewAccountData) {
-  await verifyUserExistence(accountData)
+  const existenceResult = await verifyUserExistence(accountData)
+  if (existenceResult.error) {
+    return { token: undefined, error: existenceResult.error }
+  }
 
   const hashedPassword = await createHash(Buffer.from(accountData.password))
 
@@ -25,7 +28,8 @@ export async function createAccount(accountData: NewAccountData) {
     },
   })
 
-  return await createToken(accountData.username)
+  const token = await createToken(accountData.username)
+  return { token }
 }
 
 export async function verifyUserExistence(details: Pick<NewAccountData, "username" | "email">) {
@@ -40,15 +44,16 @@ export async function verifyUserExistence(details: Pick<NewAccountData, "usernam
 
   if (record) {
     if (record.get("u.username") === details.username) {
-      throw Error(`Username "${details.username}" exists`)
+      return { error: `Username "${details.username}" exists` }
     }
     if (record.get("u.email") === details.email) {
-      throw Error(`Email "${details.email}" is already registered`)
+      return { error: `Email "${details.email}" is already registered` }
     }
   }
+  return {}
 }
 
-export async function logIn(usernameOrEmail: string, enteredPassword: string): Promise<string> {
+export async function logIn(usernameOrEmail: string, enteredPassword: string) {
   const query = `
     match (u:User)
     where u.username = {usernameOrEmail} or u.email = {usernameOrEmail}
@@ -59,7 +64,7 @@ export async function logIn(usernameOrEmail: string, enteredPassword: string): P
   const record = dbResult.records[0]
 
   if (!record) {
-    throw Error(`Invalid email or password`)
+    return { error: `Invalid email or password` }
   }
 
   const currentPassword = String(record.get("u.password"))
@@ -69,21 +74,20 @@ export async function logIn(usernameOrEmail: string, enteredPassword: string): P
 
   switch (verifyResult) {
     case securePassword.VALID:
-      return await createToken(username)
+      return { token: await createToken(username) }
 
     case securePassword.VALID_NEEDS_REHASH:
       await rehashPassword(username, enteredPassword)
-      return await createToken(username)
+      return { token: await createToken(username) }
 
     case securePassword.INVALID:
-      throw Error(`Invalid email or password`)
+      return { error: `Invalid email or password` }
 
     case securePassword.INVALID_UNRECOGNIZED_HASH:
-      console.error("Unrecognized hash")
-      throw Error(`Internal error while logging in`)
+      throw Error("Unrecognized hash")
 
     default:
-      throw Error(`Internal error: unknown verification result`)
+      throw Error(`unknown verification result`)
   }
 }
 
@@ -121,8 +125,7 @@ export async function verifyToken(username: string, enteredToken: string): Promi
       throw Error(`Invalid token`)
 
     case securePassword.INVALID_UNRECOGNIZED_HASH:
-      console.error("Unrecognized hash")
-      throw Error(`Internal error`)
+      throw Error(`Unrecognized hash`)
 
     default:
       console.error(`unknown verification result`)
