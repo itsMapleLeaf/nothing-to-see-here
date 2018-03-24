@@ -12,7 +12,6 @@ const app = express()
 app.use(express.json())
 
 app.post("/login", async (req, res) => {
-  console.log(req.body)
   try {
     const validationResult = validate<LoginData>(req.body, loginDataSchema)
     if (validationResult.error) {
