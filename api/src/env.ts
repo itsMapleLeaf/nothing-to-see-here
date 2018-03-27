@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 import { resolve } from "path"
 
-import { throwError } from "./helpers"
+import { throwError } from "./helpers/errors"
 
 const configResult = dotenv.config({
   path: resolve(__dirname, "../../.env"),
