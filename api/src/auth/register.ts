@@ -2,7 +2,7 @@ import { RequestHandler } from "express"
 import { Schema, string, validate } from "joi"
 
 import { session } from "../db"
-import { extractErrorMessage } from "../helpers/errors"
+import { extractErrorMessage } from "../helpers/error-handling"
 import { createHash } from "../helpers/secure-password"
 import { createToken } from "./token"
 import { verifyUserExistence } from "./user"

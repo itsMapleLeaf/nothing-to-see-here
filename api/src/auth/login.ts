@@ -3,7 +3,7 @@ import { Schema, string, validate } from "joi"
 import securePassword from "secure-password"
 
 import { session } from "../db"
-import { extractErrorMessage } from "../helpers/errors"
+import { extractErrorMessage } from "../helpers/error-handling"
 import { verifyHash } from "../helpers/secure-password"
 import { createToken } from "./token"
 import { rehashPassword } from "./user"
