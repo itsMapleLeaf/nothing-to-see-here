@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, HttpException, HttpStatus, Post } from "@nestjs/common"
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Post,
+} from "@nestjs/common"
 import securePassword from "secure-password"
 
 import { verifyHash } from "./helpers/secure-password"
@@ -26,7 +34,7 @@ export class AuthController {
 
     const user = await this.users.getUserByUsernameOrEmail(usernameOrEmail)
     if (!user) {
-      throw new HttpException(HTTP_ERROR_BAD_LOGIN, HttpStatus.BAD_REQUEST)
+      throw new BadRequestException(HTTP_ERROR_BAD_LOGIN)
     }
 
     const verifyResult = await verifyHash(Buffer.from(password), Buffer.from(user.password))
@@ -39,7 +47,7 @@ export class AuthController {
         break
 
       case securePassword.INVALID:
-        throw new HttpException(HTTP_ERROR_BAD_LOGIN, HttpStatus.BAD_REQUEST)
+        throw new BadRequestException(HTTP_ERROR_BAD_LOGIN)
 
       case securePassword.INVALID_UNRECOGNIZED_HASH:
         console.error("Internal error: unrecognized hash")
@@ -58,7 +66,7 @@ export class AuthController {
   async logout(@Body() logoutDto: LogoutDto): Promise<{}> {
     const { username } = logoutDto
     if (typeof username !== "string") {
-      throw new HttpException("username must be a string", HttpStatus.BAD_REQUEST)
+      throw new BadRequestException("username must be a string")
     }
     await this.users.clearToken(username)
     return {}
@@ -72,8 +80,8 @@ export class AuthController {
       this.users.isEmailTaken(registerDto.email),
     ])
 
-    if (usernameTaken) throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
-    if (emailTaken) throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
+    if (usernameTaken) throw new BadRequestException(HTTP_ERROR_USERNAME_TAKEN)
+    if (emailTaken) throw new BadRequestException(HTTP_ERROR_EMAIL_TAKEN)
 
     await this.users.createUser(registerDto)
 
