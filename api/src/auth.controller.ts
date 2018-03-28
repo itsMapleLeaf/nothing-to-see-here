@@ -2,11 +2,11 @@ import { Controller, HttpCode, HttpException, HttpStatus, Post, Req } from "@nes
 import { Request } from "express"
 import securePassword from "secure-password"
 
-import { DatabaseService } from "./database.service"
 import { validateRequestBody } from "./helpers/http"
 import { verifyHash } from "./helpers/secure-password"
 import { LoginDetails } from "./login-details.model"
 import { NewUserDetails } from "./new-user-details.model"
+import { UserService } from "./user.service"
 
 type LoginResponseData = { token: string }
 
@@ -18,7 +18,7 @@ const HTTP_ERROR_EMAIL_TAKEN = "Email is taken"
 
 @Controller()
 export class AuthController {
-  constructor(private database: DatabaseService) {}
+  constructor(private users: UserService) {}
 
   @Post("login")
   async login(@Req() request: Request): Promise<LoginResponseData> {
@@ -27,7 +27,7 @@ export class AuthController {
       request.body,
     )
 
-    const user = await this.database.getUserByUsernameOrEmail(usernameOrEmail)
+    const user = await this.users.getUserByUsernameOrEmail(usernameOrEmail)
     if (!user) {
       throw new HttpException(HTTP_ERROR_BAD_LOGIN, HttpStatus.BAD_REQUEST)
     }
@@ -38,7 +38,7 @@ export class AuthController {
         break
 
       case securePassword.VALID_NEEDS_REHASH:
-        await this.database.rehashPassword(user.username, user.password)
+        await this.users.rehashPassword(user.username, user.password)
         break
 
       case securePassword.INVALID:
@@ -53,7 +53,7 @@ export class AuthController {
         throw new HttpException("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    const token = await this.database.createToken(user.username)
+    const token = await this.users.createToken(user.username)
     return { token }
   }
 
@@ -63,16 +63,16 @@ export class AuthController {
     const newUserDetails = await validateRequestBody(new NewUserDetails(), request.body)
 
     const [usernameTaken, emailTaken] = await Promise.all([
-      this.database.usernameTaken(newUserDetails.username),
-      this.database.emailTaken(newUserDetails.email),
+      this.users.isUsernameTaken(newUserDetails.username),
+      this.users.isEmailTaken(newUserDetails.email),
     ])
 
     if (usernameTaken) throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
     if (emailTaken) throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
 
-    await this.database.createAccount(newUserDetails)
+    await this.users.createUser(newUserDetails)
 
-    const token = await this.database.createToken(newUserDetails.username)
+    const token = await this.users.createToken(newUserDetails.username)
     return { token }
   }
 }
