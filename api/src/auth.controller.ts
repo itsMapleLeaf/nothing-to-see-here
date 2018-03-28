@@ -57,6 +57,16 @@ export class AuthController {
     return { token }
   }
 
+  @Post("logout")
+  async logout(@Req() request: Request): Promise<{}> {
+    const { username } = request.body
+    if (typeof username !== "string") {
+      throw new HttpException("username must be a string", HttpStatus.BAD_REQUEST)
+    }
+    await this.users.clearToken(username)
+    return {}
+  }
+
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
   async createAccount(@Req() request: Request): Promise<RegisterResponseData> {

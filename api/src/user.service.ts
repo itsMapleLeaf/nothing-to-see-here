@@ -139,4 +139,13 @@ export class UserService {
 
     await this.db.runQuery(rehashQuery, { username, improvedHash })
   }
+
+  async clearToken(username: string) {
+    const query = `
+      match (u:User { username: {username} })
+      set u.token = null
+      set u.tokenDate = 0
+    `
+    await this.db.runQuery(query, { username })
+  }
 }
