@@ -36,4 +36,34 @@ export class DatabaseService {
 
     await session.run(rehashQuery, { username, improvedHash })
   }
+
+  async usernameTaken(username: string): Promise<boolean> {
+    const query = `
+      match (u:User { username: {username} })
+      return u
+    `
+    const { records } = await session.run(query, { username })
+    return records.length > 0
+  }
+
+  async emailTaken(email: string): Promise<boolean> {
+    const query = `
+      match (u:User { email: {email} })
+      return u
+    `
+    const { records } = await session.run(query, { email })
+    return records.length > 0
+  }
+
+  async createAccount(details: {
+    username: string
+    displayName: string
+    email: string
+    password: string
+  }) {
+    const passwordHash = await createHash(Buffer.from(details.password))
+    await session.run(`create (:User $details)`, {
+      details: { ...details, password: passwordHash.toString() },
+    })
+  }
 }

@@ -10,11 +10,20 @@ type LoginRequestBody = {
   password: string
 }
 
-type LoginResponseData = {
-  token: string
+type LoginResponseData = {}
+
+type RegisterRequestBody = {
+  username: string
+  displayName: string
+  email: string
+  password: string
 }
 
+type RegisterResponseData = {}
+
 const HTTP_ERROR_BAD_LOGIN = "Invalid email, username, or password"
+const HTTP_ERROR_USERNAME_TAKEN = "Username is taken"
+const HTTP_ERROR_EMAIL_TAKEN = "Email is taken"
 
 @Controller()
 export class AuthController {
@@ -52,6 +61,23 @@ export class AuthController {
         throw new HttpException("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    return { token: "fdsjkfls" }
+    return {}
+  }
+
+  @Post("register")
+  async createAccount(@Req() request: Request): Promise<RegisterResponseData> {
+    const body = request.body as RegisterRequestBody
+
+    if (await this.database.usernameTaken(body.username)) {
+      throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
+    }
+
+    if (await this.database.emailTaken(body.email)) {
+      throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
+    }
+
+    await this.database.createAccount(body)
+
+    return {}
   }
 }
