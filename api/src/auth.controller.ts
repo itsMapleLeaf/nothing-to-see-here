@@ -61,13 +61,13 @@ export class AuthController {
   async createAccount(@Req() request: Request): Promise<RegisterResponseData> {
     const newUserDetails = await validateRequestBody(new NewUserDetails(), request.body)
 
-    if (await this.database.usernameTaken(newUserDetails.username)) {
-      throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
-    }
+    const [usernameTaken, emailTaken] = await Promise.all([
+      this.database.usernameTaken(newUserDetails.username),
+      this.database.emailTaken(newUserDetails.email),
+    ])
 
-    if (await this.database.emailTaken(newUserDetails.email)) {
-      throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
-    }
+    if (usernameTaken) throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
+    if (emailTaken) throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
 
     await this.database.createAccount(newUserDetails)
 
