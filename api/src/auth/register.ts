@@ -1,8 +1,9 @@
-import { RequestHandler } from "express"
-import { Schema, string, validate } from "joi"
+import { Response } from "express"
+import { Schema, string } from "joi"
 
 import { session } from "../db"
 import { extractErrorMessage } from "../helpers/error-handling"
+import { TypedRequest } from "../helpers/express-types"
 import { createHash } from "../helpers/secure-password"
 import { createToken } from "./token"
 import { verifyUserExistence } from "./user"
@@ -29,19 +30,14 @@ export const newAccountDataSchema: Record<keyof NewAccountData, Schema> = {
     .required(),
 }
 
-export const registerRouteHandler: RequestHandler = async (req, res) => {
+export async function registerRouteHandler(req: TypedRequest<NewAccountData>, res: Response) {
   try {
-    const validationResult = validate<NewAccountData>(req.body, newAccountDataSchema)
-    if (validationResult.error) {
-      return res.status(400).send({ error: validationResult.error.details[0].message })
-    }
-
-    const accountCreationResult = await createAccount(validationResult.value)
+    const accountCreationResult = await createAccount(req.body)
     if (accountCreationResult.error) {
-      return res.status(400).send({ error: accountCreationResult.error })
+      res.status(400).send({ error: accountCreationResult.error })
+    } else {
+      res.status(200).send({ token: accountCreationResult.token })
     }
-
-    return res.status(200).send({ token: accountCreationResult.token })
   } catch (error) {
     res.status(500).send({ error: "Internal error" })
     console.error("register error:", extractErrorMessage(error))

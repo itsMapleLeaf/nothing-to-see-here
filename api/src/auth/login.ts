@@ -1,9 +1,10 @@
-import { RequestHandler } from "express"
-import { Schema, string, validate } from "joi"
+import { Response } from "express"
+import { Schema, string } from "joi"
 import securePassword from "secure-password"
 
 import { session } from "../db"
 import { extractErrorMessage } from "../helpers/error-handling"
+import { TypedRequest } from "../helpers/express-types"
 import { verifyHash } from "../helpers/secure-password"
 import { createToken } from "./token"
 import { rehashPassword } from "./user"
@@ -22,21 +23,16 @@ export const loginDataSchema: Record<keyof LoginData, Schema> = {
     .required(),
 }
 
-export const loginRouteHandler: RequestHandler = async (req, res) => {
+export async function loginRouteHandler(req: TypedRequest<LoginData>, res: Response) {
   try {
-    const validationResult = validate<LoginData>(req.body, loginDataSchema)
-    if (validationResult.error) {
-      return res.status(400).send({ error: validationResult.error.details[0].message })
-    }
-
-    const { usernameOrEmail, password } = validationResult.value
-
+    const { usernameOrEmail, password } = req.body
     const loginResult = await logIn(usernameOrEmail, password)
-    if (loginResult.error) {
-      return res.status(400).send({ error: loginResult.error })
-    }
 
-    res.status(200).send({ token: loginResult.token })
+    if (loginResult.error) {
+      res.status(400).send({ error: loginResult.error })
+    } else {
+      res.status(200).send({ token: loginResult.token })
+    }
   } catch (error) {
     res.status(500).send({ error: "Internal error" })
     console.error("login error:", extractErrorMessage(error))
