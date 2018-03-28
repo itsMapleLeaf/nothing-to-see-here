@@ -1,4 +1,4 @@
-import { IsEmail, Length, Matches, Max } from "class-validator"
+import { IsEmail, Length, Matches } from "class-validator"
 
 export class NewUserDetails {
   @Length(3, 32)
@@ -13,6 +13,6 @@ export class NewUserDetails {
   @Length(3)
   password!: string
 
-  @Max(64)
+  @Length(0, 64)
   displayName!: string
 }
