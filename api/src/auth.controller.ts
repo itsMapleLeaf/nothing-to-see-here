@@ -4,6 +4,7 @@ import securePassword from "secure-password"
 
 import { DatabaseService } from "./database.service"
 import { verifyHash } from "./helpers/secure-password"
+import { NewUserDetails } from "./new-user-details.model"
 
 type LoginRequestBody = {
   usernameOrEmail: string
@@ -12,12 +13,7 @@ type LoginRequestBody = {
 
 type LoginResponseData = {}
 
-type RegisterRequestBody = {
-  username: string
-  displayName: string
-  email: string
-  password: string
-}
+type RegisterRequestBody = NewUserDetails
 
 type RegisterResponseData = {}
 

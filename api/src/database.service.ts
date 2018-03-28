@@ -3,6 +3,7 @@ import neo4j from "neo4j-driver"
 
 import { createHash } from "../src.old/helpers/secure-password"
 import { databasePass, databaseUrl, databaseUser } from "./env"
+import { NewUserDetails } from "./new-user-details.model"
 
 const driver = neo4j.driver(databaseUrl, neo4j.auth.basic(databaseUser, databasePass))
 const session = driver.session()
@@ -55,12 +56,7 @@ export class DatabaseService {
     return records.length > 0
   }
 
-  async createAccount(details: {
-    username: string
-    displayName: string
-    email: string
-    password: string
-  }) {
+  async createAccount(details: NewUserDetails) {
     const passwordHash = await createHash(Buffer.from(details.password))
     await session.run(`create (:User $details)`, {
       details: { ...details, password: passwordHash.toString() },
