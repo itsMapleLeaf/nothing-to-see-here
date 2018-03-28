@@ -12,6 +12,7 @@ type LoginResponseData = { token: string }
 
 type RegisterResponseData = { token: string }
 
+const HTTP_ERROR_VALIDATION_FAILED = "Validation failed"
 const HTTP_ERROR_BAD_LOGIN = "Invalid email, username, or password"
 const HTTP_ERROR_USERNAME_TAKEN = "Username is taken"
 const HTTP_ERROR_EMAIL_TAKEN = "Email is taken"
@@ -22,10 +23,12 @@ export class AuthController {
 
   @Post("login")
   async login(@Req() request: Request): Promise<LoginResponseData> {
-    const { usernameOrEmail, password } = await validateRequestBody(
-      new LoginDetails(),
-      request.body,
-    )
+    const validationResult = await validateRequestBody(new LoginDetails(), request.body)
+    if (!validationResult.success) {
+      throw new HttpException(HTTP_ERROR_VALIDATION_FAILED, HttpStatus.BAD_REQUEST)
+    }
+
+    const { usernameOrEmail, password } = validationResult.value
 
     const user = await this.users.getUserByUsernameOrEmail(usernameOrEmail)
     if (!user) {
@@ -70,7 +73,12 @@ export class AuthController {
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
   async createAccount(@Req() request: Request): Promise<RegisterResponseData> {
-    const newUserDetails = await validateRequestBody(new NewUserDetails(), request.body)
+    const validationResult = await validateRequestBody(new NewUserDetails(), request.body)
+    if (!validationResult.success) {
+      throw new HttpException(HTTP_ERROR_VALIDATION_FAILED, HttpStatus.BAD_REQUEST)
+    }
+
+    const newUserDetails = validationResult.value
 
     const [usernameTaken, emailTaken] = await Promise.all([
       this.users.isUsernameTaken(newUserDetails.username),
