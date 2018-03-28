@@ -27,11 +27,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "public/index.html",
+      template: resolve(__dirname, "public/index.html"),
     }),
     new CopyWebpackPlugin([
       {
-        from: "public",
+        from: resolve(__dirname, "public"),
         ignore: "index.html",
       },
     ]),
