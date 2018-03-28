@@ -1,18 +1,18 @@
 import { IsEmail, Length, Matches } from "class-validator"
 
-export class NewUserDetails {
+export class RegisterDto {
   @Length(3, 32)
   @Matches(/^[a-z0-9-_]+$/i, {
     message: "can only contain letters, numbers, dashes (-) or underscores (_)",
   })
-  username!: string
+  readonly username!: string
 
   @IsEmail({}, { message: "must be a valid email" })
-  email!: string
+  readonly email!: string
 
   @Length(3)
-  password!: string
+  readonly password!: string
 
   @Length(0, 64)
-  displayName!: string
+  readonly displayName!: string
 }

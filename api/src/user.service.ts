@@ -4,7 +4,7 @@ import securePassword from "secure-password"
 import { DatabaseService } from "./database.service"
 import { randomBytesPromise } from "./helpers/random-bytes-promise"
 import { createHash, verifyHash } from "./helpers/secure-password"
-import { NewUserDetails } from "./new-user-details.model"
+import { RegisterDto } from "./register.dto"
 import { User } from "./user.model"
 
 const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24
@@ -39,7 +39,7 @@ export class UserService {
     await this.db.runQuery(rehashQuery, { username, improvedHash })
   }
 
-  async createUser(details: NewUserDetails) {
+  async createUser(details: RegisterDto) {
     const passwordHash = await createHash(Buffer.from(details.password))
     await this.db.runQuery(`create (:User $details)`, {
       details: { ...details, password: passwordHash.toString() },

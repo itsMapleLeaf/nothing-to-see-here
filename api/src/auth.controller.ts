@@ -4,8 +4,8 @@ import securePassword from "secure-password"
 
 import { validateRequestBody } from "./helpers/http"
 import { verifyHash } from "./helpers/secure-password"
-import { LoginDetails } from "./login-details.model"
-import { NewUserDetails } from "./new-user-details.model"
+import { LoginDto } from "./login.dto"
+import { RegisterDto } from "./register.dto"
 import { UserService } from "./user.service"
 
 type LoginResponseData = { token: string }
@@ -23,7 +23,7 @@ export class AuthController {
 
   @Post("login")
   async login(@Req() request: Request): Promise<LoginResponseData> {
-    const validationResult = await validateRequestBody(new LoginDetails(), request.body)
+    const validationResult = await validateRequestBody(new LoginDto(), request.body)
     if (!validationResult.success) {
       throw new HttpException(HTTP_ERROR_VALIDATION_FAILED, HttpStatus.BAD_REQUEST)
     }
@@ -73,7 +73,7 @@ export class AuthController {
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
   async createAccount(@Req() request: Request): Promise<RegisterResponseData> {
-    const validationResult = await validateRequestBody(new NewUserDetails(), request.body)
+    const validationResult = await validateRequestBody(new RegisterDto(), request.body)
     if (!validationResult.success) {
       throw new HttpException(HTTP_ERROR_VALIDATION_FAILED, HttpStatus.BAD_REQUEST)
     }
