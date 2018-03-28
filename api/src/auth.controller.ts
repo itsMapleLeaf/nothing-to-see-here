@@ -31,6 +31,7 @@ export class AuthController {
   constructor(private users: UserService) {}
 
   @Post("login")
+  @HttpCode(HttpStatus.OK)
   @UsePipes(new ValidationPipe())
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseData> {
     const { usernameOrEmail, password } = loginDto
@@ -66,6 +67,7 @@ export class AuthController {
   }
 
   @Post("logout")
+  @HttpCode(HttpStatus.OK)
   @UsePipes(new ValidationPipe())
   async logout(@Body() logoutDto: LogoutDto): Promise<{}> {
     await this.users.clearToken(logoutDto.username)
