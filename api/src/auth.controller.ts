@@ -1,19 +1,14 @@
-import { Controller, HttpException, HttpStatus, Post, Req } from "@nestjs/common"
+import { Controller, HttpCode, HttpException, HttpStatus, Post, Req } from "@nestjs/common"
 import { Request } from "express"
 import securePassword from "secure-password"
 
 import { DatabaseService } from "./database.service"
+import { validateRequestBody } from "./helpers/http"
 import { verifyHash } from "./helpers/secure-password"
+import { LoginDetails } from "./login-details.model"
 import { NewUserDetails } from "./new-user-details.model"
 
-type LoginRequestBody = {
-  usernameOrEmail: string
-  password: string
-}
-
 type LoginResponseData = {}
-
-type RegisterRequestBody = NewUserDetails
 
 type RegisterResponseData = {}
 
@@ -27,16 +22,17 @@ export class AuthController {
 
   @Post("login")
   async login(@Req() request: Request): Promise<LoginResponseData> {
-    const { usernameOrEmail, password } = request.body as LoginRequestBody
+    const { usernameOrEmail, password } = await validateRequestBody(
+      new LoginDetails(),
+      request.body,
+    )
 
     const user = await this.database.getUserByUsernameOrEmail(usernameOrEmail)
-
     if (!user) {
       throw new HttpException(HTTP_ERROR_BAD_LOGIN, HttpStatus.BAD_REQUEST)
     }
 
     const verifyResult = await verifyHash(Buffer.from(password), Buffer.from(user.password))
-
     switch (verifyResult) {
       case securePassword.VALID:
         break
@@ -61,18 +57,19 @@ export class AuthController {
   }
 
   @Post("register")
+  @HttpCode(HttpStatus.CREATED)
   async createAccount(@Req() request: Request): Promise<RegisterResponseData> {
-    const body = request.body as RegisterRequestBody
+    const newUserDetails = await validateRequestBody(new NewUserDetails(), request.body)
 
-    if (await this.database.usernameTaken(body.username)) {
+    if (await this.database.usernameTaken(newUserDetails.username)) {
       throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
     }
 
-    if (await this.database.emailTaken(body.email)) {
+    if (await this.database.emailTaken(newUserDetails.email)) {
       throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
     }
 
-    await this.database.createAccount(body)
+    await this.database.createAccount(newUserDetails)
 
     return {}
   }
