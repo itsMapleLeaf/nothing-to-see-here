@@ -6,6 +6,6 @@ import { port } from "./env"
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   await app.listen(port)
-  console.log(`listening on http://localhost:${port}`)
+  console.info(`listening on http://localhost:${port}`)
 }
-bootstrap()
+bootstrap().catch(console.error)

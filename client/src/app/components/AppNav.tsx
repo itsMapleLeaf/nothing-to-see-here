@@ -8,6 +8,33 @@ import { routePaths } from "../../routePaths"
 import { anchorPrimary, raisedPanelStyles } from "../../ui/elements"
 import { modalStore } from "../stores/ModalStore"
 
+const Panel = styled.nav`
+  ${raisedPanelStyles};
+
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`
+
+const Title = styled.h1`
+  padding: 0.5rem 1rem;
+`
+
+const NavLinkList = styled.div`
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`
+
+const NavLink = styled(Link)`
+  ${anchorPrimary};
+  padding: 0.5rem 1rem;
+  display: block;
+`
+
 export const AppNav = observer(() => (
   <Panel>
     <Title>RP website</Title>
@@ -36,30 +63,3 @@ export const AppNav = observer(() => (
     </NavLinkList>
   </Panel>
 ))
-
-const Panel = styled.nav`
-  ${raisedPanelStyles};
-
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`
-
-const Title = styled.h1`
-  padding: 0.5rem 1rem;
-`
-
-const NavLinkList = styled.div`
-  padding: 0;
-  margin: 0;
-
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`
-
-const NavLink = styled(Link)`
-  ${anchorPrimary};
-  padding: 0.5rem 1rem;
-  display: block;
-`

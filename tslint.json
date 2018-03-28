@@ -6,7 +6,8 @@
     "member-ordering": [false],
     "object-literal-sort-keys": false,
     "interface-name": false,
-    "max-classes-per-file": false
+    "max-classes-per-file": false,
+    "no-console": [true, "log"]
   },
   "defaultSeverity": "warning"
 }

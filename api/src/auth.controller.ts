@@ -38,7 +38,7 @@ export class AuthController {
         break
 
       case securePassword.VALID_NEEDS_REHASH:
-        this.database.rehashPassword(user.username, user.password)
+        await this.database.rehashPassword(user.username, user.password)
         break
 
       case securePassword.INVALID:

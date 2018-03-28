@@ -17,6 +17,14 @@ import { HomePage } from "./HomePage"
 import { LoadingCover } from "./LoadingCover"
 import { NotFoundPage } from "./NotFoundPage"
 
+const renderCharacterEditPage = ({ match }: RouteComponentProps<{ id: string }>) => (
+  <CharacterEditPage id={match.params.id} key={match.params.id} />
+)
+
+const renderViewCharacterPage = ({ match }: RouteComponentProps<{ id: string }>) => (
+  <CharacterPage key={match.params.id} id={match.params.id} />
+)
+
 export const App = observer(() => (
   <Router history={appHistory}>
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -38,11 +46,3 @@ export const App = observer(() => (
     </div>
   </Router>
 ))
-
-const renderCharacterEditPage = ({ match }: RouteComponentProps<{ id: string }>) => (
-  <CharacterEditPage id={match.params.id} key={match.params.id} />
-)
-
-const renderViewCharacterPage = ({ match }: RouteComponentProps<{ id: string }>) => (
-  <CharacterPage key={match.params.id} id={match.params.id} />
-)

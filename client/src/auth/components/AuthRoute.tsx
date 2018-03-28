@@ -5,6 +5,12 @@ import { Route, RouteProps } from "react-router-dom"
 import { PageSection, PageWrapperPanel } from "../../ui/elements"
 import { authStore } from "../stores/AuthStore"
 
+const AuthPermissionErrorPage = () => (
+  <PageWrapperPanel>
+    <PageSection>You must be logged in to view this page.</PageSection>
+  </PageWrapperPanel>
+)
+
 export const AuthRoute = observer((props: RouteProps) => {
   if (authStore.authenticating) {
     return null
@@ -14,9 +20,3 @@ export const AuthRoute = observer((props: RouteProps) => {
   }
   return <Route {...props} />
 })
-
-const AuthPermissionErrorPage = () => (
-  <PageWrapperPanel>
-    <PageSection>You must be logged in to view this page.</PageSection>
-  </PageWrapperPanel>
-)

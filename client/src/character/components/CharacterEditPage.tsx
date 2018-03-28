@@ -44,6 +44,18 @@ export class CharacterEditPage extends React.Component<Props> {
   }
 }
 
+const handleSubmit = async (values: CharacterFormValues, character: CharacterModel) => {
+  const { user } = authStore
+  if (!user) return
+
+  await updateCharacter(character.id, {
+    name: values.name,
+    tagline: values.description,
+  })
+
+  appHistory.push(routePaths.characterList)
+}
+
 function SuccessResult({ character }: { character: CharacterModel }) {
   const initialValues: CharacterFormValues = {
     name: character.name,
@@ -68,16 +80,4 @@ function SuccessResult({ character }: { character: CharacterModel }) {
       </PageSection>
     </PageWrapperPanel>
   )
-}
-
-const handleSubmit = async (values: CharacterFormValues, character: CharacterModel) => {
-  const { user } = authStore
-  if (!user) return
-
-  await updateCharacter(character.id, {
-    name: values.name,
-    tagline: values.description,
-  })
-
-  appHistory.push(routePaths.characterList)
 }

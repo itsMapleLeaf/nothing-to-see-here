@@ -44,7 +44,7 @@ export class AuthStore {
   @action
   signOut = () => {
     this.authenticating = true
-    auth.signOut()
+    auth.signOut().catch(console.error)
   }
 
   @action

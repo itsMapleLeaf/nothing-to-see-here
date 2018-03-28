@@ -8,6 +8,18 @@ import { PageSection, PageTitle, PageWrapperPanel } from "../../ui/elements"
 import { createCharacter } from "../firebaseActions"
 import { CharacterForm, CharacterFormValues } from "./CharacterForm"
 
+const handleSubmit = async (values: CharacterFormValues) => {
+  const { user } = authStore
+  if (!user) return
+
+  await createCharacter(user, {
+    name: values.name,
+    tagline: values.description,
+  })
+
+  appHistory.push(routePaths.characterList)
+}
+
 export const CharacterCreatePage = () => {
   return (
     <PageWrapperPanel>
@@ -27,16 +39,4 @@ export const CharacterCreatePage = () => {
       </PageSection>
     </PageWrapperPanel>
   )
-}
-
-const handleSubmit = async (values: CharacterFormValues) => {
-  const { user } = authStore
-  if (!user) return
-
-  await createCharacter(user, {
-    name: values.name,
-    tagline: values.description,
-  })
-
-  appHistory.push(routePaths.characterList)
 }
