@@ -19,10 +19,11 @@ export class DatabaseService {
     const dbResult = await session.run(query, { usernameOrEmail })
     const record = dbResult.records[0]
 
-    const username = String(record.get("u.username"))
-    const password = String(record.get("u.password"))
-
-    return { username, password }
+    if (record) {
+      const username = String(record.get("u.username"))
+      const password = String(record.get("u.password"))
+      return { username, password }
+    }
   }
 
   async rehashPassword(username: string, password: string) {
