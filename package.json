@@ -4,11 +4,13 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "client:dev": "webpack-dev-server --config client/webpack.config.js --inline --hot --mode development",
-    "client:build": "NODE_ENV=production webpack --config client/webpack.config.js --mode production",
+    "client:dev":
+      "webpack-dev-server --config client/webpack.config.js --inline --hot --mode development",
+    "client:build":
+      "NODE_ENV=production webpack --config client/webpack.config.js --mode production",
     "client:build:dev": "webpack --config client/webpack.config.js --mode development",
-    "api:start": "ts-node api/src/main",
-    "api:dev": "nodemon api/src/main -x ts-node -w src -e ts,tsx",
+    "api:start": "ts-node -P api/tsconfig.json api/src/main",
+    "api:dev": "nodemon api/src/main -x \"ts-node -P api/tsconfig.json\" -w api -e ts,tsx,json",
     "typecheck": "tsc --noEmit",
     "lint": "tslint -p .",
     "format": "prettier \"@(client|api)/**/*.@(js|ts?(x))\" --write"
