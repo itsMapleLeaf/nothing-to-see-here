@@ -8,9 +8,9 @@ import { verifyHash } from "./helpers/secure-password"
 import { LoginDetails } from "./login-details.model"
 import { NewUserDetails } from "./new-user-details.model"
 
-type LoginResponseData = {}
+type LoginResponseData = { token: string }
 
-type RegisterResponseData = {}
+type RegisterResponseData = { token: string }
 
 const HTTP_ERROR_BAD_LOGIN = "Invalid email, username, or password"
 const HTTP_ERROR_USERNAME_TAKEN = "Username is taken"
@@ -53,7 +53,8 @@ export class AuthController {
         throw new HttpException("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    return {}
+    const token = await this.database.createToken(user.username)
+    return { token }
   }
 
   @Post("register")
@@ -71,6 +72,7 @@ export class AuthController {
 
     await this.database.createAccount(newUserDetails)
 
-    return {}
+    const token = await this.database.createToken(newUserDetails.username)
+    return { token }
   }
 }
