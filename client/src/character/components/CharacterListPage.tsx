@@ -2,19 +2,19 @@ import { observer } from "mobx-react"
 import * as React from "react"
 import { Link } from "react-router-dom"
 
-import { ErrorPage } from "../../../app/components/ErrorPage"
-import { authStore } from "../../../auth/stores/AuthStore"
-import { createFetcher, FetchState } from "../../../common/components/Fetcher"
-import { routePaths } from "../../../routePaths"
+import { ErrorPage } from "../../app/components/ErrorPage"
+import { authStore } from "../../auth/stores/AuthStore"
+import { createFetcher, FetchState } from "../../common/components/Fetcher"
+import { routePaths } from "../../routePaths"
 import {
   anchorPrimary,
   FadedText,
   PageSection,
   PageTitle,
   PageWrapperPanel,
-} from "../../../ui/elements"
-import { getCharactersOwnedByUser } from "../../firebaseActions"
-import { CharacterModel } from "../../models/CharacterModel"
+} from "../../ui/elements"
+import { getCharactersOwnedByUser } from "../firebaseActions"
+import { CharacterModel } from "../models/CharacterModel"
 
 const CharacterListFetcher = createFetcher<CharacterModel[]>()
 

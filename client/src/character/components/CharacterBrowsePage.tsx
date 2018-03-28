@@ -2,18 +2,18 @@ import { observer } from "mobx-react"
 import * as React from "react"
 import { Link } from "react-router-dom"
 
-import { ErrorPage } from "../../../app/components/ErrorPage"
-import { createFetcher, FetchState } from "../../../common/components/Fetcher"
-import { routePaths } from "../../../routePaths"
+import { ErrorPage } from "../../app/components/ErrorPage"
+import { createFetcher, FetchState } from "../../common/components/Fetcher"
+import { routePaths } from "../../routePaths"
 import {
   anchorPrimary,
   FadedText,
   PageSection,
   PageTitle,
   PageWrapperPanel,
-} from "../../../ui/elements"
-import { getAllCharacters } from "../../firebaseActions"
-import { CharacterModel } from "../../models/CharacterModel"
+} from "../../ui/elements"
+import { getAllCharacters } from "../firebaseActions"
+import { CharacterModel } from "../models/CharacterModel"
 
 const CharacterListFetcher = createFetcher<CharacterModel[]>()
 

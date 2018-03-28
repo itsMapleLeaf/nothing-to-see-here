@@ -1,12 +1,12 @@
 import { Formik } from "formik"
 import * as React from "react"
 
-import { authStore } from "../../../auth/stores/AuthStore"
-import { appHistory } from "../../../history"
-import { routePaths } from "../../../routePaths"
-import { PageSection, PageTitle, PageWrapperPanel } from "../../../ui/elements"
-import { createCharacter } from "../../firebaseActions"
-import { CharacterForm, CharacterFormValues } from "../CharacterForm"
+import { authStore } from "../../auth/stores/AuthStore"
+import { appHistory } from "../../history"
+import { routePaths } from "../../routePaths"
+import { PageSection, PageTitle, PageWrapperPanel } from "../../ui/elements"
+import { createCharacter } from "../firebaseActions"
+import { CharacterForm, CharacterFormValues } from "./CharacterForm"
 
 export const CharacterCreatePage = () => {
   return (

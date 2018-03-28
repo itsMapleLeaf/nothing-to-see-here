@@ -3,8 +3,8 @@ import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
 
-import { ModalState } from "../../../app/stores/ModalStore"
-import { preventDefault } from "../../../common/helpers/react"
+import { ModalState } from "../../app/stores/ModalStore"
+import { preventDefault } from "../../common/helpers/react"
 import {
   Button,
   Input,
@@ -13,8 +13,8 @@ import {
   PageTitle,
   RaisedPanel,
   Shade,
-} from "../../../ui/elements"
-import { authStore } from "../../stores/AuthStore"
+} from "../../ui/elements"
+import { authStore } from "../stores/AuthStore"
 
 type RegisterFormValues = {
   displayName: string

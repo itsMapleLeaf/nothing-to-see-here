@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { Button, Input, Label } from "../../../ui/elements"
+import { Button, Input, Label } from "../../ui/elements"
 
 export interface CharacterFormProps {
   values: CharacterFormValues
