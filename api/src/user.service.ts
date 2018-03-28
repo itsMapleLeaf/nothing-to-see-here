@@ -5,6 +5,7 @@ import { DatabaseService } from "./database.service"
 import { randomBytesPromise } from "./helpers/random-bytes-promise"
 import { createHash, verifyHash } from "./helpers/secure-password"
 import { NewUserDetails } from "./new-user-details.model"
+import { User } from "./user.model"
 
 const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24
 
@@ -12,20 +13,18 @@ const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24
 export class UserService {
   constructor(private db: DatabaseService) {}
 
-  async getUserByUsernameOrEmail(usernameOrEmail: string) {
+  async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
     const query = `
       match (u:User)
       where u.username = {usernameOrEmail} or u.email = {usernameOrEmail}
-      return u.username, u.password
+      return properties(u) as user
     `
 
     const dbResult = await this.db.runQuery(query, { usernameOrEmail })
     const record = dbResult.records[0]
 
     if (record) {
-      const username = String(record.get("u.username"))
-      const password = String(record.get("u.password"))
-      return { username, password }
+      return record.get("user") as User
     }
   }
 
