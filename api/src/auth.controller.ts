@@ -1,10 +1,9 @@
-import { Controller, HttpCode, HttpException, HttpStatus, Post, Req } from "@nestjs/common"
-import { Request } from "express"
+import { Body, Controller, HttpCode, HttpException, HttpStatus, Post } from "@nestjs/common"
 import securePassword from "secure-password"
 
-import { validateRequestBody } from "./helpers/http"
 import { verifyHash } from "./helpers/secure-password"
 import { LoginDto } from "./login.dto"
+import { LogoutDto } from "./logout.dto"
 import { RegisterDto } from "./register.dto"
 import { UserService } from "./user.service"
 
@@ -22,13 +21,8 @@ export class AuthController {
   constructor(private users: UserService) {}
 
   @Post("login")
-  async login(@Req() request: Request): Promise<LoginResponseData> {
-    const validationResult = await validateRequestBody(new LoginDto(), request.body)
-    if (!validationResult.success) {
-      throw new HttpException(HTTP_ERROR_VALIDATION_FAILED, HttpStatus.BAD_REQUEST)
-    }
-
-    const { usernameOrEmail, password } = validationResult.value
+  async login(@Body() loginDto: LoginDto): Promise<LoginResponseData> {
+    const { usernameOrEmail, password } = loginDto
 
     const user = await this.users.getUserByUsernameOrEmail(usernameOrEmail)
     if (!user) {
@@ -61,8 +55,8 @@ export class AuthController {
   }
 
   @Post("logout")
-  async logout(@Req() request: Request): Promise<{}> {
-    const { username } = request.body
+  async logout(@Body() logoutDto: LogoutDto): Promise<{}> {
+    const { username } = logoutDto
     if (typeof username !== "string") {
       throw new HttpException("username must be a string", HttpStatus.BAD_REQUEST)
     }
@@ -72,25 +66,18 @@ export class AuthController {
 
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
-  async createAccount(@Req() request: Request): Promise<RegisterResponseData> {
-    const validationResult = await validateRequestBody(new RegisterDto(), request.body)
-    if (!validationResult.success) {
-      throw new HttpException(HTTP_ERROR_VALIDATION_FAILED, HttpStatus.BAD_REQUEST)
-    }
-
-    const newUserDetails = validationResult.value
-
+  async createAccount(@Body() registerDto: RegisterDto): Promise<RegisterResponseData> {
     const [usernameTaken, emailTaken] = await Promise.all([
-      this.users.isUsernameTaken(newUserDetails.username),
-      this.users.isEmailTaken(newUserDetails.email),
+      this.users.isUsernameTaken(registerDto.username),
+      this.users.isEmailTaken(registerDto.email),
     ])
 
     if (usernameTaken) throw new HttpException(HTTP_ERROR_USERNAME_TAKEN, HttpStatus.BAD_REQUEST)
     if (emailTaken) throw new HttpException(HTTP_ERROR_EMAIL_TAKEN, HttpStatus.BAD_REQUEST)
 
-    await this.users.createUser(newUserDetails)
+    await this.users.createUser(registerDto)
 
-    const token = await this.users.createToken(newUserDetails.username)
+    const token = await this.users.createToken(registerDto.username)
     return { token }
   }
 }
