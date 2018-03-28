@@ -11,7 +11,7 @@
     "api:dev": "nodemon api/src/main -x ts-node -w src -e ts,tsx",
     "typecheck": "tsc --noEmit",
     "lint": "tslint -p .",
-    "format": "prettier \"@(client|api)/**/*.@(js|ts?(x)\""
+    "format": "prettier \"@(client|api)/**/*.@(js|ts?(x))\" --write"
   },
   "dependencies": {
     "@firebase/app-types": "^0.1.2",
