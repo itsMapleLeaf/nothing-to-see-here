@@ -6,6 +6,8 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common"
 import securePassword from "secure-password"
 
@@ -29,6 +31,7 @@ export class AuthController {
   constructor(private users: UserService) {}
 
   @Post("login")
+  @UsePipes(new ValidationPipe())
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseData> {
     const { usernameOrEmail, password } = loginDto
 
@@ -63,17 +66,15 @@ export class AuthController {
   }
 
   @Post("logout")
+  @UsePipes(new ValidationPipe())
   async logout(@Body() logoutDto: LogoutDto): Promise<{}> {
-    const { username } = logoutDto
-    if (typeof username !== "string") {
-      throw new BadRequestException("username must be a string")
-    }
-    await this.users.clearToken(username)
+    await this.users.clearToken(logoutDto.username)
     return {}
   }
 
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
+  @UsePipes(new ValidationPipe())
   async createAccount(@Body() registerDto: RegisterDto): Promise<RegisterResponseData> {
     const [usernameTaken, emailTaken] = await Promise.all([
       this.users.isUsernameTaken(registerDto.username),
