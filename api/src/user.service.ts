@@ -1,9 +1,9 @@
 import { Component } from "@nestjs/common"
 import securePassword from "secure-password"
 
-import { createHash, verifyHash } from "../src.old/helpers/secure-password"
 import { DatabaseService } from "./database.service"
 import { randomBytesPromise } from "./helpers/random-bytes-promise"
+import { createHash, verifyHash } from "./helpers/secure-password"
 import { NewUserDetails } from "./new-user-details.model"
 
 const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24
