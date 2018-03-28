@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import * as React from "react"
 
 import { ModalState } from "../../../app/stores/ModalStore"
+import { preventDefault } from "../../../common/helpers/react"
 import {
   Button,
   Input,
@@ -83,7 +84,7 @@ export class RegisterModal extends React.Component<Props> {
 
       <fieldset>
         <Button type="submit">Register</Button>{" "}
-        <Button flat onClick={this.props.modalState.hide}>
+        <Button flat onClick={preventDefault(this.props.modalState.hide)}>
           Cancel
         </Button>
       </fieldset>
