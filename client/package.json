@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot --mode development",
+    "dev": "webpack-dev-server --inline --hot --mode development",
     "build": "NODE_ENV=production webpack --mode production",
     "build:dev": "webpack --mode development",
     "typecheck": "tsc --noEmit",
