@@ -5,6 +5,7 @@ import koaLogger from "koa-logger"
 import neo4j from "neo4j-driver"
 
 import { databasePass, databaseUrl, databaseUser, port } from "./env"
+import { randomBytesPromise } from "./helpers/random-bytes-promise"
 import { createHash } from "./helpers/secure-password"
 
 function runServer(session: neo4j.Session) {
@@ -36,7 +37,9 @@ function handleRegisterRoute(session: neo4j.Session): Koa.Middleware {
 
     await createUser(session, newUserData)
 
-    ctx.body = {}
+    const token = await createToken(session, newUserData.username)
+
+    ctx.body = { token }
   }
 }
 
@@ -74,6 +77,23 @@ async function createUser(session: neo4j.Session, newUserData: any) {
   const details = { username, email, displayName, password: passwordHash.toString() }
   const newAccountQuery = `create (:User $details)`
   await session.run(newAccountQuery, { details })
+}
+
+async function createToken(session: neo4j.Session, username: string) {
+  // create the token
+  const tokenString = await randomBytesPromise(16)
+
+  // hash the token
+  const tokenHash = (await createHash(Buffer.from(tokenString))).toString()
+
+  // save token to database
+  const query = `
+    match (u:User { username: {username} })
+    set u.token = {token}
+  `
+  await session.run(query, { username })
+
+  return tokenString
 }
 
 async function main() {
