@@ -94,9 +94,9 @@ async function createToken(session: neo4j.Session, username: string) {
   // save token to database
   const query = `
     match (u:User { username: {username} })
-    set u.token = {token}
+    set u.token = {tokenHash}
   `
-  await session.run(query, { username })
+  await session.run(query, { username, tokenHash })
 
   return tokenString
 }
