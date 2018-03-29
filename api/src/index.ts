@@ -9,16 +9,21 @@ import { randomBytesPromise } from "./helpers/random-bytes-promise"
 import { createHash } from "./helpers/secure-password"
 
 function runServer(session: neo4j.Session) {
-  const app = new Koa()
+  return new Promise((resolve, reject) => {
+    const app = new Koa()
 
-  app.use(koaLogger())
-  app.use(koaBody())
-  app.use(koaCors())
+    app.use(koaLogger())
+    app.use(koaBody())
+    app.use(koaCors())
 
-  app.use(handleRegisterRoute(session))
+    app.use(handleRegisterRoute(session))
 
-  app.listen(port, () => {
-    console.info(`listening on http://localhost:${port}`)
+    app.listen(port, () => {
+      console.info(`listening on http://localhost:${port}`)
+      resolve()
+    })
+
+    app.on("error", reject)
   })
 }
 
@@ -98,7 +103,7 @@ async function createToken(session: neo4j.Session, username: string) {
 
 async function main() {
   const session = await connectToDatabase()
-  runServer(session)
+  await runServer(session)
 }
 
 main().catch(console.error)
