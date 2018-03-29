@@ -12,6 +12,7 @@ function runServer(session: neo4j.Session) {
   return new Promise((resolve, reject) => {
     const app = new Koa()
 
+    app.use(internalErrorHandler())
     app.use(koaLogger())
     app.use(koaBody())
     app.use(koaCors())
@@ -22,9 +23,18 @@ function runServer(session: neo4j.Session) {
       console.info(`listening on http://localhost:${port}`)
       resolve()
     })
-
-    app.on("error", reject)
   })
+}
+
+function internalErrorHandler(): Koa.Middleware {
+  return async (ctx, next) => {
+    try {
+      await next()
+    } catch (error) {
+      ctx.body = { error: "Internal server error" }
+      console.error("Interal error:", error)
+    }
+  }
 }
 
 function handleRegisterRoute(session: neo4j.Session): Koa.Middleware {
