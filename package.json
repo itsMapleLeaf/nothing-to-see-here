@@ -44,6 +44,7 @@
     "secure-password": "^3.0.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.3",
     "@types/dotenv": "^4.0.2",
     "@types/express": "^4.11.1",
     "@types/joi": "^13.0.7",
