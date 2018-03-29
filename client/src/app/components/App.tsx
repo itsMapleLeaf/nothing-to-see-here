@@ -1,29 +1,70 @@
 import { observer } from "mobx-react"
 import * as React from "react"
-import { Route, RouteComponentProps, Router, Switch } from "react-router-dom"
+import styled from "react-emotion"
+import { Link, Route, Router, Switch } from "react-router-dom"
 
-import { AuthRoute } from "../../auth/components/AuthRoute"
 import { authStore } from "../../auth/stores/AuthStore"
-import { CharacterBrowsePage } from "../../character/components/CharacterBrowsePage"
-import { CharacterCreatePage } from "../../character/components/CharacterCreatePage"
-import { CharacterEditPage } from "../../character/components/CharacterEditPage"
-import { CharacterListPage } from "../../character/components/CharacterListPage"
-import { CharacterPage } from "../../character/components/CharacterPage"
 import { appHistory } from "../../history"
+import { ModalRenderer } from "../../modal/components/ModalRenderer"
+import { modalStore } from "../../modal/stores/ModalStore"
 import { routePaths } from "../../routePaths"
-import { modalStore } from "../stores/ModalStore"
-import { AppNav } from "./AppNav"
+import { anchorPrimary, raisedPanelStyles } from "../../ui/elements"
 import { HomePage } from "./HomePage"
 import { LoadingCover } from "./LoadingCover"
 import { NotFoundPage } from "./NotFoundPage"
 
-const renderCharacterEditPage = ({ match }: RouteComponentProps<{ id: string }>) => (
-  <CharacterEditPage id={match.params.id} key={match.params.id} />
-)
+const NavPanel = styled.nav`
+  ${raisedPanelStyles};
 
-const renderViewCharacterPage = ({ match }: RouteComponentProps<{ id: string }>) => (
-  <CharacterPage key={match.params.id} id={match.params.id} />
-)
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`
+
+const NavTitle = styled.h1`
+  padding: 0.5rem 1rem;
+`
+
+const NavLinkSection = styled.section`
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`
+
+const NavLink = styled(Link)`
+  ${anchorPrimary};
+  padding: 0.5rem 1rem;
+  display: block;
+`
+
+const AppNav = observer(() => (
+  <NavPanel>
+    <NavTitle>RP website</NavTitle>
+    <NavLinkSection>
+      <NavLink to={routePaths.home}>home</NavLink>
+
+      {authStore.signedIn ? (
+        <React.Fragment>
+          <NavLink to="#" onClick={() => authStore.signOut()}>
+            log out
+          </NavLink>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <NavLink to="#" onClick={modalStore.login.show}>
+            log in
+          </NavLink>
+          <NavLink to="#" onClick={modalStore.register.show}>
+            register
+          </NavLink>
+        </React.Fragment>
+      )}
+    </NavLinkSection>
+  </NavPanel>
+))
 
 export const App = observer(() => (
   <Router history={appHistory}>
@@ -32,15 +73,10 @@ export const App = observer(() => (
 
       <Switch>
         <Route exact path={routePaths.home} component={HomePage} />
-        <AuthRoute exact path={routePaths.characterList} component={CharacterListPage} />
-        <AuthRoute exact path={routePaths.newCharacter} component={CharacterCreatePage} />
-        <AuthRoute exact path={routePaths.editCharacter(":id")} render={renderCharacterEditPage} />
-        <Route exact path={routePaths.viewCharacter(":id")} render={renderViewCharacterPage} />
-        <Route exact path={routePaths.browseCharacters} component={CharacterBrowsePage} />
         <Route component={NotFoundPage} />
       </Switch>
 
-      {modalStore.render()}
+      <ModalRenderer />
 
       {authStore.authenticating && <LoadingCover message="Logging in..." />}
     </div>

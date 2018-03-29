@@ -15,7 +15,7 @@ export const AuthRoute = observer((props: RouteProps) => {
   if (authStore.authenticating) {
     return null
   }
-  if (authStore.user === null) {
+  if (!authStore.signedIn) {
     return <AuthPermissionErrorPage />
   }
   return <Route {...props} />

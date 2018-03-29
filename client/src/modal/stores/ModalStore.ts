@@ -1,8 +1,4 @@
 import { action, observable } from "mobx"
-import * as React from "react"
-
-import { LoginModal } from "../../auth/components/LoginModal"
-import { RegisterModal } from "../../auth/components/RegisterModal"
 
 export class ModalState {
   @observable visible = false
@@ -26,15 +22,6 @@ export class ModalState {
 export class ModalStore {
   login = new ModalState()
   register = new ModalState()
-
-  render() {
-    return (
-      <>
-        {this.login.visible && <LoginModal modalState={this.login} />}
-        {this.register.visible && <RegisterModal modalState={this.register} />}
-      </>
-    )
-  }
 }
 
 export const modalStore = new ModalStore()

@@ -1,64 +1,54 @@
-import { User } from "firebase/app"
-import { action, observable } from "mobx"
+import axios, { AxiosError } from "axios"
+import { action, computed, observable } from "mobx"
 
-import { firebaseApp } from "../../firebase"
-
-type Result = { success: true } | { success: false; error: string }
-
-type RegisterOptions = { displayName: string; email: string; password: string }
-
-const auth = firebaseApp.auth()
+export type AuthState =
+  | { type: "signed-out" }
+  | { type: "signed-in"; token: string }
+  | { type: "signing-in" }
 
 export class AuthStore {
-  @observable authenticating = true
-  @observable.ref user: User | null = null
-
-  constructor() {
-    auth.onAuthStateChanged(this.handleAuthStateChanged)
-  }
+  @observable authenticating = false
+  @observable token?: string
 
   @action
-  handleAuthStateChanged = (user: User | null) => {
-    this.user = user
-    this.authenticating = false
-  }
-
-  @action
-  setAuthenticating = (authenticating: boolean) => {
+  setAuthenticating(authenticating: boolean) {
     this.authenticating = authenticating
   }
 
   @action
-  signIn = async (email: string, password: string): Promise<Result> => {
+  setToken(token: string) {
+    this.token = token
+  }
+
+  @action
+  clearToken() {
+    this.token = undefined
+  }
+
+  @computed
+  get signedIn() {
+    return this.token !== undefined
+  }
+
+  signIn = async (usernameOrEmail: string, password: string) => {
     this.setAuthenticating(true)
-
     try {
-      await auth.signInWithEmailAndPassword(email, password)
-      return { success: true }
+      const response = await axios.post("http://localhost:3000/login", {
+        usernameOrEmail,
+        password,
+      })
+      this.setToken(response.data.token)
     } catch (error) {
+      const axiosError = error as AxiosError
+      throw axiosError.message
+    } finally {
       this.setAuthenticating(false)
-      return { success: false, error: error.message || String(error) }
     }
   }
 
-  @action
-  signOut = () => {
-    this.authenticating = true
-    auth.signOut().catch(console.error)
-  }
-
-  @action
-  register = async (options: RegisterOptions): Promise<Result> => {
-    try {
-      await auth.createUserWithEmailAndPassword(options.email, options.password)
-      await firebaseApp
-        .auth()
-        .currentUser!.updateProfile({ displayName: options.displayName, photoURL: null })
-
-      return { success: true }
-    } catch (error) {
-      return { success: false, error: error.message || String(error) }
-    }
+  signOut = async () => {
+    await axios.post("http://localhost:3000/logout", { username: "kingdaro" })
+    this.clearToken()
   }
 }
 

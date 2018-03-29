@@ -3,17 +3,23 @@ import { action, observable } from "mobx"
 import { observer } from "mobx-react"
 import * as React from "react"
 
-import { ModalState } from "../../app/stores/ModalStore"
 import { preventDefault } from "../../common/helpers/react"
+import { ModalState } from "../../modal/stores/ModalStore"
 import { Button, Input, Label, PageSection, PageTitle, RaisedPanel, Shade } from "../../ui/elements"
-import { authStore } from "../stores/AuthStore"
 
-type LoginFormValues = { email: string; password: string }
+type RegisterFormValues = {
+  username: string
+  displayName: string
+  email: string
+  password: string
+}
 
-type Props = { modalState: ModalState }
+type Props = {
+  modalState: ModalState
+}
 
 @observer
-export class LoginModal extends React.Component<Props> {
+export class RegisterModal extends React.Component<Props> {
   @observable statusText = ""
 
   @action
@@ -21,17 +27,41 @@ export class LoginModal extends React.Component<Props> {
     this.statusText = error
   }
 
-  handleSubmit = async (values: LoginFormValues) => {
-    const result = await authStore.signIn(values.email, values.password)
-    if (result.success) {
-      this.props.modalState.hide()
-    } else {
-      this.handleError(result.error)
-    }
+  handleSubmit = async (values: RegisterFormValues) => {
+    // const result = await authStore.register(values)
+    // if (result.success) {
+    //   this.props.modalState.hide()
+    // } else {
+    //   this.handleError(result.error)
+    // }
   }
 
-  renderForm = ({ values, handleChange, handleSubmit }: FormikProps<LoginFormValues>) => (
+  renderForm = ({ values, handleChange, handleSubmit }: FormikProps<RegisterFormValues>) => (
     <form onSubmit={handleSubmit}>
+      <fieldset>
+        <Label>Username</Label>
+        <Input
+          name="username"
+          type="text"
+          placeholder="awesome san"
+          required
+          value={values.username}
+          onChange={handleChange}
+        />
+      </fieldset>
+
+      <fieldset>
+        <Label>Display Name</Label>
+        <Input
+          name="displayName"
+          type="text"
+          placeholder="awesome-san"
+          required
+          value={values.displayName}
+          onChange={handleChange}
+        />
+      </fieldset>
+
       <fieldset>
         <Label>Email</Label>
         <Input
@@ -57,7 +87,7 @@ export class LoginModal extends React.Component<Props> {
       </fieldset>
 
       <fieldset>
-        <Button type="submit">Log in</Button>{" "}
+        <Button type="submit">Register</Button>{" "}
         <Button flat onClick={preventDefault(this.props.modalState.hide)}>
           Cancel
         </Button>
@@ -75,10 +105,10 @@ export class LoginModal extends React.Component<Props> {
     return (
       <Shade onClick={this.handleShadeClick}>
         <RaisedPanel>
-          <PageTitle>Log in</PageTitle>
+          <PageTitle>Create new account</PageTitle>
           <PageSection>
             <Formik
-              initialValues={{ email: "", password: "" }}
+              initialValues={{ username: "", email: "", password: "", displayName: "" }}
               onSubmit={this.handleSubmit}
               render={this.renderForm}
             />
