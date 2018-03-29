@@ -1,9 +1,44 @@
-import cors from "cors"
-import express, { ErrorRequestHandler, RequestHandler } from "express"
+import koaCors from "@koa/cors"
+import Koa from "koa"
+import koaBody from "koa-body"
+import koaLogger from "koa-logger"
 import neo4j from "neo4j-driver"
 
 import { databasePass, databaseUrl, databaseUser, port } from "./env"
 import { createHash } from "./helpers/secure-password"
+
+function runServer(session: neo4j.Session) {
+  const app = new Koa()
+
+  app.use(koaLogger())
+  app.use(koaBody())
+  app.use(koaCors())
+
+  app.use(handleRegisterRoute(session))
+
+  app.listen(port, () => {
+    console.info(`listening on http://localhost:${port}`)
+  })
+}
+
+function handleRegisterRoute(session: neo4j.Session): Koa.Middleware {
+  return async (ctx, next) => {
+    if (ctx.path !== "/register") {
+      return next()
+    }
+
+    const newUserData = ctx.request.body
+
+    if (await userExists(session, newUserData.username, newUserData.email)) {
+      ctx.body = { error: "User already exists" }
+      return
+    }
+
+    await createUser(session, newUserData)
+
+    ctx.body = {}
+  }
+}
 
 function connectToDatabase(): Promise<neo4j.Session> {
   return new Promise((resolve, reject) => {
@@ -11,6 +46,7 @@ function connectToDatabase(): Promise<neo4j.Session> {
 
     driver.onError = message => {
       console.error("Error connecting to database:", message)
+      reject(message)
     }
 
     driver.onCompleted = () => {
@@ -19,73 +55,25 @@ function connectToDatabase(): Promise<neo4j.Session> {
   })
 }
 
-function errorIfUserExists(session: neo4j.Session): RequestHandler {
-  return async (req, res, next) => {
-    try {
-      const { username, email } = req.body
+async function userExists(session: neo4j.Session, username: string, email: string) {
+  const userExistsQuery = `
+    match (u:User)
+    where u.username = {username} or u.email = {email}
+    return properties(u) as user
+  `
 
-      const userExistsQuery = `
-        match (u:User)
-        where u.username = {username} or u.email = {email}
-        return properties(u) as user
-      `
-
-      const { records } = await session.run(userExistsQuery, {})
-      const userRecord = records[0]
-
-      if (userRecord) {
-        const user = userRecord.get("user")
-        if (user.email === email) {
-          res.status(400).send({ error: "Email already exists" })
-        } else if (user.username === username) {
-          res.status(400).send({ error: "Username already exists" })
-        }
-        return
-      }
-
-      next()
-    } catch (error) {
-      next(error)
-    }
-  }
+  const { records } = await session.run(userExistsQuery, { username, email })
+  return records.length > 0
 }
 
-function createUser(session: neo4j.Session): RequestHandler {
-  return async (req, res, next) => {
-    try {
-      const { username, email, password, displayName } = req.body
+async function createUser(session: neo4j.Session, newUserData: any) {
+  const { username, email, password, displayName } = newUserData
 
-      const passwordHash = await createHash(Buffer.from(password))
+  const passwordHash = await createHash(Buffer.from(password))
 
-      const details = { username, email, displayName, password: passwordHash.toString() }
-      const newAccountQuery = `create (:User $details)`
-      await session.run(newAccountQuery, { details })
-
-      res.status(200).send({})
-    } catch (error) {
-      next(error)
-    }
-  }
-}
-
-function handleInternalError(): ErrorRequestHandler {
-  return (error, req, res, next) => {
-    res.status(500).send({ error: "Internal error" })
-    console.error("Internal error:", error)
-  }
-}
-
-function runServer(session: neo4j.Session) {
-  const app = express()
-
-  app.use(express.json())
-  app.use(cors())
-
-  app.post("/register", errorIfUserExists(session), createUser(session), handleInternalError())
-
-  app.listen(port, () => {
-    console.info(`listening on http://localhost:${port}`)
-  })
+  const details = { username, email, displayName, password: passwordHash.toString() }
+  const newAccountQuery = `create (:User $details)`
+  await session.run(newAccountQuery, { details })
 }
 
 async function main() {
