@@ -24,7 +24,10 @@ export class UserService {
 
     const details = { username, email, displayName, password: passwordHash.toString() }
     const newAccountQuery = `create (:User $details)`
+
     await this.session.run(newAccountQuery, { details })
+
+    return newUserData
   }
 
   async createToken(username: string) {
