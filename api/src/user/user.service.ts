@@ -60,6 +60,18 @@ export class UserService {
     await this.session.run(query, { username })
   }
 
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const query = `
+      match (u:User { username: {username} })
+      return properties(u) as user
+    `
+
+    const { records } = await this.session.run(query, { username })
+    if (records[0]) {
+      return records[0].get("user") as User
+    }
+  }
+
   async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
     const query = `
       match (u:User)
@@ -74,7 +86,7 @@ export class UserService {
   }
 
   async isPasswordValid(username: string, enteredPassword: string): Promise<boolean> {
-    const user = await this.getUserByUsernameOrEmail(username)
+    const user = await this.getUserByUsername(username)
     if (!user) {
       return false
     }
