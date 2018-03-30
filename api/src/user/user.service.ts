@@ -1,5 +1,7 @@
 import neo4j from "neo4j-driver"
+import securePassword from "secure-password"
 
+import { verifyHash } from "../../src.old/helpers/secure-password"
 import { randomBytesPromise } from "../helpers/random-bytes-promise"
 import { createHash } from "../helpers/secure-password"
 import { NewUserData } from "./new-user-data.interface"
@@ -49,5 +51,51 @@ export class UserService {
     await this.session.run(query, { username, tokenHash })
 
     return tokenString
+  }
+
+  async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
+    const query = `
+      match (u:User)
+      where u.username = {usernameOrEmail} or u.email = {usernameOrEmail}
+      return properties(u) as user
+    `
+
+    const { records } = await this.session.run(query, { usernameOrEmail })
+    if (records[0]) {
+      return records[0].get("user") as User
+    }
+  }
+
+  async isPasswordValid(username: string, enteredPassword: string): Promise<boolean> {
+    const user = await this.getUserByUsernameOrEmail(username)
+    if (!user) {
+      return false
+    }
+
+    const verifyResult = await verifyHash(Buffer.from(enteredPassword), Buffer.from(user.password))
+    switch (verifyResult) {
+      case securePassword.VALID:
+        return true
+
+      case securePassword.VALID_NEEDS_REHASH:
+        await this.rehashPassword(user.username, user.password)
+        return true
+
+      case securePassword.INVALID:
+      case securePassword.INVALID_UNRECOGNIZED_HASH:
+      default:
+        return false
+    }
+  }
+
+  async rehashPassword(username: string, password: string) {
+    const passwordHash = (await createHash(Buffer.from(password))).toString()
+
+    const query = `
+      match (u:User { username: {username} })
+      set u.password = {password}
+    `
+
+    await this.session.run(query, { username, password: passwordHash })
   }
 }

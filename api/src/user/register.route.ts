@@ -2,15 +2,11 @@ import Koa, { Context } from "koa"
 import compose, { Middleware } from "koa-compose"
 
 import { validateBody } from "../middleware/validate-body"
+import { createUserToken } from "./create-user-token.middleware"
 import { NewUserData, newUserDataSchema } from "./new-user-data.interface"
-import { User } from "./user.interface"
+import { sendUserToken } from "./send-user-token.middleware"
+import { UserContext } from "./user-context.interface"
 import { UserService } from "./user.service"
-
-interface UserContext extends Context {
-  state: {
-    user?: User
-  }
-}
 
 function checkUserExistence(users: UserService): Middleware<Context> {
   return async (ctx, next) => {
@@ -27,26 +23,6 @@ function createUser(users: UserService): Middleware<UserContext> {
   return async (ctx, next) => {
     const newUserData = ctx.request.body as NewUserData
     ctx.state.user = await users.createUser(newUserData)
-    await next()
-  }
-}
-
-function createUserToken(users: UserService): Middleware<UserContext> {
-  return async (ctx, next) => {
-    const { user } = ctx.state
-    if (user) {
-      const token = await users.createToken(user.username)
-      user.token = token
-    }
-    await next()
-  }
-}
-
-function sendUserToken(): Middleware<UserContext> {
-  return async (ctx, next) => {
-    if (ctx.state.user) {
-      ctx.body = { token: ctx.state.user.token }
-    }
     await next()
   }
 }
