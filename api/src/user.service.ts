@@ -28,7 +28,7 @@ export class UserService {
   }
 
   async createToken(username: string) {
-    const tokenString = await randomBytesPromise(16)
+    const tokenString = (await randomBytesPromise(16)).toString("hex")
     const tokenHash = (await createHash(Buffer.from(tokenString))).toString()
 
     const query = `
