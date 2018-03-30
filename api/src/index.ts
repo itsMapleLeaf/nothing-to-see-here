@@ -31,6 +31,7 @@ function internalErrorHandler(): Koa.Middleware {
     try {
       await next()
     } catch (error) {
+      ctx.status = 500
       ctx.body = { error: "Internal server error" }
       console.error("Interal error:", error)
     }
