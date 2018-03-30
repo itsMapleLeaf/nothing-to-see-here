@@ -28,13 +28,9 @@ export class UserService {
   }
 
   async createToken(username: string) {
-    // create the token
     const tokenString = await randomBytesPromise(16)
-
-    // hash the token
     const tokenHash = (await createHash(Buffer.from(tokenString))).toString()
 
-    // save token to database
     const query = `
       match (u:User { username: {username} })
       set u.token = {tokenHash}
