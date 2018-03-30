@@ -52,6 +52,14 @@ export class UserService {
     return tokenString
   }
 
+  async clearToken(username: string) {
+    const query = `
+      match (u:User { username: {username} })
+      set u.token = null
+    `
+    await this.session.run(query, { username })
+  }
+
   async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
     const query = `
       match (u:User)
