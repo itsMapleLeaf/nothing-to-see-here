@@ -9,6 +9,13 @@ const buildFolder = resolve(__dirname, "build")
 
 console.log("NODE_ENV:", process.env.NODE_ENV)
 
+const tsLoader = {
+  loader: "awesome-typescript-loader",
+  options: {
+    configFileName: resolve(__dirname, "tsconfig.json"),
+  },
+}
+
 module.exports = {
   entry: sourceFolder,
   output: {
@@ -18,7 +25,11 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, use: ["babel-loader", "ts-loader"] },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: ["babel-loader", tsLoader],
+      },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
   },
