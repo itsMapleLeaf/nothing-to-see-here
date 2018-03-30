@@ -1,6 +1,7 @@
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const ForkTsCheckerPlugin = require("fork-ts-checker-webpack-plugin")
 const Dotenv = require("dotenv-webpack")
 const { resolve } = require("path")
 
@@ -10,13 +11,15 @@ const buildFolder = resolve(__dirname, "build")
 console.log("NODE_ENV:", process.env.NODE_ENV)
 
 const tsLoader = {
-  loader: "awesome-typescript-loader",
+  loader: "ts-loader",
   options: {
-    configFileName: resolve(__dirname, "tsconfig.json"),
+    configFile: resolve(__dirname, "tsconfig.json"),
+    transpileOnly: true,
   },
 }
 
 module.exports = {
+  context: __dirname,
   entry: sourceFolder,
   output: {
     filename: "[name].bundle.js",
@@ -50,6 +53,7 @@ module.exports = {
     new Dotenv({
       path: resolve(__dirname, "../.env"),
     }),
+    new ForkTsCheckerPlugin(),
   ],
   devServer: {
     historyApiFallback: true,
