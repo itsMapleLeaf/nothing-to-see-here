@@ -2,6 +2,8 @@ import neo4j from "neo4j-driver"
 
 import { randomBytesPromise } from "./helpers/random-bytes-promise"
 import { createHash } from "./helpers/secure-password"
+import { NewUserData } from "./new-user-data.interface"
+import { User } from "./user.interface"
 
 export class UserService {
   constructor(private session: neo4j.Session) {}
@@ -17,17 +19,23 @@ export class UserService {
     return records.length > 0
   }
 
-  async createUser(newUserData: any) {
+  async createUser(newUserData: NewUserData): Promise<User> {
     const { username, email, password, displayName } = newUserData
 
     const passwordHash = await createHash(Buffer.from(password))
 
-    const details = { username, email, displayName, password: passwordHash.toString() }
-    const newAccountQuery = `create (:User $details)`
+    const user: User = {
+      username,
+      email,
+      displayName,
+      password: passwordHash.toString(),
+    }
 
-    await this.session.run(newAccountQuery, { details })
+    const newAccountQuery = `create (u:User $user)`
 
-    return newUserData
+    await this.session.run(newAccountQuery, { user })
+
+    return user
   }
 
   async createToken(username: string) {
