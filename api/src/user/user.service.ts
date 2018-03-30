@@ -1,9 +1,8 @@
 import neo4j from "neo4j-driver"
 import securePassword from "secure-password"
 
-import { verifyHash } from "../../src.old/helpers/secure-password"
 import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
-import { createHash } from "../common/helpers/secure-password"
+import { createHash, verifyHash } from "../common/helpers/secure-password"
 import { NewUserData } from "./types/new-user-data.interface"
 import { User } from "./types/user.interface"
 
