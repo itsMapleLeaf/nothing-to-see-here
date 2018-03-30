@@ -1,7 +1,7 @@
 import { Middleware } from "koa-compose"
 
-import { UserContext } from "./user-context.interface"
-import { UserService } from "./user.service"
+import { UserContext } from "../types/user-context.interface"
+import { UserService } from "../user.service"
 
 export function createUserToken(users: UserService): Middleware<UserContext> {
   return async (ctx, next) => {

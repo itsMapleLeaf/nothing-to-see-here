@@ -2,10 +2,10 @@ import neo4j from "neo4j-driver"
 import securePassword from "secure-password"
 
 import { verifyHash } from "../../src.old/helpers/secure-password"
-import { randomBytesPromise } from "../helpers/random-bytes-promise"
-import { createHash } from "../helpers/secure-password"
-import { NewUserData } from "./new-user-data.interface"
-import { User } from "./user.interface"
+import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
+import { createHash } from "../common/helpers/secure-password"
+import { NewUserData } from "./types/new-user-data.interface"
+import { User } from "./types/user.interface"
 
 export class UserService {
   constructor(private session: neo4j.Session) {}

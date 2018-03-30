@@ -5,10 +5,10 @@ import koaLogger from "koa-logger"
 import Router from "koa-router"
 import neo4j from "neo4j-driver"
 
+import { handleInternalErrors } from "./common/middleware/handle-internal-errors.middleware"
 import { databasePass, databaseUrl, databaseUser, port } from "./env"
-import { handleInternalErrors } from "./middleware/handle-internal-errors"
-import { loginRoute } from "./user/login.route"
-import { registerRoute } from "./user/register.route"
+import { loginRoute } from "./user/routes/login.route"
+import { registerRoute } from "./user/routes/register.route"
 import { UserService } from "./user/user.service"
 
 function runServer(session: neo4j.Session) {

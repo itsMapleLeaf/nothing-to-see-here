@@ -1,12 +1,12 @@
 import Koa, { Context } from "koa"
 import compose, { Middleware } from "koa-compose"
 
-import { validateBody } from "../middleware/validate-body"
-import { createUserToken } from "./create-user-token.middleware"
-import { NewUserData, newUserDataSchema } from "./new-user-data.interface"
-import { sendUserToken } from "./send-user-token.middleware"
-import { UserContext } from "./user-context.interface"
-import { UserService } from "./user.service"
+import { validateBody } from "../../common/middleware/validate-body.middleware"
+import { createUserToken } from "../middleware/create-user-token.middleware"
+import { sendUserToken } from "../middleware/send-user-token.middleware"
+import { NewUserData, newUserDataSchema } from "../types/new-user-data.interface"
+import { UserContext } from "../types/user-context.interface"
+import { UserService } from "../user.service"
 
 function checkUserExistence(users: UserService): Middleware<Context> {
   return async (ctx, next) => {
