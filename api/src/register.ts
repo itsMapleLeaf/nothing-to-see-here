@@ -45,11 +45,7 @@ function checkUserExistence(users: UserService): Koa.Middleware {
 function createUser(users: UserService): Koa.Middleware {
   return async (ctx, next) => {
     const newUserData = ctx.request.body as RegisterDto
-    await users.createUser(newUserData)
-
-    const token = await users.createToken(newUserData.username)
-    ctx.body = { token }
-
+    ctx.state.user = await users.createUser(newUserData)
     await next()
   }
 }
@@ -57,14 +53,14 @@ function createUser(users: UserService): Koa.Middleware {
 function createUserToken(users: UserService): Koa.Middleware {
   return async (ctx, next) => {
     const token = await users.createToken(ctx.request.body.username)
-    ctx.state.token = token
+    ctx.state.user = { ...ctx.state.user, token }
     await next()
   }
 }
 
-function sendToken(): Koa.Middleware {
+function sendUserToken(): Koa.Middleware {
   return async (ctx, next) => {
-    ctx.body = { token: ctx.state.token }
+    ctx.body = { token: ctx.state.user.token }
     await next()
   }
 }
@@ -75,6 +71,6 @@ export function handleRegisterRoute(users: UserService): Koa.Middleware {
     checkUserExistence(users),
     createUser(users),
     createUserToken(users),
-    sendToken(),
+    sendUserToken(),
   ])
 }
