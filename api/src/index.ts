@@ -15,7 +15,7 @@ function runServer(session: neo4j.Session) {
     const app = new Koa()
     const userService = new UserService(session)
 
-    app.use(internalErrorHandler())
+    app.use(handleInternalErrors())
     app.use(koaLogger())
     app.use(koaBody())
     app.use(koaCors())
@@ -29,7 +29,7 @@ function runServer(session: neo4j.Session) {
   })
 }
 
-function internalErrorHandler(): Koa.Middleware {
+function handleInternalErrors(): Koa.Middleware {
   return async (ctx, next) => {
     try {
       await next()
