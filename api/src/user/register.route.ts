@@ -1,7 +1,7 @@
 import Koa, { Context } from "koa"
 import compose, { Middleware } from "koa-compose"
 
-import { validateBody } from "./middleware/validate-body"
+import { validateBody } from "../middleware/validate-body"
 import { NewUserData, newUserDataSchema } from "./new-user-data.interface"
 import { User } from "./user.interface"
 import { UserService } from "./user.service"

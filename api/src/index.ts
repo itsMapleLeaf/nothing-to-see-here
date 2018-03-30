@@ -7,8 +7,8 @@ import neo4j from "neo4j-driver"
 
 import { databasePass, databaseUrl, databaseUser, port } from "./env"
 import { handleInternalErrors } from "./middleware/handle-internal-errors"
-import { handleRegisterRoute } from "./register"
-import { UserService } from "./user.service"
+import { handleRegisterRoute } from "./user/register.route"
+import { UserService } from "./user/user.service"
 
 function runServer(session: neo4j.Session) {
   return new Promise((resolve, reject) => {
