@@ -27,7 +27,7 @@ function createUser(users: UserService): Middleware<UserContext> {
   }
 }
 
-export function handleRegisterRoute(users: UserService): Koa.Middleware {
+export function registerRoute(users: UserService): Koa.Middleware {
   return compose([
     validateBody(newUserDataSchema),
     checkUserExistence(users),

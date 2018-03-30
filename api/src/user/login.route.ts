@@ -37,7 +37,7 @@ function validateCredentials(users: UserService): Middleware<UserContext> {
   }
 }
 
-export function handleLoginRoute(users: UserService): Middleware<Context> {
+export function loginRoute(users: UserService): Middleware<Context> {
   return compose([
     validateBody(loginDtoSchema),
     validateCredentials(users),
