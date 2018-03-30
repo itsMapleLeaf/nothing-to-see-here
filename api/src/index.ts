@@ -1,10 +1,13 @@
 import koaCors from "@koa/cors"
+import { SchemaLike, validate } from "joi"
 import Koa from "koa"
 import koaBody from "koa-body"
+import compose from "koa-compose"
 import koaLogger from "koa-logger"
 import neo4j from "neo4j-driver"
 
 import { databasePass, databaseUrl, databaseUser, port } from "./env"
+import { handleRegisterRoute, registerDtoSchema } from "./register"
 import { UserService } from "./user.service"
 
 function runServer(session: neo4j.Session) {
@@ -17,7 +20,7 @@ function runServer(session: neo4j.Session) {
     app.use(koaBody())
     app.use(koaCors())
 
-    app.use(handleRegisterRoute(userService))
+    app.use(compose([validateBody(registerDtoSchema), handleRegisterRoute(userService)]))
 
     app.listen(port, () => {
       console.info(`listening on http://localhost:${port}`)
@@ -38,24 +41,14 @@ function internalErrorHandler(): Koa.Middleware {
   }
 }
 
-function handleRegisterRoute(users: UserService): Koa.Middleware {
+function validateBody(schema: SchemaLike): Koa.Middleware {
   return async (ctx, next) => {
-    if (ctx.path !== "/register") {
-      return next()
-    }
-
-    const newUserData = ctx.request.body
-
-    if (await users.userExists(newUserData.username, newUserData.email)) {
-      ctx.body = { error: "User already exists" }
+    const validationResult = validate(ctx.request.body, schema)
+    if (validationResult.error) {
+      ctx.body = { error: `Invalid body: ${validationResult.error.details[0].message}` }
       return
     }
-
-    await users.createUser(newUserData)
-
-    const token = await users.createToken(newUserData.username)
-
-    ctx.body = { token }
+    await next()
   }
 }
 
