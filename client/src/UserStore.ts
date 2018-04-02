@@ -1,5 +1,6 @@
 import Axios, { AxiosResponse } from "axios"
 import { action, observable } from "mobx"
+
 import { ClientUserData } from "../../shared/user/types/client-user-data"
 import { LoginDto } from "../../shared/user/types/login-dto"
 import { NewUserData } from "../../shared/user/types/new-user-data"
@@ -11,11 +12,18 @@ const api = Axios.create({
   },
 })
 
+function getResponseData<T>(response: AxiosResponse<T>): T {
+  return response.data
+}
+
 export class UserStore {
   @observable.ref userData?: ClientUserData
 
-  login({ usernameOrEmail, password }: LoginDto) {
-    return api.post("/login", { usernameOrEmail, password }).then(this.setUserDataFromAxiosResponse)
+  login(loginDto: LoginDto) {
+    return api
+      .post("/login", loginDto)
+      .then(getResponseData)
+      .then(this.setUserData)
   }
 
   logout() {
@@ -25,7 +33,10 @@ export class UserStore {
   }
 
   register(newUserData: NewUserData) {
-    return api.post("/register", newUserData).then(this.setUserDataFromAxiosResponse)
+    return api
+      .post("/register", newUserData)
+      .then(getResponseData)
+      .then(this.setUserData)
   }
 
   @action.bound
@@ -34,8 +45,8 @@ export class UserStore {
   }
 
   @action.bound
-  private setUserDataFromAxiosResponse(response: AxiosResponse) {
-    this.userData = response.data
+  private setUserData(userData: ClientUserData) {
+    this.userData = userData
   }
 }
 
