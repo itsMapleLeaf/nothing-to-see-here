@@ -2,21 +2,12 @@ import { Schema, string } from "joi"
 import { Context } from "koa"
 import compose, { Middleware } from "koa-compose"
 
+import { LoginDto, loginDtoSchema } from "../../../../shared/user/types/login-dto"
 import { validateBody } from "../../common/middleware/validate-body.middleware"
 import { createUserToken } from "../middleware/create-user-token.middleware"
 import { sendUserToken } from "../middleware/send-user-token.middleware"
 import { UserContext } from "../types/user-context.interface"
 import { UserService } from "../user.service"
-
-interface LoginDto {
-  usernameOrEmail: string
-  password: string
-}
-
-const loginDtoSchema: Record<keyof LoginDto, Schema> = {
-  usernameOrEmail: string().required(),
-  password: string().required(),
-}
 
 function validateCredentials(users: UserService): Middleware<UserContext> {
   return async (ctx, next) => {

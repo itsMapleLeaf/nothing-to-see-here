@@ -1,10 +1,10 @@
 import Koa, { Context } from "koa"
 import compose, { Middleware } from "koa-compose"
 
+import { NewUserData, newUserDataSchema } from "../../../../shared/user/types/new-user-data"
 import { validateBody } from "../../common/middleware/validate-body.middleware"
 import { createUserToken } from "../middleware/create-user-token.middleware"
 import { sendUserToken } from "../middleware/send-user-token.middleware"
-import { NewUserData, newUserDataSchema } from "../types/new-user-data.interface"
 import { UserContext } from "../types/user-context.interface"
 import { UserService } from "../user.service"
 

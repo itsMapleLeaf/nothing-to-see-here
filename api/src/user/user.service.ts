@@ -1,9 +1,9 @@
 import neo4j from "neo4j-driver"
 import securePassword from "secure-password"
 
+import { NewUserData } from "../../../shared/user/types/new-user-data"
 import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
 import { createHash, verifyHash } from "../common/helpers/secure-password"
-import { NewUserData } from "./types/new-user-data.interface"
 import { User } from "./types/user.interface"
 
 export class UserService {
