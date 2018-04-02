@@ -2,7 +2,6 @@ import neo4j from "neo4j-driver"
 import securePassword from "secure-password"
 
 import { NewUserData } from "../../../shared/user/types/new-user-data"
-import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
 import { createHash, verifyHash } from "../common/helpers/secure-password"
 import { User } from "./types/user.interface"
 
@@ -37,27 +36,6 @@ export class UserService {
     await this.session.run(newAccountQuery, { user })
 
     return user
-  }
-
-  async createToken(username: string) {
-    const tokenString = (await randomBytesPromise(16)).toString("hex")
-    const tokenHash = (await createHash(Buffer.from(tokenString))).toString()
-
-    const query = `
-      match (u:User { username: {username} })
-      set u.token = {tokenHash}
-    `
-    await this.session.run(query, { username, tokenHash })
-
-    return tokenString
-  }
-
-  async clearToken(username: string) {
-    const query = `
-      match (u:User { username: {username} })
-      set u.token = null
-    `
-    await this.session.run(query, { username })
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
