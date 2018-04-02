@@ -5,7 +5,7 @@ import compose, { Middleware } from "koa-compose"
 import { LoginDto, loginDtoSchema } from "../../../../shared/user/types/login-dto"
 import { validateBody } from "../../common/middleware/validate-body.middleware"
 import { createUserToken } from "../middleware/create-user-token.middleware"
-import { sendUserToken } from "../middleware/send-user-token.middleware"
+import { sendUserData } from "../middleware/send-user-data.middleware"
 import { UserContext } from "../types/user-context.interface"
 import { UserService } from "../user.service"
 
@@ -33,6 +33,6 @@ export function loginRoute(users: UserService): Middleware<Context> {
     validateBody(loginDtoSchema),
     validateCredentials(users),
     createUserToken(users),
-    sendUserToken(),
+    sendUserData(),
   ])
 }
