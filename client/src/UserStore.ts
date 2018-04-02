@@ -15,31 +15,26 @@ export class UserStore {
   @observable.ref userData?: ClientUserData
 
   login({ usernameOrEmail, password }: LoginDto) {
-    return api.post("/login", { usernameOrEmail, password }).then(this.loginSuccess)
+    return api.post("/login", { usernameOrEmail, password }).then(this.setUserDataFromAxiosResponse)
   }
 
   logout() {
     if (this.userData) {
-      return api.post("/logout", { username: this.userData.username }).then(this.logoutSuccess)
+      return api.post("/logout", { username: this.userData.username }).then(this.clearUserData)
     }
   }
 
   register(newUserData: NewUserData) {
-    return api.post("/register", newUserData).then(this.registerSuccess)
+    return api.post("/register", newUserData).then(this.setUserDataFromAxiosResponse)
   }
 
   @action.bound
-  private logoutSuccess() {
+  private clearUserData() {
     this.userData = undefined
   }
 
   @action.bound
-  private loginSuccess(response: AxiosResponse) {
-    this.userData = response.data
-  }
-
-  @action.bound
-  private registerSuccess(response: AxiosResponse) {
+  private setUserDataFromAxiosResponse(response: AxiosResponse) {
     this.userData = response.data
   }
 }
