@@ -13,13 +13,14 @@ console.log("NODE_ENV:", process.env.NODE_ENV)
 const tsLoader = {
   loader: "ts-loader",
   options: {
-    configFile: resolve(__dirname, "tsconfig.json"),
     transpileOnly: true,
+    compilerOptions: {
+      module: "esnext",
+    },
   },
 }
 
 module.exports = {
-  context: __dirname,
   entry: sourceFolder,
   output: {
     filename: "[name].bundle.js",
