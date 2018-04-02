@@ -1,9 +1,7 @@
-import { bind } from "decko"
 import { observer } from "mobx-react"
 import * as React from "react"
 import styled, { injectGlobal } from "react-emotion"
-import { LoginDto } from "../../shared/user/types/login-dto"
-import { NewUserData } from "../../shared/user/types/new-user-data"
+
 import { LoginForm } from "./LoginForm"
 import { RegisterForm } from "./RegisterForm"
 import { userStore } from "./UserStore"
@@ -41,23 +39,13 @@ export class App extends React.Component {
         </header>
 
         <section>
-          <RegisterForm onSubmit={this.handleRegisterSubmit} />
+          <RegisterForm onSubmit={userStore.register} />
         </section>
 
         <section>
-          <LoginForm onSubmit={this.handleLoginSubmit} />
+          <LoginForm onSubmit={userStore.login} />
         </section>
       </AppMain>
     )
-  }
-
-  @bind
-  handleRegisterSubmit(fields: NewUserData) {
-    userStore.register(fields)
-  }
-
-  @bind
-  handleLoginSubmit(fields: LoginDto) {
-    userStore.login(fields)
   }
 }
