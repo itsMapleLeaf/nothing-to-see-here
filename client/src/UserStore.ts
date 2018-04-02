@@ -1,5 +1,6 @@
 import Axios, { AxiosResponse } from "axios"
 import { action, observable } from "mobx"
+import { ClientUserData } from "../../shared/user/types/client-user-data"
 import { LoginDto } from "../../shared/user/types/login-dto"
 import { NewUserData } from "../../shared/user/types/new-user-data"
 
@@ -11,14 +12,16 @@ const api = Axios.create({
 })
 
 export class UserStore {
-  @observable.ref userData: any = null
+  @observable.ref userData?: ClientUserData
 
   login({ usernameOrEmail, password }: LoginDto) {
     return api.post("/login", { usernameOrEmail, password }).then(this.loginSuccess)
   }
 
   logout() {
-    return api.post("/logout", { username: this.userData.username }).then(this.logoutSuccess)
+    if (this.userData) {
+      return api.post("/logout", { username: this.userData.username }).then(this.logoutSuccess)
+    }
   }
 
   register(newUserData: NewUserData) {
@@ -27,7 +30,7 @@ export class UserStore {
 
   @action.bound
   private logoutSuccess() {
-    this.userData = null
+    this.userData = undefined
   }
 
   @action.bound
