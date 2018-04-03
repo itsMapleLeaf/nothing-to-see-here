@@ -15,8 +15,9 @@ const Shade = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+
+  padding: 2rem;
+  overflow: auto;
 `
 
 const Panel = styled.div`
@@ -24,12 +25,9 @@ const Panel = styled.div`
   box-shadow: 0px 4px 8px ${shadowColor};
 
   width: max-content;
-  max-width: calc(100vw - 4rem);
-
   height: max-content;
-  max-height: calc(100vh - 4rem);
 
-  overflow-y: auto;
+  margin: auto;
 `
 
 interface ModalProps {
