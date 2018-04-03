@@ -5,12 +5,14 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 
 import { App } from "./App"
+import { applyGlobalStyles } from "./style/globalStyles"
 
 function render() {
   ReactDOM.render(<App />, document.getElementById("root"))
 }
 
 function main() {
+  applyGlobalStyles()
   configure({ enforceActions: true })
   render()
 

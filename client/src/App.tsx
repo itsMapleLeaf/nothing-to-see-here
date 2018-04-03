@@ -1,28 +1,14 @@
 import { observer } from "mobx-react"
 import * as React from "react"
-import styled, { injectGlobal } from "react-emotion"
+import styled from "react-emotion"
 
-import { LoginForm } from "./LoginForm"
-import { RegisterForm } from "./RegisterForm"
-import { userStore } from "./UserStore"
-
-injectGlobal`
-  :root {
-    background-color: rgb(24, 40, 58);
-    color: rgb(236, 240, 241);
-    font: 18px Roboto, sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Roboto Condensed';
-    font-weight: 300;
-  }
-`
+import { AppHeader } from "./AppHeader"
 
 const AppMain = styled.main`
-  padding: 0 1rem;
-  margin: auto;
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
 `
 
 @observer
@@ -30,21 +16,15 @@ export class App extends React.Component {
   render() {
     return (
       <AppMain>
-        <header>
-          <h1>awesome website</h1>
-          {userStore.userData && <h2>logged in as {userStore.userData.displayName}</h2>}
-          <div>
-            <button onClick={() => userStore.logout()}>Log out</button>
-          </div>
-        </header>
+        <AppHeader />
 
-        <section>
+        {/* <section>
           <RegisterForm onSubmit={userStore.register} />
         </section>
 
         <section>
           <LoginForm onSubmit={userStore.login} />
-        </section>
+        </section> */}
       </AppMain>
     )
   }
