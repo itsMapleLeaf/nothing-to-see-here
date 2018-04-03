@@ -7,9 +7,11 @@ import Router from "koa-router"
 import koaSession from "koa-session"
 import neo4j from "neo4j-driver"
 
+import { checkAuth } from "./common/middleware/check-auth.middleware"
 import { handleInternalErrors } from "./common/middleware/handle-internal-errors.middleware"
 import { apiSessionSecret, port } from "./env"
 import { configurePassport, safePassportSession } from "./passport"
+import { sendUserData } from "./user/middleware/send-user-data.middleware"
 import { loginRoute } from "./user/routes/login.route"
 import { logoutRoute } from "./user/routes/logout.route"
 import { registerRoute } from "./user/routes/register.route"
@@ -28,6 +30,7 @@ export function runServer(session: neo4j.Session) {
   router.post("/logout", logoutRoute(userService))
   router.post("/register", registerRoute(userService))
   router.post("/unregister", unregisterRoute(userService))
+  router.get("/user", checkAuth(), sendUserData())
 
   app.keys = [apiSessionSecret]
 
