@@ -7,6 +7,7 @@ import neo4j from "neo4j-driver"
 
 import { handleInternalErrors } from "./common/middleware/handle-internal-errors.middleware"
 import { port } from "./env"
+import { getUserRoute } from "./user/routes/get-user.route"
 import { loginRoute } from "./user/routes/login.route"
 import { logoutRoute } from "./user/routes/logout.route"
 import { registerRoute } from "./user/routes/register.route"
@@ -23,6 +24,7 @@ export function runServer(session: neo4j.Session) {
   router.post("/logout", logoutRoute(userService))
   router.post("/register", registerRoute(userService))
   router.post("/unregister", unregisterRoute(userService))
+  router.get("/user/:username", getUserRoute(userService))
   // router.get("/user", checkAuth(), sendUserData())
 
   app.use(handleInternalErrors())
