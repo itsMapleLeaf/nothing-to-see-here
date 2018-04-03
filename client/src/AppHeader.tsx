@@ -1,7 +1,10 @@
 import * as React from "react"
 import styled from "react-emotion"
 
-import { foregroundColor, primaryText, shadowColor } from "./style/colors"
+import { preventDefault } from "./helpers/reactHelpers"
+import { modalStore } from "./ModalStore"
+import { buttonFlatStyle } from "./style/button"
+import { foregroundColor, shadowColor } from "./style/colors"
 
 const Header = styled.header`
   background: ${foregroundColor};
@@ -24,25 +27,17 @@ const Nav = styled.nav`
   display: flex;
 `
 
-const NavLink = styled.a`
-  display: block;
-  padding: 0.5rem;
-
-  transition: 0.2s;
-
-  &:hover {
-    color: ${primaryText};
-  }
-`
-
 export function AppHeader() {
   return (
     <Header>
       <Title>awesome website</Title>
       <Nav>
-        <NavLink href="#">some</NavLink>
-        <NavLink href="#">header</NavLink>
-        <NavLink href="#">links</NavLink>
+        <a className={buttonFlatStyle} href="#" onClick={preventDefault(modalStore.login.show)}>
+          log in
+        </a>
+        <a className={buttonFlatStyle} href="#" onClick={preventDefault(modalStore.register.show)}>
+          register
+        </a>
       </Nav>
     </Header>
   )
