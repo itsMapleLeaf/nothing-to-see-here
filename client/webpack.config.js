@@ -59,4 +59,5 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
   },
+  mode: process.env.NODE_ENV || "development",
 }
