@@ -8,6 +8,7 @@ export function applyGlobalStyles() {
       background-color: ${backgroundColor};
       color: ${textColor};
       font: 18px Roboto, sans-serif;
+      word-wrap: break-word;
     }
 
     h1, h2, h3, h4, h5, h6 {
