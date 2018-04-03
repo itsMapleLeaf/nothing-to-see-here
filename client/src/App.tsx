@@ -3,6 +3,7 @@ import * as React from "react"
 import styled from "react-emotion"
 
 import { AppHeader } from "./AppHeader"
+import { Modal } from "./Modal"
 
 const AppMain = styled.main`
   display: flex;
@@ -17,14 +18,10 @@ export class App extends React.Component {
     return (
       <AppMain>
         <AppHeader />
-
-        {/* <section>
-          <RegisterForm onSubmit={userStore.register} />
-        </section>
-
-        <section>
-          <LoginForm onSubmit={userStore.login} />
-        </section> */}
+        <Modal>
+          aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          aaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaaaa
+        </Modal>
       </AppMain>
     )
   }
