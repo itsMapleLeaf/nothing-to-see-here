@@ -6,6 +6,7 @@ import * as ReactDOM from "react-dom"
 
 import { App } from "./App"
 import { applyGlobalStyles } from "./style/globalStyles"
+import { userStore } from "./UserStore"
 
 function render() {
   applyGlobalStyles()
@@ -13,6 +14,7 @@ function render() {
 }
 
 function main() {
+  userStore.restoreSession()
   configure({ enforceActions: true })
   render()
 
