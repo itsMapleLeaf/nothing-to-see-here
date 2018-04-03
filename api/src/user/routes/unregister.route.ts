@@ -3,6 +3,7 @@ import compose, { Middleware } from "koa-compose"
 
 import { checkAuth } from "../../common/middleware/check-auth.middleware"
 import { emptyResponse } from "../../common/middleware/empty-response.middleware"
+import { logOut } from "../../common/middleware/log-out.middleware"
 import { UserContext } from "../types/user-context.interface"
 import { UserService } from "../user.service"
 
@@ -12,13 +13,6 @@ function removeUser(users: UserService): Middleware<UserContext> {
     if (user) {
       await users.removeUser(user.username)
     }
-    await next()
-  }
-}
-
-function logOut(): Koa.Middleware {
-  return async (ctx, next) => {
-    await ctx.logout()
     await next()
   }
 }
