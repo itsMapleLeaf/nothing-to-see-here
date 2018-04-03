@@ -1,6 +1,11 @@
 import { Field, Form, Formik, FormikProps } from "formik"
 import * as React from "react"
+
 import { LoginDto } from "../../shared/user/types/login-dto"
+import { Button } from "./style/button"
+import { Input } from "./style/input"
+
+const StyledField = Input.withComponent(Field as any)
 
 interface LoginFormProps {
   onSubmit: (values: LoginDto) => void
@@ -14,13 +19,24 @@ export function LoginForm(props: LoginFormProps) {
         <Form>
           <fieldset>
             <label>Username or Email</label>
-            <Field name="usernameOrEmail" type="text" required />
+            <StyledField
+              name="usernameOrEmail"
+              type="text"
+              placeholder="awesome@email.com"
+              required
+              autoFocus
+            />
           </fieldset>
           <fieldset>
             <label>Password</label>
-            <Field name="password" type="password" required />
+            <StyledField name="password" type="password" placeholder="••••••••" required />
           </fieldset>
-          <button type="submit">Log in</button>
+          <fieldset>
+            <Button type="submit">Log in</Button>
+            <Button flat type="button">
+              Cancel
+            </Button>
+          </fieldset>
         </Form>
       )}
       onSubmit={props.onSubmit}

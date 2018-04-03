@@ -8,16 +8,16 @@ import { App } from "./App"
 import { applyGlobalStyles } from "./style/globalStyles"
 
 function render() {
+  applyGlobalStyles()
   ReactDOM.render(<App />, document.getElementById("root"))
 }
 
 function main() {
-  applyGlobalStyles()
   configure({ enforceActions: true })
   render()
 
   if (module.hot) {
-    module.hot.accept("./App", render)
+    module.hot.accept(["./App", "./style/globalStyles"], render)
   }
 }
 

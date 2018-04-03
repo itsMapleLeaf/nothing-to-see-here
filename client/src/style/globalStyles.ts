@@ -21,5 +21,20 @@ export function applyGlobalStyles() {
       color: inherit;
       text-decoration: none;
     }
+
+    fieldset {
+      border: none;
+      margin: 1rem;
+      padding: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    input, button, textarea {
+border: none;
+    }
   `
 }

@@ -3,7 +3,9 @@ import * as React from "react"
 import styled from "react-emotion"
 
 import { AppHeader } from "./AppHeader"
+import { LoginForm } from "./LoginForm"
 import { Modal } from "./Modal"
+import { userStore } from "./UserStore"
 
 const AppMain = styled.main`
   display: flex;
@@ -19,8 +21,7 @@ export class App extends React.Component {
       <AppMain>
         <AppHeader />
         <Modal>
-          aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaaaa
+          <LoginForm onSubmit={userStore.login} />
         </Modal>
       </AppMain>
     )
