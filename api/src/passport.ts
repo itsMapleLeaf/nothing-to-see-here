@@ -1,4 +1,4 @@
-import Koa, { Context } from "koa"
+import { Context } from "koa"
 import { Middleware } from "koa-compose"
 import passport from "koa-passport"
 import { Strategy as LocalStrategy } from "passport-local"
