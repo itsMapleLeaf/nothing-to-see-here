@@ -17,4 +17,3 @@ export const databaseUser = safeGetValue("DB_USER")
 export const databasePass = safeGetValue("DB_PASS")
 export const databaseUrl = safeGetValue("DB_URL")
 export const port = Number(process.env.PORT) || 3000
-export const apiSessionSecret = safeGetValue("API_SESSION_SECRET")

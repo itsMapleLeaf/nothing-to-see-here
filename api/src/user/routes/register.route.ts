@@ -3,7 +3,9 @@ import compose, { Middleware } from "koa-compose"
 
 import { NewUserData, newUserDataSchema } from "../../../../shared/user/types/new-user-data"
 import { validateBody } from "../../common/middleware/validate-body.middleware"
-import { sendUserData } from "../middleware/send-user-data.middleware"
+import { generateUserToken } from "../middleware/generate-token.middleware"
+import { sendUserIdentity } from "../middleware/send-user-data.middleware"
+import { sendUserToken } from "../middleware/send-user-token.middleware"
 import { UserContext } from "../types/user-context.interface"
 import { UserService } from "../user.service"
 
@@ -21,8 +23,7 @@ function checkUserExistence(users: UserService): Middleware<Context> {
 function createUser(users: UserService): Middleware<UserContext> {
   return async (ctx, next) => {
     const newUserData = ctx.request.body as NewUserData
-    const newUser = await users.createUser(newUserData)
-    await ctx.login(newUser)
+    ctx.state.user = await users.createUser(newUserData)
     await next()
   }
 }
@@ -32,6 +33,8 @@ export function registerRoute(users: UserService): Koa.Middleware {
     validateBody(newUserDataSchema),
     checkUserExistence(users),
     createUser(users),
-    sendUserData(),
+    generateUserToken(users),
+    sendUserIdentity(),
+    sendUserToken(),
   ])
 }
