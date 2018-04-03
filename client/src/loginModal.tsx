@@ -1,6 +1,6 @@
 import React from "react"
 
-import { showError } from "./helpers/errorHelpers"
+import { modalCatchHandler } from "./errorModal"
 import { LoginForm, LoginFormProps } from "./LoginForm"
 import { ModalOptions, modalStore } from "./ModalStore"
 import { userStore } from "./UserStore"
@@ -11,7 +11,7 @@ export const loginModal: ModalOptions = {
       userStore
         .login(values)
         .then(modal.close)
-        .catch(showError)
+        .catch(modalCatchHandler)
     }
     return <LoginForm onSubmit={onSubmit} onCancel={modal.close} />
   },
