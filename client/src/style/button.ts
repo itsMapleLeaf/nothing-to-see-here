@@ -1,7 +1,7 @@
 import { darken } from "polished"
 import styled, { css } from "react-emotion"
 
-import { backgroundColor } from "./colors"
+import { backgroundColor, primaryText } from "./colors"
 import { inputPadding } from "./input"
 
 export const buttonStyle = css`
@@ -16,11 +16,10 @@ export const buttonStyle = css`
 
 export const buttonFlatStyle = css`
   ${inputPadding};
-  opacity: 0.75;
   transition: 0.2s;
 
   &:hover {
-    opacity: 1;
+    color: ${primaryText};
   }
 `
 
