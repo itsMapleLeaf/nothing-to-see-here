@@ -95,4 +95,13 @@ export class UserService {
 
     await this.session.run(query, { username, password: passwordHash })
   }
+
+  async removeUser(username: string) {
+    const query = `
+      match (u:User { username: {username} })
+      delete u
+    `
+
+    await this.session.run(query, { username })
+  }
 }

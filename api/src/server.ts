@@ -13,6 +13,7 @@ import { configurePassport, safePassportSession } from "./passport"
 import { loginRoute } from "./user/routes/login.route"
 import { logoutRoute } from "./user/routes/logout.route"
 import { registerRoute } from "./user/routes/register.route"
+import { unregisterRoute } from "./user/routes/unregister.route"
 import { UserService } from "./user/user.service"
 
 export function runServer(session: neo4j.Session) {
@@ -23,9 +24,10 @@ export function runServer(session: neo4j.Session) {
   configurePassport(userService)
 
   const router = new Router()
-  router.post("/register", registerRoute(userService))
   router.post("/login", loginRoute(userService))
   router.post("/logout", logoutRoute(userService))
+  router.post("/register", registerRoute(userService))
+  router.post("/unregister", unregisterRoute(userService))
 
   app.keys = [apiSessionSecret]
 
