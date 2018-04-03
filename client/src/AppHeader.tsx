@@ -31,6 +31,10 @@ const Nav = styled.nav`
   display: flex;
 `
 
+const NavLink = (props: JSX.IntrinsicElements["a"]) => {
+  return <a className={buttonFlatStyle} href="#" {...props} />
+}
+
 export const AppHeader = observer(() => {
   const { userData } = userStore
   const links = userData ? <UserLinks userData={userData} /> : <GuestLinks />
@@ -45,9 +49,7 @@ export const AppHeader = observer(() => {
 function UserLinks(props: { userData: ClientUserData }) {
   return (
     <React.Fragment>
-      <a className={buttonFlatStyle} href="#" onClick={preventDefault(userStore.logout)}>
-        log out
-      </a>
+      <NavLink onClick={preventDefault(userStore.logout)}>log out</NavLink>
       <div className={inputPadding}>welcome, {props.userData.displayName}!</div>
     </React.Fragment>
   )
@@ -56,12 +58,8 @@ function UserLinks(props: { userData: ClientUserData }) {
 function GuestLinks() {
   return (
     <React.Fragment>
-      <a className={buttonFlatStyle} href="#" onClick={preventDefault(modalStore.login.show)}>
-        log in
-      </a>
-      <a className={buttonFlatStyle} href="#" onClick={preventDefault(modalStore.register.show)}>
-        register
-      </a>
+      <NavLink onClick={preventDefault(modalStore.login.show)}>log in</NavLink>
+      <NavLink onClick={preventDefault(modalStore.register.show)}>register</NavLink>
     </React.Fragment>
   )
 }
