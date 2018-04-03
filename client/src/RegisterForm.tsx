@@ -7,8 +7,9 @@ import { Input } from "./style/input"
 
 const StyledField = Input.withComponent(Field as any)
 
-interface RegisterFormProps {
+export interface RegisterFormProps {
   onSubmit: (values: NewUserData) => void
+  onCancel: () => void
 }
 
 export function RegisterForm(props: RegisterFormProps) {
@@ -35,7 +36,7 @@ export function RegisterForm(props: RegisterFormProps) {
           </fieldset>
           <fieldset>
             <Button type="submit">Register</Button>
-            <Button flat type="button">
+            <Button flat type="button" onClick={props.onCancel}>
               Cancel
             </Button>
           </fieldset>

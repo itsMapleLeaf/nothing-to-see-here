@@ -7,8 +7,9 @@ import { Input } from "./style/input"
 
 const StyledField = Input.withComponent(Field as any)
 
-interface LoginFormProps {
+export interface LoginFormProps {
   onSubmit: (values: LoginDto) => void
+  onCancel: () => void
 }
 
 export function LoginForm(props: LoginFormProps) {
@@ -33,7 +34,7 @@ export function LoginForm(props: LoginFormProps) {
           </fieldset>
           <fieldset>
             <Button type="submit">Log in</Button>
-            <Button flat type="button">
+            <Button flat type="button" onClick={props.onCancel}>
               Cancel
             </Button>
           </fieldset>

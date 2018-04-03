@@ -3,11 +3,7 @@ import * as React from "react"
 import styled from "react-emotion"
 
 import { AppHeader } from "./AppHeader"
-import { LoginForm } from "./LoginForm"
-import { Modal } from "./Modal"
 import { modalStore } from "./ModalStore"
-import { RegisterForm } from "./RegisterForm"
-import { userStore } from "./UserStore"
 
 const AppMain = styled.main`
   display: flex;
@@ -22,18 +18,7 @@ export class App extends React.Component {
     return (
       <AppMain>
         <AppHeader />
-
-        {modalStore.login.visible && (
-          <Modal onShadeClick={modalStore.login.hide}>
-            <LoginForm onSubmit={userStore.login} />
-          </Modal>
-        )}
-
-        {modalStore.register.visible && (
-          <Modal onShadeClick={modalStore.register.hide}>
-            <RegisterForm onSubmit={userStore.register} />
-          </Modal>
-        )}
+        {modalStore.modalElements}
       </AppMain>
     )
   }

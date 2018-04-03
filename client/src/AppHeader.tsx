@@ -4,7 +4,8 @@ import styled from "react-emotion"
 
 import { ClientUserData } from "../../shared/user/types/client-user-data"
 import { preventDefault } from "./helpers/reactHelpers"
-import { modalStore } from "./ModalStore"
+import { showLogin } from "./loginModal"
+import { showRegister } from "./registerModal"
 import { buttonFlatStyle } from "./style/button"
 import { foregroundColor, shadowColor } from "./style/colors"
 import { inputPadding } from "./style/input"
@@ -35,17 +36,6 @@ const NavLink = (props: JSX.IntrinsicElements["a"]) => {
   return <a className={buttonFlatStyle} href="#" {...props} />
 }
 
-export const AppHeader = observer(() => {
-  const { userData } = userStore
-  const links = userData ? <UserLinks userData={userData} /> : <GuestLinks />
-  return (
-    <Header>
-      <Title>awesome website</Title>
-      <Nav>{links}</Nav>
-    </Header>
-  )
-})
-
 function UserLinks(props: { userData: ClientUserData }) {
   return (
     <React.Fragment>
@@ -58,8 +48,19 @@ function UserLinks(props: { userData: ClientUserData }) {
 function GuestLinks() {
   return (
     <React.Fragment>
-      <NavLink onClick={preventDefault(modalStore.login.show)}>log in</NavLink>
-      <NavLink onClick={preventDefault(modalStore.register.show)}>register</NavLink>
+      <NavLink onClick={preventDefault(showLogin)}>log in</NavLink>
+      <NavLink onClick={preventDefault(showRegister)}>register</NavLink>
     </React.Fragment>
   )
 }
+
+export const AppHeader = observer(() => {
+  const { userData } = userStore
+  const links = userData ? <UserLinks userData={userData} /> : <GuestLinks />
+  return (
+    <Header>
+      <Title>awesome website</Title>
+      <Nav>{links}</Nav>
+    </Header>
+  )
+})
