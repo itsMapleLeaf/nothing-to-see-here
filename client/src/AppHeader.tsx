@@ -4,8 +4,7 @@ import styled from "react-emotion"
 
 import { ClientUserData } from "../../shared/user/types/client-user-data"
 import { preventDefault } from "./helpers/reactHelpers"
-import { showLogin } from "./loginModal"
-import { showRegister } from "./registerModal"
+import { modalStore } from "./ModalStore"
 import { buttonFlatStyle } from "./style/button"
 import { foregroundColor, shadowColor } from "./style/colors"
 import { inputPadding } from "./style/input"
@@ -48,8 +47,8 @@ function UserLinks(props: { userData: ClientUserData }) {
 function GuestLinks() {
   return (
     <React.Fragment>
-      <NavLink onClick={preventDefault(showLogin)}>log in</NavLink>
-      <NavLink onClick={preventDefault(showRegister)}>register</NavLink>
+      <NavLink onClick={preventDefault(modalStore.login.show)}>log in</NavLink>
+      <NavLink onClick={preventDefault(modalStore.register.show)}>register</NavLink>
     </React.Fragment>
   )
 }

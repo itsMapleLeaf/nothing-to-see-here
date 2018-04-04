@@ -18,7 +18,7 @@ export class App extends React.Component {
     return (
       <AppMain>
         <AppHeader />
-        {modalStore.modalElements}
+        {modalStore.renderModals()}
       </AppMain>
     )
   }
