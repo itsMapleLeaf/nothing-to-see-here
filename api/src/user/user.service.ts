@@ -143,7 +143,7 @@ export class UserService {
       return false
     }
 
-    if (Date.now() - Number(user.tokenDate) || 0 > TOKEN_EXPIRATION_TIME) {
+    if (Date.now() - (Number(user.tokenDate) || 0) > TOKEN_EXPIRATION_TIME) {
       return false
     }
 
