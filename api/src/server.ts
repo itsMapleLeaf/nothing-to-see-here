@@ -25,7 +25,6 @@ export function runServer(session: neo4j.Session) {
   router.post("/register", registerRoute(userService))
   router.post("/unregister", unregisterRoute(userService))
   router.get("/user/:username", getUserRoute(userService))
-  // router.get("/user", checkAuth(), sendUserData())
 
   app.use(handleInternalErrors())
   app.use(koaLogger())
