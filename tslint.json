@@ -7,7 +7,8 @@
     "object-literal-sort-keys": false,
     "interface-name": false,
     "max-classes-per-file": false,
-    "no-console": [true, "log"]
+    "no-console": [true, "log"],
+    "ordered-imports": false
   },
   "defaultSeverity": "warning"
 }
