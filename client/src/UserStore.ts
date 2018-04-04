@@ -3,9 +3,10 @@ import { bind } from "decko"
 import * as idb from "idb-keyval"
 import { action, observable } from "mobx"
 
-import { ClientUserData } from "../../shared/user/types/client-user-data"
+import { ClientUserData, UserIdentity } from "../../shared/user/types/client-user-data"
 import { LoginDto } from "../../shared/user/types/login-dto"
 import { NewUserData } from "../../shared/user/types/new-user-data"
+import { extractErrorMessage } from "./helpers/errorHelpers"
 
 const api = Axios.create({
   baseURL: "http://localhost:3000",
@@ -63,9 +64,20 @@ export class UserStore {
 
   @bind
   async restoreSession() {
-    const userData = await idb.get<ClientUserData | null>(SESSION_KEY)
-    if (userData) {
-      this.setUserData(userData)
+    try {
+      const userData = await idb.get<ClientUserData | null>(SESSION_KEY)
+      if (!userData) {
+        return
+      }
+
+      const { data } = await api.post<UserIdentity>("/check-token", {
+        username: userData.username,
+        token: userData.token,
+      })
+
+      this.setUserData({ ...data, token: userData.token })
+    } catch (error) {
+      console.warn("(non-fatal) could not restore session:", extractErrorMessage(error))
     }
   }
 
