@@ -4,7 +4,7 @@ import * as idb from "idb-keyval"
 import { action, observable } from "mobx"
 
 import { ClientUserData, UserIdentity } from "../../shared/user/types/client-user-data"
-import { LoginDto } from "../../shared/user/types/login-dto"
+import { LoginCredentials } from "../../shared/user/types/login-credentials"
 import { NewUserData } from "../../shared/user/types/new-user-data"
 import { extractErrorMessage } from "./helpers/errorHelpers"
 
@@ -25,7 +25,7 @@ export class UserStore {
   @observable.ref userData?: ClientUserData
 
   @bind
-  login(loginDto: LoginDto) {
+  login(loginDto: LoginCredentials) {
     return api
       .post("/login", loginDto)
       .then(getResponseData)

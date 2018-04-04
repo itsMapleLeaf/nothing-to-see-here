@@ -1,11 +1,11 @@
-import { LoginDto } from "../../../../shared/user/types/login-dto"
+import { LoginCredentials } from "../../../../shared/user/types/login-credentials"
 import { HttpException } from "../../common/http-exception"
 import { User } from "../types/user.interface"
 import { UserService } from "../user.service"
 
 export async function validateLoginCredentials(
   users: UserService,
-  credentials: LoginDto,
+  credentials: LoginCredentials,
 ): Promise<User> {
   const user = await users.getUserByUsernameOrEmail(credentials.usernameOrEmail)
   if (!user) {

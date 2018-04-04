@@ -1,7 +1,7 @@
 import { Middleware } from "koa"
 import Router from "koa-router"
 
-import { LoginDto, loginDtoSchema } from "../../../shared/user/types/login-dto"
+import { LoginCredentials, loginCredentialsSchema } from "../../../shared/user/types/login-credentials"
 import { NewUserData, newUserDataSchema } from "../../../shared/user/types/new-user-data"
 import { validateBody } from "../common/helpers/validate-body"
 import { HttpException } from "../common/http-exception"
@@ -13,7 +13,7 @@ import { UserService } from "./user.service"
 
 function loginRoute(users: UserService): Middleware {
   return async (ctx, next) => {
-    const credentials = validateBody<LoginDto>(ctx, loginDtoSchema)
+    const credentials = validateBody<LoginCredentials>(ctx, loginCredentialsSchema)
     const user = await validateLoginCredentials(users, credentials)
     user.token = await users.generateToken(user.username)
     sendSessionData(user, ctx)
@@ -43,7 +43,7 @@ function registerRoute(users: UserService): Middleware {
 
 function unregisterRoute(users: UserService): Middleware {
   return async (ctx, next) => {
-    const credentials = validateBody<LoginDto>(ctx, loginDtoSchema)
+    const credentials = validateBody<LoginCredentials>(ctx, loginCredentialsSchema)
     const user = await validateLoginCredentials(users, credentials)
     await users.removeUser(user.username)
     ctx.body = {}
