@@ -4,6 +4,7 @@ import koaBody from "koa-body"
 import koaLogger from "koa-logger"
 import neo4j from "neo4j-driver"
 
+import { characterRoutes } from "./character/character.routes"
 import { port } from "./env"
 import { userRoutes } from "./user/user.routes"
 import { UserService } from "./user/user.service"
@@ -16,6 +17,7 @@ export function runServer(session: neo4j.Session) {
   app.use(koaBody())
   app.use(koaCors())
   app.use(userRoutes(new UserService(session)))
+  app.use(characterRoutes())
 
   app.listen(port, () => {
     console.info(`listening on http://localhost:${port}`)
