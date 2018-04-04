@@ -3,6 +3,7 @@ import { bind } from "decko"
 import * as idb from "idb-keyval"
 import { action, observable } from "mobx"
 
+import { endpoints } from "../../shared/constants/api-endpoints"
 import { ClientUserData, UserIdentity } from "../../shared/user/types/client-user-data"
 import { LoginCredentials } from "../../shared/user/types/login-credentials"
 import { NewUserData } from "../../shared/user/types/new-user-data"
@@ -27,7 +28,7 @@ export class UserStore {
   @bind
   login(loginDto: LoginCredentials) {
     return api
-      .post("/login", loginDto)
+      .post(endpoints.login, loginDto)
       .then(getResponseData)
       .then(this.setUserData)
       .then(this.saveSession)
@@ -37,7 +38,7 @@ export class UserStore {
   logout() {
     if (this.userData) {
       return api
-        .post("/logout", { username: this.userData.username })
+        .post(endpoints.logout, { username: this.userData.username })
         .then(this.clearUserData)
         .then(this.clearSession)
     }
@@ -46,7 +47,7 @@ export class UserStore {
   @bind
   register(newUserData: NewUserData) {
     return api
-      .post("/register", newUserData)
+      .post(endpoints.register, newUserData)
       .then(getResponseData)
       .then(this.setUserData)
       .then(this.saveSession)
@@ -70,7 +71,7 @@ export class UserStore {
         return
       }
 
-      const { data } = await api.post<UserIdentity>("/check-token", {
+      const { data } = await api.post<UserIdentity>(endpoints.checkToken, {
         username: userData.username,
         token: userData.token,
       })

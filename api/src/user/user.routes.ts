@@ -1,7 +1,11 @@
 import { Middleware } from "koa"
 import Router from "koa-router"
 
-import { LoginCredentials, loginCredentialsSchema } from "../../../shared/user/types/login-credentials"
+import { endpoints } from "../../../shared/constants/api-endpoints"
+import {
+  LoginCredentials,
+  loginCredentialsSchema,
+} from "../../../shared/user/types/login-credentials"
 import { NewUserData, newUserDataSchema } from "../../../shared/user/types/new-user-data"
 import { validateBody } from "../common/helpers/validate-body"
 import { HttpException } from "../common/http-exception"
@@ -69,12 +73,12 @@ function getUserRoute(users: UserService): Middleware {
 export function userRoutes(userService: UserService) {
   const router = new Router()
 
-  router.post("/login", loginRoute(userService))
-  router.post("/logout", logoutRoute(userService))
-  router.post("/register", registerRoute(userService))
-  router.post("/unregister", unregisterRoute(userService))
-  router.post("/check-token", checkTokenRoute(userService))
-  router.get("/user/:username", getUserRoute(userService))
+  router.post(endpoints.login, loginRoute(userService))
+  router.post(endpoints.logout, logoutRoute(userService))
+  router.post(endpoints.register, registerRoute(userService))
+  router.post(endpoints.unregister, unregisterRoute(userService))
+  router.post(endpoints.checkToken, checkTokenRoute(userService))
+  router.get(endpoints.user(":username"), getUserRoute(userService))
 
   return router.routes()
 }
