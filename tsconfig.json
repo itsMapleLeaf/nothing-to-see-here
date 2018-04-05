@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "plugins": [
       {
         "name": "typescript-styled-plugin",

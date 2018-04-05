@@ -1,14 +1,14 @@
 import { Schema, string } from "joi"
 
 export interface NewUserData {
-  username: string
+  name: string
   email: string
   password: string
   displayName: string
 }
 
 export const newUserDataSchema: Record<keyof NewUserData, Schema> = {
-  username: string()
+  name: string()
     .required()
     .min(3)
     .regex(/^[a-z0-9-_]+$/i),

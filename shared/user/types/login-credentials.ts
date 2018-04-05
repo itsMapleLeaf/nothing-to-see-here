@@ -1,11 +1,11 @@
 import { Schema, string } from "joi"
 
 export interface LoginCredentials {
-  usernameOrEmail: string
+  nameOrEmail: string
   password: string
 }
 
 export const loginCredentialsSchema: Record<keyof LoginCredentials, Schema> = {
-  usernameOrEmail: string().required(),
+  nameOrEmail: string().required(),
   password: string().required(),
 }

@@ -1,6 +1,7 @@
 # generated files, build outputs
 node_modules
 client/build
+data
 
 # logs
 *.log*

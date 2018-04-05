@@ -15,13 +15,13 @@ export interface LoginFormProps {
 export function LoginForm(props: LoginFormProps) {
   return (
     <Formik
-      initialValues={{ usernameOrEmail: "", password: "" }}
+      initialValues={{ nameOrEmail: "", password: "" }}
       render={(formikProps: FormikProps<LoginCredentials>) => (
         <Form>
           <fieldset>
             <label>Username or Email</label>
             <StyledField
-              name="usernameOrEmail"
+              name="nameOrEmail"
               type="text"
               placeholder="awesome@email.com"
               required

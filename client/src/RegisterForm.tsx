@@ -15,12 +15,12 @@ export interface RegisterFormProps {
 export function RegisterForm(props: RegisterFormProps) {
   return (
     <Formik
-      initialValues={{ username: "", email: "", password: "", displayName: "" }}
+      initialValues={{ name: "", email: "", password: "", displayName: "" }}
       render={(formikProps: FormikProps<NewUserData>) => (
         <Form>
           <fieldset>
             <label>Username</label>
-            <StyledField name="username" type="text" placeholder="awesomesan" required autoFocus />
+            <StyledField name="name" type="text" placeholder="awesomesan" required autoFocus />
           </fieldset>
           <fieldset>
             <label>Email</label>

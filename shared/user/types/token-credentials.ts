@@ -1,5 +1,5 @@
 export interface TokenCredentials {
-  username: string
+  name: string
   token: string
 }
 
