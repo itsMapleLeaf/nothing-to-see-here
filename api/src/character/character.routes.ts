@@ -17,9 +17,8 @@ export function characterRoutes() {
     }
 
     const fields = ctx.request.body as CharacterFields
-    const character = await CharacterModel.create(fields)
-
-    ctx.body = { id: character._id, ...fields }
+    const character = await CharacterModel.create({ fields })
+    ctx.body = character.serialize()
   })
 
   router.get(endpoints.character(":id"), async ctx => {
@@ -29,13 +28,12 @@ export function characterRoutes() {
       throw new HttpException("Character not found", 404)
     }
 
-    const { _id, name, description } = character
-    ctx.body = { id: _id, name, description }
+    ctx.body = character.serialize()
   })
 
   router.get(endpoints.characters, async ctx => {
     const characterList = await CharacterModel.find()
-    ctx.body = { characters: characterList.map(c => c.toObject()) }
+    ctx.body = { characters: characterList.map(c => c.serialize()) }
   })
 
   router.put(endpoints.character(":id"), async ctx => {
@@ -56,12 +54,9 @@ export function characterRoutes() {
     // }
 
     const fields = ctx.request.body as CharacterFields
-    character.name = fields.name
-    character.description = fields.description
-
+    character.fields = fields
     await character.save()
-
-    ctx.body = character.toObject()
+    ctx.body = character.serialize()
   })
 
   router.delete(endpoints.character(":id"), async ctx => {

@@ -1,16 +1,18 @@
-import { prop, Typegoose } from "typegoose"
+import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose"
 
 export interface CharacterFields {
   name: string
   description: string
 }
 
-export class Character extends Typegoose implements CharacterFields {
+export class Character extends Typegoose {
   @prop({ required: true })
-  name!: string
+  fields!: CharacterFields
 
-  @prop({ required: true })
-  description!: string
+  @instanceMethod
+  serialize(this: InstanceType<Character>) {
+    return { id: this._id, fields: this.fields }
+  }
 }
 
 export const CharacterModel = new Character().getModelForClass(Character)
