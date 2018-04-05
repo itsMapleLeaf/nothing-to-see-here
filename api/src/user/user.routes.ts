@@ -1,4 +1,4 @@
-import { Middleware } from "koa"
+import { Context } from "koa"
 import Router from "koa-router"
 
 import { endpoints } from "../../../shared/constants/api-endpoints"
@@ -15,24 +15,22 @@ import { validateLoginCredentials } from "./helpers/validate-login-credentials"
 import { validateTokenCredentials } from "./helpers/validate-token-credentials"
 import { UserService } from "./user.service"
 
-function loginRoute(users: UserService): Middleware {
-  return async (ctx, next) => {
+export function userRoutes(users: UserService) {
+  const router = new Router()
+
+  router.post(endpoints.login, async (ctx: Context) => {
     const credentials = validateBody<LoginCredentials>(ctx, loginCredentialsSchema)
     const user = await validateLoginCredentials(users, credentials)
     user.token = await users.generateToken(user.username)
     sendSessionData(user, ctx)
-  }
-}
+  })
 
-function logoutRoute(users: UserService): Middleware {
-  return async (ctx, next) => {
+  router.post(endpoints.logout, async (ctx: Context) => {
     await users.clearToken(ctx.request.body.username)
     ctx.body = {}
-  }
-}
+  })
 
-function registerRoute(users: UserService): Middleware {
-  return async (ctx, next) => {
+  router.post(endpoints.register, async (ctx: Context) => {
     const newUserData = validateBody<NewUserData>(ctx, newUserDataSchema)
 
     if (await users.userExists(newUserData.username, newUserData.email)) {
@@ -42,43 +40,26 @@ function registerRoute(users: UserService): Middleware {
     const user = await users.createUser(newUserData)
     user.token = await users.generateToken(user.username)
     sendSessionData(user, ctx)
-  }
-}
+  })
 
-function unregisterRoute(users: UserService): Middleware {
-  return async (ctx, next) => {
+  router.post(endpoints.unregister, async (ctx: Context) => {
     const credentials = validateBody<LoginCredentials>(ctx, loginCredentialsSchema)
     const user = await validateLoginCredentials(users, credentials)
     await users.removeUser(user.username)
     ctx.body = {}
-  }
-}
+  })
 
-function checkTokenRoute(users: UserService): Middleware {
-  return async (ctx, next) => {
+  router.post(endpoints.checkToken, async (ctx: Context) => {
     const user = await validateTokenCredentials(ctx, users)
     sendSessionData(user, ctx)
-  }
-}
+  })
 
-function getUserRoute(users: UserService): Middleware {
-  return async (ctx, next) => {
+  router.get(endpoints.user(":username"), async (ctx: Context) => {
     const username = ctx.params.username as string
     const user = await getUser(users, username)
     const { displayName } = user
     ctx.body = { username, displayName }
-  }
-}
-
-export function userRoutes(userService: UserService) {
-  const router = new Router()
-
-  router.post(endpoints.login, loginRoute(userService))
-  router.post(endpoints.logout, logoutRoute(userService))
-  router.post(endpoints.register, registerRoute(userService))
-  router.post(endpoints.unregister, unregisterRoute(userService))
-  router.post(endpoints.checkToken, checkTokenRoute(userService))
-  router.get(endpoints.user(":username"), getUserRoute(userService))
+  })
 
   return router.routes()
 }
