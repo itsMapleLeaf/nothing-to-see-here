@@ -1,9 +1,5 @@
 import { instanceMethod, InstanceType, prop, Typegoose } from "typegoose"
-
-export interface CharacterFields {
-  name: string
-  description: string
-}
+import { CharacterFields } from "./types/character-fields"
 
 export class Character extends Typegoose {
   @prop({ required: true })
