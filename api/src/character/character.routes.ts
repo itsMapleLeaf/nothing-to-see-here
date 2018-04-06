@@ -17,7 +17,7 @@ export function characterRoutes() {
     }
 
     const fields = ctx.request.body as CharacterFields
-    const character = await CharacterModel.create({ fields })
+    const character = await CharacterModel.create({ fields, ownerName: name })
     ctx.body = character.serialize()
   })
 
@@ -32,7 +32,15 @@ export function characterRoutes() {
   })
 
   router.get(endpoints.characters, async ctx => {
-    const characterList = await CharacterModel.find()
+    let query = CharacterModel.find().limit(10)
+
+    const { owner } = ctx.query
+    if (owner) {
+      query = query.find({ ownerName: owner })
+    }
+
+    const characterList = await query
+
     ctx.body = { characters: characterList.map(c => c.serialize()) }
   })
 

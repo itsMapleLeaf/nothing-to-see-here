@@ -9,9 +9,16 @@ export class Character extends Typegoose {
   @prop({ required: true })
   fields!: CharacterFields
 
+  @prop({ required: true })
+  ownerName!: string
+
   @instanceMethod
   serialize(this: InstanceType<Character>) {
-    return { id: this._id, fields: this.fields }
+    return {
+      id: this._id,
+      ownerName: this.ownerName,
+      fields: this.fields,
+    }
   }
 }
 
