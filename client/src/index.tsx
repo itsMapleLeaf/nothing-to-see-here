@@ -14,7 +14,7 @@ function render() {
 }
 
 function main() {
-  userStore.restoreSession()
+  userStore.restoreSession().catch(console.error)
   configure({ enforceActions: true })
   render()
 

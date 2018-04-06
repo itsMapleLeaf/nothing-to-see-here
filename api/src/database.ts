@@ -3,7 +3,7 @@ import { connect, connection } from "mongoose"
 import { databaseUrl } from "./env"
 
 export function connectToDatabase() {
-  connect(databaseUrl)
+  connect(databaseUrl).catch(console.error)
 
   connection
     .on("open", () => console.info("connected to database"))
