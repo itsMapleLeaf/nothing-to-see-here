@@ -66,7 +66,7 @@ export function userRoutes() {
   })
 
   router.post(endpoints.checkToken, async (ctx: Context) => {
-    const credentials = ctx.request.body as TokenCredentials
+    const credentials = ctx.request.headers as TokenCredentials
 
     const user = await UserModel.findOne({ name: credentials.name })
     if (user == null || !user.isTokenValid(credentials.token)) {

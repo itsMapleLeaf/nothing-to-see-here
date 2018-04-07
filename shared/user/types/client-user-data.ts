@@ -1,5 +1,5 @@
 export interface UserIdentity {
-  username: string
+  name: string
   displayName: string
 }
 
