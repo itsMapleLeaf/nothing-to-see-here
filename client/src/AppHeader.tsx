@@ -7,7 +7,6 @@ import { preventDefault } from "./helpers/reactHelpers"
 import { modalStore } from "./ModalStore"
 import { buttonFlatStyle } from "./style/button"
 import { foregroundColor, shadowColor } from "./style/colors"
-import { inputPadding } from "./style/input"
 import { userStore } from "./UserStore"
 
 const Header = styled.header`
@@ -39,7 +38,7 @@ function UserLinks(props: { userData: ClientUserData }) {
   return (
     <React.Fragment>
       <NavLink onClick={preventDefault(userStore.logout)}>log out</NavLink>
-      <div className={inputPadding}>welcome, {props.userData.displayName}!</div>
+      <NavLink onClick={() => alert("not implemented")}>{props.userData.displayName}</NavLink>
     </React.Fragment>
   )
 }
@@ -53,13 +52,16 @@ function GuestLinks() {
   )
 }
 
-export const AppHeader = observer(() => {
-  const { userData } = userStore
-  const links = userData ? <UserLinks userData={userData} /> : <GuestLinks />
-  return (
-    <Header>
-      <Title>awesome website</Title>
-      <Nav>{links}</Nav>
-    </Header>
-  )
-})
+@observer
+export class AppHeader extends React.Component {
+  render() {
+    const { userData } = userStore
+    const links = userData ? <UserLinks userData={userData} /> : <GuestLinks />
+    return (
+      <Header>
+        <Title>awesome website</Title>
+        <Nav>{links}</Nav>
+      </Header>
+    )
+  }
+}
