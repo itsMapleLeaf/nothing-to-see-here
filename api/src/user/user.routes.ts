@@ -1,7 +1,6 @@
-import { pbkdf2 } from "crypto"
 import { Context } from "koa"
 import Router from "koa-router"
-import { promisify } from "util"
+
 import { endpoints } from "../../../shared/constants/api-endpoints"
 import {
   LoginCredentials,
@@ -12,12 +11,11 @@ import {
   TokenCredentials,
   tokenCredentialsSchema,
 } from "../../../shared/user/types/token-credentials"
+import { createHash } from "../common/helpers/create-hash"
 import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
 import { validate } from "../common/helpers/validate"
 import { HttpException } from "../common/http-exception"
 import { UserModel } from "./user.model"
-
-const pbkdf2Promise = promisify(pbkdf2)
 
 export function userRoutes() {
   const router = new Router()
@@ -64,7 +62,7 @@ export function userRoutes() {
     }
 
     const salt = (await randomBytesPromise(16)).toString()
-    const passwordHash = await createPasswordHash(password, salt)
+    const passwordHash = await createHash(password, salt)
 
     const user = await UserModel.create({ name, displayName, email, passwordHash, salt })
     await user.generateToken()
@@ -125,15 +123,10 @@ async function validateLoginCredentials(credentials: LoginCredentials) {
     throw new HttpException("Invalid username, email, or password", 401)
   }
 
-  const passwordHash = await createPasswordHash(credentials.password, user.salt)
+  const passwordHash = await createHash(credentials.password, user.salt)
   if (user.passwordHash !== passwordHash) {
     throw new HttpException("Invalid username, email, or password", 401)
   }
 
   return user
-}
-
-async function createPasswordHash(password: string, salt: string) {
-  const buffer = await pbkdf2Promise(password, salt, 100000, 64, "sha512")
-  return buffer.toString("hex")
 }
