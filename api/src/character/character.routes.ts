@@ -1,27 +1,18 @@
 import Router from "koa-router"
+
 import { endpoints } from "../../../shared/constants/api-endpoints"
-import {
-  TokenCredentials,
-  tokenCredentialsSchema,
-} from "../../../shared/user/types/token-credentials"
-import { validate } from "../common/helpers/validate"
+import { TokenCredentials } from "../../../shared/user/types/token-credentials"
 import { HttpException } from "../common/http-exception"
 import { UserModel } from "../user/user.model"
 import { CharacterModel } from "./character.model"
-import { CharacterFields, characterFieldsSchema } from "./types/character-fields"
+import { CharacterFields } from "./types/character-fields"
 
 export function characterRoutes() {
   const router = new Router()
 
   router.post(endpoints.characters, async ctx => {
-    const { name } = await validateTokenCredentialsInHeader(ctx)
-
-    const fields = validate<CharacterFields>(
-      ctx.request.body,
-      characterFieldsSchema,
-      "Body validation failed",
-    )
-
+    const { name } = await validateTokenCredentials(ctx.request.headers)
+    const fields = ctx.request.body as CharacterFields
     const character = await CharacterModel.create({ fields, ownerName: name })
     ctx.body = character.serialize()
   })
@@ -47,7 +38,7 @@ export function characterRoutes() {
   })
 
   router.put(endpoints.character(":id"), async ctx => {
-    await validateTokenCredentialsInHeader(ctx)
+    await validateTokenCredentials(ctx.request.headers)
 
     const id = ctx.params.id as string
 
@@ -56,11 +47,7 @@ export function characterRoutes() {
     // if (!await characters.isCharacterOwner(name, id)) {
     //   throw new HttpException("You do not own this character.", 403)
     // }
-    const fields = validate<CharacterFields>(
-      ctx.request.body,
-      characterFieldsSchema,
-      "Body validation failed",
-    )
+    const fields = ctx.request.body as CharacterFields
 
     character.fields = fields
 
@@ -70,7 +57,7 @@ export function characterRoutes() {
   })
 
   router.delete(endpoints.character(":id"), async ctx => {
-    await validateTokenCredentialsInHeader(ctx)
+    await validateTokenCredentials(ctx.request.headers)
 
     const id = ctx.params.id as string
 
@@ -103,13 +90,4 @@ async function validateTokenCredentials({ name, token }: TokenCredentials) {
     throw new HttpException("Invalid or expired token", 401)
   }
   return user
-}
-
-function validateTokenCredentialsInHeader(ctx: Router.IRouterContext) {
-  const credentials = validate<TokenCredentials>(
-    ctx.request.headers,
-    tokenCredentialsSchema,
-    "Header validation failed",
-  )
-  return validateTokenCredentials(credentials)
 }
