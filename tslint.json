@@ -8,7 +8,7 @@
     "interface-name": false,
     "max-classes-per-file": false,
     "no-console": [true, "log"],
-    "ordered-imports": true
+    "ordered-imports": false
   },
   "defaultSeverity": "warning"
 }
