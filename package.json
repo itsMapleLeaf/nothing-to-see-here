@@ -12,8 +12,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "tslint -p .",
     "format": "prettier \"@(client|api)/**/*.@(js|ts?(x))\" --write",
-    "dev": "concurrently \"npm run api:dev\" \"npm run client:dev\" ",
-    "db": "mongod --dbpath ./data/db"
+    "db": "mongod --dbpath ./data/db",
+    "dev": "run-p db api:dev client:dev"
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
@@ -69,13 +69,13 @@
     "babel-loader": "^7.1.4",
     "babel-plugin-emotion": "^9.1.0",
     "clean-webpack-plugin": "^0.1.19",
-    "concurrently": "^3.5.1",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
     "dotenv-webpack": "^1.5.5",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
     "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.17.3",
+    "npm-run-all": "^4.1.2",
     "prettier": "^1.11.1",
     "style-loader": "^0.20.3",
     "ts-loader": "^4.1.0",
