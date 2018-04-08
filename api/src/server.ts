@@ -3,9 +3,9 @@ import Koa from "koa"
 import koaBody from "koa-body"
 import koaLogger from "koa-logger"
 
-import { authRoutes } from "./auth/auth.routes"
 import { characterRoutes } from "./character/character.routes"
 import { port } from "./env"
+import { userRoutes } from "./user/user.routes"
 
 export function runServer() {
   const app = new Koa()
@@ -14,7 +14,7 @@ export function runServer() {
   app.use(koaLogger())
   app.use(koaBody())
   app.use(koaCors())
-  app.use(authRoutes())
+  app.use(userRoutes())
   app.use(characterRoutes())
 
   app.listen(port, () => {

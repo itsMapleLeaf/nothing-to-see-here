@@ -1,12 +1,13 @@
 export const endpoints = {
-  auth: {
-    createAccount: "/createAccount",
-    deleteAccount: "/deleteAccount",
-    getToken: "/getToken",
-    clearToken: "/clearToken",
-    verifyToken: "/verityToken",
-  },
+  // auth/user routes
+  login: "/login",
+  logout: "/logout",
+  register: "/register",
+  unregister: "/unregister",
+  checkToken: "/check-token",
+  user: (username: string) => `/user/${username}`,
 
-  characters: "/characters",
+  // character routes
+  characters: '/characters',
   character: (id: string) => `/characters/${id}`,
 }
