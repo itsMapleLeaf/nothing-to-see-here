@@ -8,9 +8,9 @@ import { TokenCredentials } from "../../../shared/user/types/token-credentials"
 import { createHash } from "../common/helpers/create-hash"
 import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
 import { HttpException } from "../common/http-exception"
-import { UserModel } from "./user.model"
+import { UserModel } from "../user/user.model"
 
-export function userRoutes() {
+export function authRoutes() {
   const router = new Router()
 
   router.post(endpoints.login, async (ctx: Context) => {
@@ -65,7 +65,7 @@ export function userRoutes() {
     ctx.body = {}
   })
 
-  router.post(endpoints.checkToken, async (ctx: Context) => {
+  router.post(endpoints.authUser, async (ctx: Context) => {
     const credentials = ctx.request.headers as TokenCredentials
 
     const user = await UserModel.findOne({ name: credentials.name })
@@ -75,16 +75,6 @@ export function userRoutes() {
 
     const { name, displayName, token } = user
     ctx.body = { token, name, displayName }
-  })
-
-  router.get(endpoints.user(":name"), async (ctx: Context) => {
-    const user = await UserModel.findOne({ name: ctx.params.name })
-    if (!user) {
-      throw new HttpException("User not found", 404)
-    }
-
-    const { name, displayName } = user
-    ctx.body = { name, displayName }
   })
 
   return router.routes()

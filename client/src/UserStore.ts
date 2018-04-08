@@ -38,7 +38,7 @@ export class UserStore {
   logout() {
     if (this.userData) {
       return api
-        .post(endpoints.logout, { username: this.userData.name })
+        .post(endpoints.logout, { name: this.userData.name })
         .then(this.clearUserData)
         .then(this.clearSession)
     }
@@ -75,7 +75,7 @@ export class UserStore {
         name: userData.name,
         token: userData.token,
       }
-      const { data } = await api.post<UserIdentity>(endpoints.checkToken, {}, { headers })
+      const { data } = await api.post<UserIdentity>(endpoints.authUser, {}, { headers })
 
       this.setUserData({ ...data, token: userData.token })
     } catch (error) {
