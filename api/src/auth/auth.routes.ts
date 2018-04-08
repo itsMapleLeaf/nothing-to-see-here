@@ -1,4 +1,3 @@
-import { Context } from "koa"
 import Router from "koa-router"
 
 import { endpoints } from "../../../shared/constants/api-endpoints"
@@ -8,33 +7,12 @@ import { TokenCredentials } from "../../../shared/user/types/token-credentials"
 import { createHash } from "../common/helpers/create-hash"
 import { randomBytesPromise } from "../common/helpers/random-bytes-promise"
 import { HttpException } from "../common/http-exception"
-import { UserModel } from "./user.model"
+import { UserModel } from "../user/user.model"
 
-export function userRoutes() {
+export function authRoutes() {
   const router = new Router()
 
-  router.post(endpoints.login, async (ctx: Context) => {
-    const credentials = ctx.request.body as LoginCredentials
-
-    const user = await validateLoginCredentials(credentials)
-    await user.generateToken()
-    await user.save()
-
-    const { name, displayName, token } = user
-    ctx.body = { token, name, displayName }
-  })
-
-  router.post(endpoints.logout, async (ctx: Context) => {
-    const user = await UserModel.findOne({ name: ctx.request.body.name })
-    if (!user) return
-
-    await user.clearToken()
-    await user.save()
-
-    ctx.body = {}
-  })
-
-  router.post(endpoints.register, async (ctx: Context) => {
+  router.post(endpoints.auth.createAccount, async ctx => {
     const newUserData = ctx.request.body as NewUserData
     const { name, displayName, email, password } = newUserData
 
@@ -56,7 +34,7 @@ export function userRoutes() {
     ctx.body = { token: user.token }
   })
 
-  router.post(endpoints.unregister, async (ctx: Context) => {
+  router.post(endpoints.auth.deleteAccount, async ctx => {
     const credentials = ctx.request.body as LoginCredentials
 
     const user = await validateLoginCredentials(credentials)
@@ -65,7 +43,28 @@ export function userRoutes() {
     ctx.body = {}
   })
 
-  router.post(endpoints.checkToken, async (ctx: Context) => {
+  router.post(endpoints.auth.getToken, async ctx => {
+    const credentials = ctx.request.body as LoginCredentials
+
+    const user = await validateLoginCredentials(credentials)
+    await user.generateToken()
+    await user.save()
+
+    const { name, displayName, token } = user
+    ctx.body = { token, name, displayName }
+  })
+
+  router.post(endpoints.auth.clearToken, async ctx => {
+    const user = await UserModel.findOne({ name: ctx.request.body.name })
+    if (!user) return
+
+    await user.clearToken()
+    await user.save()
+
+    ctx.body = {}
+  })
+
+  router.post(endpoints.auth.verifyToken, async ctx => {
     const credentials = ctx.request.headers as TokenCredentials
 
     const user = await UserModel.findOne({ name: credentials.name })
@@ -75,16 +74,6 @@ export function userRoutes() {
 
     const { name, displayName, token } = user
     ctx.body = { token, name, displayName }
-  })
-
-  router.get(endpoints.user(":name"), async (ctx: Context) => {
-    const user = await UserModel.findOne({ name: ctx.params.name })
-    if (!user) {
-      throw new HttpException("User not found", 404)
-    }
-
-    const { name, displayName } = user
-    ctx.body = { name, displayName }
   })
 
   return router.routes()
